@@ -1,0 +1,22 @@
+{
+  "name": "femo",
+  "version": "1.0.0",
+  "description": "COMP30022 2019, Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desert-eagles/FeMo.git"
+  },
+  "author": "Desert Eagles",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/desert-eagles/FeMo/issues"
+  },
+  "homepage": "https://github.com/desert-eagles/FeMo#readme",
+  "devDependencies": {
+    "express": "^4.17.1"
+  }
+}
