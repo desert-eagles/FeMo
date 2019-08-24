@@ -6,7 +6,7 @@ header,
 }
 
 #intro {
-    background: url("https://roamtransit.com/wp-content/uploads/2017/02/family_picture_silhouette1.jpg")no-repeat center center fixed;
+    background: url("https://roamtransit.com/wp-content/uploads/2017/02/family_picture_silhouette1.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -15,18 +15,43 @@ header,
 
 .top-nav-collapse {
     background-color: #24355C;
-  }
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .navbar:not(.top-nav-collapse) {
-      background-color: #24355C;
+        background-color: #24355C;
     }
-  }
-  @media (min-width: 800px) and (max-width: 850px) {
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
     .navbar:not(.top-nav-collapse) {
-      background-color: #24355C;
+        background-color: #24355C;
     }
-  }
+}
 
 .btn-rounded {
-    border-radius: 50px!important;
+    border-radius: 10rem !important;
+}
+
+.md-form .prefix {
+    top: .65rem;
+    font-size: 1.25rem;
+}
+
+.md-form label {
+    top: -0.25rem;
+    transition: .2s ease-in-out;
+}
+
+.md-form label.active {
+    top: 0;
+}
+
+.md-form .prefix ~ input, .md-form .prefix ~ textarea {
+    margin-left: 1.75rem;
+    width: calc(100% - 1.75rem);
+}
+
+.md-form .prefix ~ label {
+    margin-left: 1.75rem;
 }
