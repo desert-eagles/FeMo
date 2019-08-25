@@ -16,7 +16,7 @@
     "url": "https://github.com/desert-eagles/FeMo/issues"
   },
   "homepage": "https://github.com/desert-eagles/FeMo#readme",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.17.1"
   }
 }
