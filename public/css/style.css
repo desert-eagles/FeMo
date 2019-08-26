@@ -59,3 +59,19 @@ header,
 .md-form .prefix ~ label {
     margin-left: 1.5rem;
 }
+
+.modal-open .fixed-top {
+    padding-right: 1rem !important;
+}
+
+.btn-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 0.5rem;
+    display: inline-block;
+}
+
+.btn-circle i {
+    font-size: 1.25rem;
+    line-height: 2.5rem;
+}
