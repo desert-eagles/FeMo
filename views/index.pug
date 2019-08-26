@@ -56,7 +56,8 @@ block content
                             h4.white-text.my-4
                                 | Bring your family history to life.
                                 | Record, preserve and share precious family moments.
-                            button.btn.btn-dark-green.btn-rounded.waves-effect(type="button") Get Started
+                            button.btn.btn-dark-green.btn-rounded.waves-effect(type="button" data-toggle="modal" data-target="#modalLRForm")
+                                | Get Started
         // /.Mask
     // Main Navigation
     // Main layout
@@ -298,12 +299,12 @@ block content
                 li.list-inline-item
                     h5 Register for free
                 li.list-inline-item
-                    a.btn.btn-cyan(href="") Sign up!
+                    a.btn.btn-cyan(data-toggle="modal" data-target="#modalLRForm") Sign up!
         // /.Call to action
         hr
         // About the app
         .text-center.py-3.font-small
-            a(href="#!") About FeMo
+            a(href="") About FeMo
         // /About the app
     // /.Footer
 
