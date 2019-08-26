@@ -7,3 +7,10 @@ $(document).ready(() => {
         }, SMOOTH_SCROLL_DURATION);
     });
 });
+
+new WOW().init();
+
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
+
