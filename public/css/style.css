@@ -75,3 +75,12 @@ header,
     font-size: 1.25rem;
     line-height: 2.5rem;
 }
+
+.nav-tabs {
+    border: none;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-radius: 0;
+}
