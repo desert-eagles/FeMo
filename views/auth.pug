@@ -21,19 +21,20 @@
                         .view.px-5.py-3
                             // Body
                             .modal-body
-                                .md-form
-                                    i.fas.fa-envelope.prefix
-                                    input#loginEmail.form-control.validate(type="email")
-                                    label(data-error="wrong" data-success="right" for="loginEmail")
-                                        | Your email
-                                .md-form
-                                    i.fas.fa-lock.prefix
-                                    input#loginPwd.form-control.validate(type="password")
-                                    label(data-error="wrong" data-success="right" for="loginPwd")
-                                        | Your password
-                                .text-center
-                                    button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
-                                        | Log in
+                                form(method="post" action="/signin")
+                                    .md-form
+                                        i.fas.fa-envelope.prefix
+                                        input#loginEmail.form-control.validate(type="email")
+                                        label(data-error="wrong" data-success="right" for="loginEmail")
+                                            | Your email
+                                    .md-form
+                                        i.fas.fa-lock.prefix
+                                        input#loginPwd.form-control.validate(type="password")
+                                        label(data-error="wrong" data-success="right" for="loginPwd")
+                                            | Your password
+                                    .text-center
+                                        button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
+                                            | Log in
                             // Footer
                             .modal-footer
                                 .options.text-center.text-md-right.mt-1
@@ -49,24 +50,25 @@
                         .view.px-5.py-3
                             // Body
                             .modal-body
-                                .md-form
-                                    i.fas.fa-envelope.prefix
-                                    input#registerEmail.form-control.validate(type="email")
-                                    label(data-error="wrong" data-success="right" for="registerEmail")
-                                        | Your email
-                                .md-form
-                                    i.fas.fa-lock.prefix
-                                    input#registerPwd.form-control.validate(type="password")
-                                    label(data-error="wrong" data-success="right" for="registerPwd")
-                                        | Your password
-                                .md-form
-                                    i.fas.fa-lock.prefix
-                                    input#registerReptPwd.form-control.validate(type="password")
-                                    label(data-error="wrong" data-success="right" for="registerReptPwd")
-                                        | Repeat password
-                                .text-center.my-5
-                                    button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
-                                        | Sign up
+                                form(method="post" action="/signup")
+                                    .md-form
+                                        i.fas.fa-envelope.prefix
+                                        input#registerEmail.form-control.validate(type="email")
+                                        label(data-error="wrong" data-success="right" for="registerEmail")
+                                            | Your email
+                                    .md-form
+                                        i.fas.fa-lock.prefix
+                                        input#registerPwd.form-control.validate(type="password")
+                                        label(data-error="wrong" data-success="right" for="registerPwd")
+                                            | Your password
+                                    .md-form
+                                        i.fas.fa-lock.prefix
+                                        input#registerReptPwd.form-control.validate(type="password")
+                                        label(data-error="wrong" data-success="right" for="registerReptPwd")
+                                            | Repeat password
+                                    .text-center.my-5
+                                        button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
+                                            | Sign up
                                 .text-center.mt-5
                                     | Or Sign up Using
                                 .text-center.my-4
