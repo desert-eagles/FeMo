@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 let Account = mongoose.model('Account');
 
+let emailAvailable = function(req, res) {
+    // check if email has already been taken
+    Account.findOne({email: req.body.email}, function(err, acc) {
+        if (err) {
+            console.log("Cannot find email in database: " + err);
+        } else {
+            res.send(!acc);
+        }
+    });
+
+};
+
 let signupPost = function(req, res) {
     // create and save new account
     new_acc = new Account({
@@ -38,6 +50,7 @@ let loginPost = function(req, res) {
 };
 
 module.exports = {
+    emailAvailable,
     signupPost,
     loginPost
 };

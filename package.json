@@ -27,6 +27,7 @@
     "express-session": "^1.16.2",
     "http-errors": "latest",
     "mongoose": "^5.6.11",
+    "morgan": "^1.9.1",
     "nodemailer": "^6.3.0",
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0"
