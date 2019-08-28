@@ -8,11 +8,11 @@
                 // Nav tabs
                 ul.nav.nav-tabs.nav-fill.tabs-2.light-blue(role="tablist")
                     li.nav-item
-                        a#login.nav-link.active.black-text(data-toggle="tab" href="#loginPanel" role="tab")
+                        a.nav-link.active.black-text(data-toggle="tab" href="#loginPanel" role="tab")
                             i.fas.fa-user.mr-1
                             | Login
                     li.nav-item
-                        a#signup.nav-link.black-text(data-toggle="tab" href="#registerPanel" role="tab")
+                        a.nav-link.black-text(data-toggle="tab" href="#registerPanel" role="tab")
                             i.fas.fa-user-plus.mr-1
                             | Register
                 // Tab panels
@@ -25,15 +25,15 @@
                                     .md-form
                                         i.fas.fa-envelope.prefix
                                         input#loginEmail.form-control.validate(type="email")
-                                        label(data-error="wrong" data-success="right" for="loginEmail")
+                                        label(for="loginEmail")
                                             | Your email
                                     .md-form
                                         i.fas.fa-lock.prefix
                                         input#loginPwd.form-control.validate(type="password")
-                                        label(data-error="wrong" data-success="right" for="loginPwd")
+                                        label(for="loginPwd")
                                             | Your password
                                     .text-center
-                                        button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
+                                        button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0(type="button")
                                             | Log in
                             // Footer
                             .modal-footer
@@ -54,20 +54,20 @@
                                     .md-form
                                         i.fas.fa-envelope.prefix
                                         input#registerEmail.form-control.validate(type="email")
-                                        label(data-error="wrong" data-success="right" for="registerEmail")
+                                        label(for="registerEmail")
                                             | Your email
                                     .md-form
                                         i.fas.fa-lock.prefix
                                         input#registerPwd.form-control.validate(type="password")
-                                        label(data-error="wrong" data-success="right" for="registerPwd")
+                                        label(for="registerPwd")
                                             | Your password
                                     .md-form
                                         i.fas.fa-lock.prefix
                                         input#registerReptPwd.form-control.validate(type="password")
-                                        label(data-error="wrong" data-success="right" for="registerReptPwd")
+                                        label(for="registerReptPwd")
                                             | Repeat password
                                     .text-center.my-5
-                                        button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0
+                                        button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0(type="button")
                                             | Sign up
                                 .text-center.mt-5
                                     | Or Sign up Using

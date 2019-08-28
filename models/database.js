@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const mongoDB = "mongodb+srv://admin:TCgUBpJ1McEdqWWC@femo-uqfeu.mongodb.net/femo-db?retryWrites=true&w=majority";
 
 
-mongoose.connect(mongoDB, { useNewUrlParser: true },
-    function(err) {
+mongoose.connect(mongoDB, {useNewUrlParser: true, useCreateIndex: true},
+    function (err) {
         if (!err) {
             console.log("Connected to mongoDB");
         } else {
@@ -12,3 +12,6 @@ mongoose.connect(mongoDB, { useNewUrlParser: true },
         }
     }
 );
+
+require("./account.js");
+require("./token.js");
