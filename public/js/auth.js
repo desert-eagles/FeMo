@@ -6,6 +6,8 @@ $(document).ready(() => {
         let email = emailObj.val();
         let pwd = pwdObj.val();
 
+        removeNote("login-note");
+
         validateEmail(email, (err) => {
             if (err) {
                 // Email is invalid
@@ -22,17 +24,27 @@ $(document).ready(() => {
                             data: {
                                 loginEmail: email,
                                 loginPwd: pwd
-                            }
-                        }).done((err) => {
-                            if (err) {
-                                $("<p class='note note-danger'><strong>" + err + "</strong></p>")
+                            },
+                            beforeSend: (() => {
+                                $('#signin').find('.spinner-border').show();
+                            }),
+                            complete: (() => {
+                                $('#signin').find('.spinner-border').hide();
+                            })
+                        }).done((login) => {
+                            if (login.errMsg) {
+                                // Login failed
+                                $("<p id='login-note' class='note note-danger'><strong>" + login.errMsg + "</strong></p>")
                                     .insertBefore("form#signin").hide().fadeIn();
+                            } else {
+                                // Login success
+                                window.location.href = "/user";
                             }
                         });
                     }
                 });
             }
-        }, mode="signin");
+        }, mode = "signin");
     });
 
 
@@ -42,6 +54,8 @@ $(document).ready(() => {
         let rptPwdObj = $("#registerReptPwd");
         let email = emailObj.val();
         let pwd = pwdObj.val();
+
+        removeNote("signup-note");
 
         validateEmail(email, (err) => {
             if (err) {
@@ -58,12 +72,19 @@ $(document).ready(() => {
                                 data: {
                                     registerEmail: email,
                                     registerPwd: pwd
-                                }
-                            }).done((err) => {
-                                if (!err) {
-                                    $("<p class='note note-success'><strong>Register Success!</strong> " +
-                                        "A confirmation email has been sent to your email, click here " +
-                                        "to resend again.</p>").insertBefore("form#signup").hide().fadeIn()
+                                },
+                                beforeSend: (() => {
+                                    $('#signup').find('.spinner-border').show();
+                                }),
+                                complete: (() => {
+                                    $('#signup').find('.spinner-border').hide();
+                                })
+                            }).done((signup) => {
+                                if (signup.success) {
+                                    $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
+                                        "A confirmation email has been sent to your email, click " +
+                                        "<a href='/resend-token'>here</a> to resend again.</p>")
+                                        .insertBefore("form#signup").hide().fadeIn();
                                 }
                             });
                         } else {
@@ -86,7 +107,7 @@ function reportError(o, err) {
     e.reportValidity();
 }
 
-function validateEmail(email, cb, mode="signup") {
+function validateEmail(email, cb, mode = "signup") {
     let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!email || !email.match(mailformat)) {
         cb("Please enter a valid email");
@@ -115,4 +136,8 @@ function validatePassword(pwd, cb) {
         err = "Password must be at least 8 characters";
     }
     return cb(err);
+}
+
+function removeNote(id) {
+    $("#" + id).remove();
 }

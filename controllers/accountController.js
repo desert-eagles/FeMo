@@ -8,10 +8,11 @@ function emailAvailable(req, res, next) {
         if (!err) {
             res.send(!acc);
         } else {
-            next(err);
+            console.error("Database find email error: " + err);
+            return next(err);
         }
     });
-};
+}
 
 
 // function resendPost
@@ -25,37 +26,38 @@ function confirmEmail(req, res) {
     // Find a matching token
     Token.findOne({token: req.params.token}, function (err, token) {
         if (!token) {
-            console.log("unable to find valid token");
+            // Unable to find a valid token, may have expired
+            // TODO may need to redirect to login page with resend button
             // req.session.errors = [{msg: 'We were unable to find a valid token. Your token may have expired.'}];
             // req.session.save();
-            return res.send("unable to find valid token");
+            return res.send("We were unable to find a valid token, your token may have expired.");
         }
 
         // If we found a token, find a matching user
         Account.findOne({_id: token._accountId}, function (err, acc) {
             if (!acc) {
-                console.log("unable to find a user for this token, account deleted");
+                // TODO redirect to signup
                 // req.session.errors = [{msg: 'We were unable to find a user for this token. The account may be deleted'}];
                 // req.session.save();
-                return res.send("unable to find a user for this token, account deleted");
+                return res.send("We were unable to find an account for this token, the account may be deleted.");
             }
             if (acc.isVerified) {
-                console.log("this email has already been verified");
+                // TODO redirect to signup
                 // req.session.errors = [{msg: 'This email has already been verified.'}];
                 // req.session.save();
-                return res.send("this email has already been verified");
+                return res.send("This email has already been verified. Please log in.");
             }
 
             // Verify the account
             acc.isVerified = true;
             acc.save(function (err) {
                 if (err) {
+                    console.error("Database verify email error: " + err);
                     return next(err);
                 }
-                console.log("Account verified, please log in ");
                 // req.session.msg = "The account has been verified. Please log in.";
                 // req.session.save();
-                return res.send("Account verified, please log in");
+                return res.send("The account has been verified. Please log in.");
             });
         });
     });
@@ -78,26 +80,25 @@ let mailOptions = {
 let crypto = require('crypto');
 
 function signupPost(req, res) {
-    // create and save new account
+    // Create and save new account
     new_acc = new Account({
         email: req.body.registerEmail,
         password: req.body.registerPwd
     });
 
     new_acc.save(function (err) {
-        // create a new token for this account
+        // Create a new token for this account
         let token = new Token({
             _accountId: new_acc._id,
             token: crypto.randomBytes(16).toString('hex')
         });
 
-        // save verification token
+        // Save verification token
         token.save(function (err) {
             if (err) {
-                console.log("Cannot save token");
-                next(err);
+                console.error("Database save token error: " + err);
+                return next(err);
             }
-            console.log("Token saved");
 
             mailOptions.to = new_acc.email;
             mailOptions.text = `Hello, ${new_acc.email}\n\nPlease verify your account by visiting the link: \n
@@ -107,40 +108,42 @@ function signupPost(req, res) {
             // send confirmation email
             transporter.sendMail(mailOptions, function (err) {
                 if (err) {
+                    console.error("Transporter send mail error: " + err);
                     return next(err);
                 }
-                console.log(`Verification email sent to ${new_acc.email}`);
-                return res.send(err);
+                console.log("Verification email sent to " + new_acc.email);
+                return res.send({success: true});
             });
         });
     });
 }
 
 function loginPost(req, res) {
-    // find email and verify password with database
+    // Find email and verify password with database
     Account.findOne({email: req.body.loginEmail}, function (err, acc) {
+        if (err) {
+            console.error("Database find email error: " + err);
+            return next(err);
+        }
         if (!acc) {
-            console.log("Cannot find account");
-            return res.send("Email not registered");
+            // Cannot find email in database
+            return res.send({errMsg: "Email not registered"});
         }
         acc.comparePassword(req.body.loginPwd, function (err, isMatch) {
             if (err) {
+                console.error("Database compare password error: " + err);
                 return next(err);
             }
-            // check if passwords match
             if (!isMatch) {
-                console.log("Invalid password");
-                return res.send("Incorrect password");
+                // Password is incorrect
+                return res.send({errMsg: "Incorrect password"});
             } else {
-                // check if user has verified email
-                console.log("Check if user verified email");
-
-                if (acc.isVerified) {
-                    console.log("You are logged in!");
-                    return res.send("You are logged in!");
+                if (!acc.isVerified) {
+                    // Email has not been verified
+                    return res.send({errMsg: "Please verify your email first"});
                 } else {
-                    console.log("Please verify your email first");
-                    return res.send("Please verify your email first");
+                    // Log in success
+                    return res.send({errMsg: null});
                 }
             }
         })
