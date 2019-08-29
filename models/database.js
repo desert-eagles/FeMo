@@ -1,9 +1,9 @@
 // connect to database
 const mongoose = require('mongoose');
-const mongoDB = "mongodb+srv://admin:TCgUBpJ1McEdqWWC@femo-uqfeu.mongodb.net/femo-db?retryWrites=true&w=majority";
+require('dotenv').config();
 
 
-mongoose.connect(mongoDB, {useNewUrlParser: true, useCreateIndex: true},
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useCreateIndex: true},
     function (err) {
         if (!err) {
             console.log("Connected to mongoDB");
