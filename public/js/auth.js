@@ -1,6 +1,38 @@
 $(document).ready(() => {
+
     $("#signin button").click(() => {
-        // TODO login backend
+        let emailObj = $("#loginEmail");
+        let pwdObj = $("#loginPwd");
+        let email = emailObj.val();
+        let pwd = pwdObj.val();
+
+        validateEmail(email, (err) => {
+            if (err) {
+                // Email is invalid
+                return reportError(emailObj, err);
+            } else {
+                validatePassword(pwd, (err) => {
+                    if (err) {
+                        // Password is invalid
+                        return reportError(pwdObj, err);
+                    } else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/signin",
+                            data: {
+                                loginEmail: email,
+                                loginPwd: pwd
+                            }
+                        }).done((err) => {
+                            if (err) {
+                                $("<p class='note note-danger'><strong>" + err + "</strong></p>")
+                                    .insertBefore("form#signin").hide().fadeIn();
+                            }
+                        });
+                    }
+                });
+            }
+        }, mode="signin");
     });
 
 
@@ -54,11 +86,11 @@ function reportError(o, err) {
     e.reportValidity();
 }
 
-function validateEmail(email, cb) {
+function validateEmail(email, cb, mode="signup") {
     let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!email || !email.match(mailformat)) {
         cb("Please enter a valid email");
-    } else {
+    } else if (mode === "signup") {
         // check if email is registered
         $.ajax({
             type: "POST",
@@ -72,6 +104,8 @@ function validateEmail(email, cb) {
                 return cb(err);
             }
         });
+    } else {
+        return cb("");
     }
 }
 

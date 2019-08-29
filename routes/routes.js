@@ -8,10 +8,13 @@ router.get('/', function (req, res) {
     res.render("index");
 });
 
+/* GET confirmEmail */
+router.get('/confirm-email/:token', accountController.confirmEmail);
 
 /* POST sign up */
 router.post("/signup", accountController.signupPost);
 router.post("/check-email-availability", accountController.emailAvailable);
+
 
 /* Post sign in */
 router.post("/signin", accountController.loginPost);
