@@ -33,8 +33,10 @@
                                         label(for="loginPwd")
                                             | Your password
                                     .text-center
-                                        button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0(type="button")
+                                        button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0.waves-effect.waves-light(type='button')
                                             | Log in
+                                        .spinner-border.ml-auto(role='status' aria-hidden='true' style='display: none;')
+
                             // Footer
                             .modal-footer
                                 .options.text-center.text-md-right.mt-1
@@ -67,8 +69,10 @@
                                         label(for="registerReptPwd")
                                             | Repeat password
                                     .text-center.my-5
-                                        button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0(type="button")
+                                        button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0.waves-effect.waves-light(type='button')
                                             | Sign up
+                                        .spinner-border.ml-auto(role='status' aria-hidden='true' style='display: none;')
+
                                 .text-center.mt-5
                                     | Or Sign up Using
                                 .text-center.my-4

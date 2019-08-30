@@ -9,6 +9,7 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useCreateIndex: 
             console.log("Connected to mongoDB");
         } else {
             console.log("Failed to connect to mongoDB: " + err);
+            next(err);
         }
     }
 );
