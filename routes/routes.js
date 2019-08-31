@@ -8,19 +8,19 @@ router.get('/', function (req, res) {
     res.render("index");
 });
 
-/* GET confirmEmail */
-router.get('/confirm-email/:token', accountController.confirmEmail);
 
+/* User logic */
+router.post("/signup", accountController.signupPost);
+router.post("/signin", accountController.loginPost);
+router.post("/check-email-availability", accountController.emailAvailable);
+router.get("/confirm-email/:token", accountController.confirmEmail);
+router.post("/resend-confirmation", accountController.resendConfirmation);
+
+
+
+// TODO
 router.get('/user', function (req, res) {
     res.send("You have logged in, this is user page");
 });
-
-/* POST sign up */
-router.post("/signup", accountController.signupPost);
-router.post("/check-email-availability", accountController.emailAvailable);
-
-
-/* Post sign in */
-router.post("/signin", accountController.loginPost);
 
 module.exports = router;
