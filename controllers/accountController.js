@@ -1,40 +1,132 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 let Account = mongoose.model('Account');
 let Token = mongoose.model('Token');
 
-function emailAvailable(req, res, next) {
-    // check if email has already been taken
-    Account.findOne({email: req.body.email}, function (err, acc) {
-        if (!err) {
-            res.send(!acc);
-        } else {
-            console.error("Database find email error: " + err);
-            return next(err);
+require('dotenv').config();
+
+/**
+ * Helper function to send email.
+ */
+function sendMail(to, subject, text, cb) {
+    // Create transporter with SendGrid API
+    let transporter = nodemailer.createTransport({
+        service: "Sendgrid",
+        auth: {
+            user: process.env.SENDGRID_USER,
+            pass: process.env.SENDGRID_PASS
         }
+    });
+
+    // Mail content
+    let mailOptions = {
+        from: "no-reply@femo.io",
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    // Send the email out
+    transporter.sendMail(mailOptions, function (err) {
+        if (err) {
+            return cb(err);
+        }
+        // Email sent
+        return cb(null);
     });
 }
 
 
-// function resendPost
+/**
+ * Handle ajax POST request to check if email has already been
+ * used to sign up for an account.
+ */
+function emailAvailable(req, res, next) {
+    // Check if email has already been taken
+    Account.findOne({email: req.body.email}, function (err, acc) {
+        if (err) {
+            console.error("Database find email error: " + err);
+            return next(err);
+        }
+        return res.send(!acc);
+    });
+}
+
+/**
+ * When user clicks to resend the confirmation email again
+ * in the login page.
+ */
+function resendConfirmation(req, res, next) {
+
+    Account.findOne({email: req.body.resendEmail}, function (err, acc) {
+        if (err) {
+            console.error("Database find email error: " + err);
+            return next(err);
+        }
+
+        // Regenerate a new token and send to user's email
+        let token = new Token({
+            _accountId: acc._id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+
+        // Save new verification token
+        token.save(function (err) {
+            if (err) {
+                console.error("Database save token error: " + err);
+                return next(err);
+            }
+
+            // Send new confirmation email
+            let subject = "FeMo - Please Verify Your Email";
+            let content = `Hello, ${new_acc.email}\n\nWe have generated a new confirmation link.\n
+                    Please verify your account by visiting the link: \n
+                    http://${req.headers.host}/confirm-email/${token.token}\n
+                    Note: Be sure to check your spam folder as well!`;
+
+            sendMail(acc.email, subject, content, (err) => {
+                if (err) {
+                    console.error("Transporter send mail error: " + err);
+                    return next(err);
+                }
+
+                // Email sent
+                return res.send({success: true});
+            });
+        });
+    });
+}
 
 /**
  * When the user clicks the link in the confirmation email.
  * GET /confirm-email
  */
-function confirmEmail(req, res) {
+function confirmEmail(req, res, next) {
 
     // Find a matching token
     Token.findOne({token: req.params.token}, function (err, token) {
+        if (err) {
+            console.error("Database find token error: " + err);
+            return next(err);
+        }
+
         if (!token) {
             // Unable to find a valid token, may have expired
             // TODO may need to redirect to login page with resend button
             // req.session.errors = [{msg: 'We were unable to find a valid token. Your token may have expired.'}];
             // req.session.save();
-            return res.send("We were unable to find a valid token, your token may have expired.");
+            return res.send("We were unable to find a valid token, your token may have expired." +
+                            "Please contact us to get a new token.");
         }
 
         // If we found a token, find a matching user
         Account.findOne({_id: token._accountId}, function (err, acc) {
+            if (err) {
+                console.error("Database find account error: " + err);
+                return next(err);
+            }
+
             if (!acc) {
                 // TODO redirect to signup
                 // req.session.errors = [{msg: 'We were unable to find a user for this token. The account may be deleted'}];
@@ -63,23 +155,8 @@ function confirmEmail(req, res) {
     });
 }
 
-/* Signup */
-const nodemailer = require('nodemailer');
-require('dotenv').config();
-let transporter = nodemailer.createTransport({
-    service: "Sendgrid",
-    auth: {
-        user: process.env.SENDGRID_USER,
-        pass: process.env.SENDGRID_PASS
-    }
-});
-let mailOptions = {
-    from: "no-reply@femo.io",
-    subject: "Account Verification Token"
-};
-let crypto = require('crypto');
 
-function signupPost(req, res) {
+function signupPost(req, res, next) {
     // Create and save new account
     new_acc = new Account({
         email: req.body.registerEmail,
@@ -100,25 +177,26 @@ function signupPost(req, res) {
                 return next(err);
             }
 
-            mailOptions.to = new_acc.email;
-            mailOptions.text = `Hello, ${new_acc.email}\n\nPlease verify your account by visiting the link: \n
+            // Send confirmation email
+            let subject = "FeMo - Please Verify Your Email";
+            let content = `Hello, ${new_acc.email}\n\nPlease verify your account by visiting the link: \n
                     http://${req.headers.host}/confirm-email/${token.token}\n
                     Note: Be sure to check your spam folder as well!`;
 
-            // send confirmation email
-            transporter.sendMail(mailOptions, function (err) {
+            sendMail(new_acc.email, subject, content, (err) => {
                 if (err) {
                     console.error("Transporter send mail error: " + err);
                     return next(err);
                 }
-                console.log("Verification email sent to " + new_acc.email);
+
+                // Email sent
                 return res.send({success: true});
             });
         });
     });
 }
 
-function loginPost(req, res) {
+function loginPost(req, res, next) {
     // Find email and verify password with database
     Account.findOne({email: req.body.loginEmail}, function (err, acc) {
         if (err) {
@@ -153,6 +231,7 @@ function loginPost(req, res) {
 module.exports = {
     emailAvailable,
     confirmEmail,
+    resendConfirmation,
     signupPost,
     loginPost
 };

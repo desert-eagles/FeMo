@@ -56,6 +56,7 @@ $(document).ready(() => {
         let pwd = pwdObj.val();
 
         removeNote("signup-note");
+        removeNote("resend-note");
 
         validateEmail(email, (err) => {
             if (err) {
@@ -83,7 +84,7 @@ $(document).ready(() => {
                                 if (signup.success) {
                                     $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
                                         "A confirmation email has been sent to your email, click " +
-                                        "<a href='/resend-token'>here</a> to resend again.</p>")
+                                        "<a id='resend' href='javascript:void(0);' onclick='resend(\"" + email + "\")'> here</a> to resend again.</p>")
                                         .insertBefore("form#signup").hide().fadeIn();
                                 }
                             });
@@ -94,7 +95,7 @@ $(document).ready(() => {
                 });
             }
         });
-    })
+    });
 });
 
 function reportError(o, err) {
@@ -140,4 +141,30 @@ function validatePassword(pwd, cb) {
 
 function removeNote(id) {
     $("#" + id).remove();
+}
+
+function resend(email) {
+    removeNote("resend-note");
+    $.ajax({
+        type: "POST",
+        url: "/resend-confirmation",
+        data: {
+            resendEmail: email
+        },
+        beforeSend: (() => {
+            $('#signup').find('.spinner-border').show();
+        }),
+        complete: (() => {
+            $('#signup').find('.spinner-border').hide();
+        })
+    }).done((resend) => {
+        if (resend.success) {
+            console.log("resend success");
+            $("<p id='resend-note' class='note note-success'>" +
+                "A new confirmation email has been sent to " +
+                email +
+                " . Please check your spam folder as well.</p>")
+                .insertBefore("form#signup").hide().fadeIn();
+        }
+    })
 }
