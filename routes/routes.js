@@ -8,6 +8,11 @@ router.get('/', function (req, res) {
     res.render("index");
 });
 
+/* GET reception */
+router.get('/reception', function (req, res) {
+    res.render("reception");
+});
+
 
 /* User logic */
 router.post("/signup", accountController.signupPost);
