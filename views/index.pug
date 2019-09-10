@@ -1,66 +1,27 @@
-extends base
+extends parents/base
+
+block append head
+    link(href="css/index.css" rel="stylesheet")
+
+block append header
+    // Mask
+    #intro.view
+        .mask.rgba-black-strong
+            .container-fluid.d-flex.align-items-center.justify-content-center.h-100
+                .row.d-flex.justify-content-center.text-center
+                    .col-md-10
+                        // Heading
+                        h2.display-4.font-weight-bold.white-text.pt-5.mb-2 Family Memories
+                        // Divider
+                        hr.hr-light
+                        // Description
+                        h4.white-text.my-4
+                            | Bring your family history to life.
+                            | Record, preserve and share precious family moments.
+                        button.btn.btn-dark-green.btn-rounded.waves-effect(type="button" data-toggle="modal" data-target="#modalLRForm")
+                            | Get Started
 
 block content
-    // Start your project here
-    // Main Navigation
-    header
-        // Navbar
-        nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
-            .container
-                // Navbar brand
-                a.navbar-brand(href="#intro") FeMo
-                // Collapse button
-                button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
-                    span.navbar-toggler-icon
-                // Collapsible content
-                #navbarContent.collapse.navbar-collapse
-                    // Links
-                    ul.navbar-nav.ml-auto.smooth-scroll
-                        li.nav-item
-                            a.nav-link(href="#intro")
-                                i.fas.fa-home
-                                |  Home
-                        li.nav-item
-                            a.nav-link(href="#feature-1")
-                                i.far.fa-star
-                                |  Features
-                        li.nav-item
-                            a.nav-link(href="#gallery")
-                                i.far.fa-images
-                                |  Gallery
-                        li.nav-item
-                            a.nav-link
-                                i.far.fa-question-circle
-                                |  FAQ
-                        li.nav-item
-                            a.nav-link(href="#contact")
-                                i.far.fa-envelope
-                                |  Contact
-                        li.nav-item
-                            a.nav-link(data-toggle="modal" data-target="#modalLRForm")
-                                i.fas.fa-user
-                                |  Sign in / Sign up
-                // Collapsible content
-        // /.Navbar
-        // Mask
-        #intro.view
-            .mask.rgba-black-strong
-                .container-fluid.d-flex.align-items-center.justify-content-center.h-100
-                    .row.d-flex.justify-content-center.text-center
-                        .col-md-10
-                            // Heading
-                            h2.display-4.font-weight-bold.white-text.pt-5.mb-2 Family Memories
-                            // Divider
-                            hr.hr-light
-                            // Description
-                            h4.white-text.my-4
-                                | Bring your family history to life.
-                                | Record, preserve and share precious family moments.
-                            button.btn.btn-dark-green.btn-rounded.waves-effect(type="button" data-toggle="modal" data-target="#modalLRForm")
-                                | Get Started
-        // /.Mask
-    // Main Navigation
-    // Main layout
     main.mt-5
         .container
             // Section: Feature-1
@@ -291,25 +252,9 @@ block content
             // Section: Contact
     // Main layout
     br
-    // Footer
-    footer.page-footer.unique-color-dark.text-md-left.pt-4
-        // Call to action
-        .call-to-action.text-center.my-4
-            ul.list-unstyled.list-inline
-                li.list-inline-item
-                    h5 Register for free
-                li.list-inline-item
-                    a.btn.btn-cyan(data-toggle="modal" data-target="#modalLRForm") Sign up!
-        // /.Call to action
-        hr
-        // About the app
-        .text-center.py-3.font-small
-            a(href="") About FeMo
-        // /About the app
-    // /.Footer
 
     // auth modal
-    include auth
+    include includes/auth
 
-block script
+block append script
     script(type="text/javascript" src="js/auth.js")

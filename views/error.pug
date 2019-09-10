@@ -1,7 +1,7 @@
-extends base
+extends parents/base
 
 block content
-    .d-inline-block.mt-5.ml-5
+    .container.py-5.h-100
         h1= message
         h2= error.status
         pre #{error.stack}

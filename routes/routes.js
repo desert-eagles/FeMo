@@ -11,6 +11,11 @@ router.get('/', function (req, res) {
 /* GET confirmEmail */
 router.get('/confirm-email/:token', accountController.confirmEmail);
 
+/* GET reception */
+router.get('/reception', function (req, res) {
+    res.render("reception");
+});
+
 router.get('/user', function (req, res) {
     res.send("You have logged in, this is user page");
 });

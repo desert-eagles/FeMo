@@ -1,0 +1,91 @@
+doctype html
+html(lang="en")
+    head
+        block title
+            title Family Memories
+        block head
+            meta(charset="utf-8")
+            meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+            meta(http-equiv="x-ua-compatible" content="ie=edge")
+            // Font Awesome
+            link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css")
+            // Bootstrap core CSS
+            link(href="MDB/css/bootstrap.min.css" rel="stylesheet")
+            // Material Design Bootstrap
+            link(href="MDB/css/mdb.min.css" rel="stylesheet")
+            // Your custom styles (optional)
+            link(href="css/style.css" rel="stylesheet")
+
+    body
+        // Start your project here
+        // Main Navigation
+        header.mb-5
+            block header
+                // Navbar
+                nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
+                    .container
+                        // Navbar brand
+                        a.navbar-brand(href="/") FeMo
+                        // Collapse button
+                        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
+                            span.navbar-toggler-icon
+                        // Collapsible content
+                        #navbarContent.collapse.navbar-collapse
+                            // Links
+                            ul.navbar-nav.ml-auto.smooth-scroll
+                                li.nav-item
+                                    a.nav-link(href="#intro")
+                                        i.fas.fa-home
+                                        | Home
+                                li.nav-item
+                                    a.nav-link(href="#feature-1")
+                                        i.far.fa-star
+                                        | Features
+                                li.nav-item
+                                    a.nav-link(href="#gallery")
+                                        i.far.fa-images
+                                        | Gallery
+                                li.nav-item
+                                    a.nav-link
+                                        i.far.fa-question-circle
+                                        | FAQ
+                                li.nav-item
+                                    a.nav-link(href="#contact")
+                                        i.far.fa-envelope
+                                        | Contact
+                                li.nav-item
+                                    a.nav-link(data-toggle="modal" data-target="#modalLRForm")
+                                        i.fas.fa-user
+                                        | Sign in / Sign up
+                        // Collapsible content
+                // /.Navbar
+        block content
+
+        block footer
+            // Footer
+            footer.page-footer.unique-color-dark.text-md-left.pt-4
+                // Call to action
+                .call-to-action.text-center.my-4
+                    ul.list-unstyled.list-inline
+                        li.list-inline-item
+                            h5 Register for free
+                        li.list-inline-item
+                            a.btn.btn-cyan(data-toggle="modal" data-target="#modalLRForm") Sign up!
+                // /.Call to action
+                hr
+                // About the app
+                .text-center.py-3.font-small
+                    a(href="") About FeMo
+
+        // SCRIPTS
+        block script
+            // JQuery
+            script(type="text/javascript" src="MDB/js/jquery-3.4.1.min.js")
+            // Bootstrap tooltips
+            script(type="text/javascript" src="MDB/js/popper.min.js")
+            // Bootstrap core JavaScript
+            script(type="text/javascript" src="MDB/js/bootstrap.min.js")
+            // MDB core JavaScript
+            script(type="text/javascript" src="MDB/js/mdb.min.js")
+            // custom
+            script(type="text/javascript" src="js/utils.js")

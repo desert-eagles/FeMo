@@ -1,16 +1,6 @@
 html,
-body,
-header,
-#intro {
+body {
     height: 100%;
-}
-
-#intro {
-    background: url("https://roamtransit.com/wp-content/uploads/2017/02/family_picture_silhouette1.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 .top-nav-collapse {
@@ -83,4 +73,8 @@ header,
 .nav-tabs .nav-link {
     border: none;
     border-radius: 0;
+}
+
+label[for="dob"] {
+    top: 1rem;
 }
