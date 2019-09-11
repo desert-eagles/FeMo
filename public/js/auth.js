@@ -84,8 +84,9 @@ $(document).ready(() => {
                                 if (signup.success) {
                                     $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
                                         "A confirmation email has been sent to your email, click " +
-                                        "<a id='resend' href='javascript:void(0);' onclick='resend(\"" + email + "\")'> here</a> to resend again.</p>")
-                                        .insertBefore("form#signup").hide().fadeIn();
+                                        "<a id='resend'> here</a> to resend again.</p>")
+                                        .insertBefore("form#signup").hide().fadeIn()
+                                        .find("#resend").onclick(resend(email));
                                 }
                             });
                         } else {
@@ -97,16 +98,6 @@ $(document).ready(() => {
         });
     });
 });
-
-function reportError(o, err) {
-    o.addClass("invalid")
-        .parent(".md-form").prevAll(".md-form").find("input")
-        .removeClass("invalid").addClass("valid");
-
-    let e = o[0];
-    e.setCustomValidity(err);
-    e.reportValidity();
-}
 
 function validateEmail(email, cb, mode = "signup") {
     let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

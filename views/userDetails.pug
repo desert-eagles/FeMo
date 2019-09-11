@@ -1,14 +1,14 @@
 extends parents/base
 
 block title
-    title Required Information
+    title User Details
 
 block content
     .container.py-5.h-100.w-50
         html
             body
                 h3.mt-5 Please enter the following information to continue
-                form
+                form#userDetails
                     // Grid row
                     .row.my-3
                         // Grid column
@@ -43,3 +43,6 @@ block content
                     // Grid row
                     .my-5.text-center
                         a.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
+
+block append script
+    script(type="text/javascript" src="js/userDetails.js")
