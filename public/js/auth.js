@@ -86,7 +86,7 @@ $(document).ready(() => {
                                         "A confirmation email has been sent to your email, click " +
                                         "<a id='resend'> here</a> to resend again.</p>")
                                         .insertBefore("form#signup").hide().fadeIn()
-                                        .find("#resend").onclick(resend(email));
+                                        .find("#resend").click(resend(email));
                                 }
                             });
                         } else {
