@@ -36,6 +36,13 @@ $(document).ready(() => {
                                 // Login failed
                                 $("<p id='login-note' class='note note-danger'><strong>" + login.errMsg + "</strong></p>")
                                     .insertBefore("form#signin").hide().fadeIn();
+                            } else if (login.resend) {
+                                $("<p id='login-note' class='note note-warning'><strong>" + login.resend + ".</strong> " +
+                                    "Click <a id='resend'>here</a> to resend again.</p>")
+                                    .insertBefore("form#signin").hide().fadeIn()
+                                    .find("#resend").on("click", () => {
+                                    resend(email, "#signin");
+                                });
                             } else {
                                 // Login success
                                 window.location.href = "/user";
@@ -86,7 +93,9 @@ $(document).ready(() => {
                                         "A confirmation email has been sent to your email, click " +
                                         "<a id='resend'> here</a> to resend again.</p>")
                                         .insertBefore("form#signup").hide().fadeIn()
-                                        .find("#resend").click(resend(email));
+                                        .find("#resend").on("click", () => {
+                                        resend(email, "#signup");
+                                    });
                                 }
                             });
                         } else {
@@ -134,7 +143,7 @@ function removeNote(id) {
     $("#" + id).remove();
 }
 
-function resend(email) {
+function resend(email, id) {
     removeNote("resend-note");
     $.ajax({
         type: "POST",
@@ -143,10 +152,10 @@ function resend(email) {
             resendEmail: email
         },
         beforeSend: (() => {
-            $('#signup').find('.spinner-border').show();
+            $(id).find('.spinner-border').show();
         }),
         complete: (() => {
-            $('#signup').find('.spinner-border').hide();
+            $(id).find('.spinner-border').hide();
         })
     }).done((resend) => {
         if (resend.success) {
@@ -155,7 +164,7 @@ function resend(email) {
                 "A new confirmation email has been sent to " +
                 email +
                 " . Please check your spam folder as well.</p>")
-                .insertBefore("form#signup").hide().fadeIn();
+                .insertBefore("form" + id).hide().fadeIn();
         }
     })
 }

@@ -80,7 +80,7 @@ function resendConfirmation(req, res, next) {
 
             // Send new confirmation email
             let subject = "FeMo - Please Verify Your Email";
-            let content = `Hello, ${new_acc.email}\n\nWe have generated a new confirmation link.\n
+            let content = `Hello, ${acc.email}\n\nWe have generated a new confirmation link.\n
                     Please verify your account by visiting the link: \n
                     http://${req.headers.host}/confirm-email/${token.token}\n
                     Note: Be sure to check your spam folder as well!`;
@@ -117,7 +117,7 @@ function confirmEmail(req, res, next) {
             // req.session.errors = [{msg: 'We were unable to find a valid token. Your token may have expired.'}];
             // req.session.save();
             return res.send("We were unable to find a valid token, your token may have expired." +
-                            "Please contact us to get a new token.");
+                "Please contact us to get a new token.");
         }
 
         // If we found a token, find a matching user
@@ -218,7 +218,7 @@ function loginPost(req, res, next) {
             } else {
                 if (!acc.isVerified) {
                     // Email has not been verified
-                    return res.send({errMsg: "Please verify your email first"});
+                    return res.send({resend: "Please verify your email first"});
                 } else {
                     // Log in success
                     return res.send({errMsg: null});
