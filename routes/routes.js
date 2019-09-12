@@ -29,4 +29,10 @@ router.get('/user', function (req, res) {
     res.send("You have logged in, this is user page");
 });
 
+
+// upload
+router.get('/upload', function (req, res) {
+    res.render("upload.html");
+});
+
 module.exports = router;
