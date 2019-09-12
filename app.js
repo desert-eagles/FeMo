@@ -5,13 +5,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+var session = require('express-session');
 
-
-require('./models/database');
+let mongoose = require('./models/database');
+var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/routes');
 
 var app = express();
+
+// set up persistent login session middleware
+app.use(session({
+    secret: '4ybTX4zGXSSftxaJ',
+    cookie: {maxAge: 60 * 60 * 24},
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 
 // view engine setup

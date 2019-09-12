@@ -222,6 +222,7 @@ function loginPost(req, res, next) {
                     return res.send({resend: "Please verify your email first"});
                 } else {
                     // Log in success
+                    req.session.logged_in = true;
 
                     // Check if need user details
                     User.findOne({_accountId: acc._id}, function (err, user) {
@@ -230,9 +231,11 @@ function loginPost(req, res, next) {
                             return next(err);
                         } else if (!user) {
                             // Ask for user details
+                            req.session.user = {_accountId: acc._id, first_login: true};
                             console.log("Need to ask for account details");
                             return res.send({first_login: true});
                         } else {
+                            req.session.user = user;
                             // Redirect to user main page
                             return res.send({errMsg: null});
                         }
