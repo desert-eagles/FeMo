@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var accountController = require("../controllers/accountController");
+var userController = require("../controllers/userController");
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -20,11 +21,8 @@ router.post("/resend-confirmation", accountController.resendConfirmation);
 router.get('/user-details', function (req, res) {
     res.render("userDetails");
 });
-router.post('/user-details', function (req, res) {
-    // TODO
-    console.log(req.body);
-});
 
+router.post('/user-details', userController.saveDetails);
 
 // TODO
 router.get('/user', function (req, res) {

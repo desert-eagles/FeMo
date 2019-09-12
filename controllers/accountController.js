@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 let Account = mongoose.model('Account');
 let Token = mongoose.model('Token');
+let User = mongoose.model('User');
 
 require('dotenv').config();
 
@@ -158,7 +159,7 @@ function confirmEmail(req, res, next) {
 
 function signupPost(req, res, next) {
     // Create and save new account
-    new_acc = new Account({
+    let new_acc = new Account({
         email: req.body.registerEmail,
         password: req.body.registerPwd
     });
@@ -221,7 +222,21 @@ function loginPost(req, res, next) {
                     return res.send({resend: "Please verify your email first"});
                 } else {
                     // Log in success
-                    return res.send({errMsg: null});
+
+                    // Check if need user details
+                    User.findOne({_accountId: acc._id}, function (err, user) {
+                        if (err) {
+                            console.error("Databased find user error: " + err);
+                            return next(err);
+                        } else if (!user) {
+                            // Ask for user details
+                            console.log("Need to ask for account details");
+                            return res.send({first_login: true});
+                        } else {
+                            // Redirect to user main page
+                            return res.send({errMsg: null});
+                        }
+                    });
                 }
             }
         })

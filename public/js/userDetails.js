@@ -12,7 +12,12 @@ $(document).ready(() => {
             type: "POST",
             url: "/user-details",
             data: userDetails
-        }).done(() => {
+        }).done((res) => {
+            if (!res.errMsg) {
+                // Saved user details, redirect to user main page
+                console.log("Saved user details");
+                window.location.href = "/user";
+            }
         });
     });
 });

@@ -43,8 +43,11 @@ $(document).ready(() => {
                                     .find("#resend").on("click", () => {
                                     resend(email, "#signin");
                                 });
+                            } else if (login.first_login) {
+                                // Redirect to user-details page
+                                window.location.href = "/user-details";
                             } else {
-                                // Login success
+                                // Redirect to user main page
                                 window.location.href = "/user";
                             }
                         });
