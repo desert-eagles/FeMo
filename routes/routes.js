@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var accountController = require("../controllers/accountController");
+var userController = require("../controllers/userController");
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -16,12 +17,18 @@ router.post("/check-email-availability", accountController.emailAvailable);
 router.get("/confirm-email/:token", accountController.confirmEmail);
 router.post("/resend-confirmation", accountController.resendConfirmation);
 
+/* GET user-details */
+router.get('/user-details', function (req, res) {
+    res.render("userDetails");
+});
 
+router.post('/user-details', userController.saveDetails);
 
 // TODO
 router.get('/user', function (req, res) {
     res.send("You have logged in, this is user page");
 });
+
 
 // upload
 router.get('/upload', function (req, res) {

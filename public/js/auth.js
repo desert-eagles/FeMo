@@ -36,8 +36,18 @@ $(document).ready(() => {
                                 // Login failed
                                 $("<p id='login-note' class='note note-danger'><strong>" + login.errMsg + "</strong></p>")
                                     .insertBefore("form#signin").hide().fadeIn();
+                            } else if (login.resend) {
+                                $("<p id='login-note' class='note note-warning'><strong>" + login.resend + ".</strong> " +
+                                    "Click <a id='resend'>here</a> to resend again.</p>")
+                                    .insertBefore("form#signin").hide().fadeIn()
+                                    .find("#resend").on("click", () => {
+                                    resend(email, "#signin");
+                                });
+                            } else if (login.first_login) {
+                                // Redirect to user-details page
+                                window.location.href = "/user-details";
                             } else {
-                                // Login success
+                                // Redirect to user main page
                                 window.location.href = "/user";
                             }
                         });
@@ -84,8 +94,11 @@ $(document).ready(() => {
                                 if (signup.success) {
                                     $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
                                         "A confirmation email has been sent to your email, click " +
-                                        "<a id='resend' href='javascript:void(0);' onclick='resend(\"" + email + "\")'> here</a> to resend again.</p>")
-                                        .insertBefore("form#signup").hide().fadeIn();
+                                        "<a id='resend'> here</a> to resend again.</p>")
+                                        .insertBefore("form#signup").hide().fadeIn()
+                                        .find("#resend").on("click", () => {
+                                        resend(email, "#signup");
+                                    });
                                 }
                             });
                         } else {
@@ -97,16 +110,6 @@ $(document).ready(() => {
         });
     });
 });
-
-function reportError(o, err) {
-    o.addClass("invalid")
-        .parent(".md-form").prevAll(".md-form").find("input")
-        .removeClass("invalid").addClass("valid");
-
-    let e = o[0];
-    e.setCustomValidity(err);
-    e.reportValidity();
-}
 
 function validateEmail(email, cb, mode = "signup") {
     let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -143,7 +146,7 @@ function removeNote(id) {
     $("#" + id).remove();
 }
 
-function resend(email) {
+function resend(email, id) {
     removeNote("resend-note");
     $.ajax({
         type: "POST",
@@ -152,10 +155,10 @@ function resend(email) {
             resendEmail: email
         },
         beforeSend: (() => {
-            $('#signup').find('.spinner-border').show();
+            $(id).find('.spinner-border').show();
         }),
         complete: (() => {
-            $('#signup').find('.spinner-border').hide();
+            $(id).find('.spinner-border').hide();
         })
     }).done((resend) => {
         if (resend.success) {
@@ -164,7 +167,7 @@ function resend(email) {
                 "A new confirmation email has been sent to " +
                 email +
                 " . Please check your spam folder as well.</p>")
-                .insertBefore("form#signup").hide().fadeIn();
+                .insertBefore("form" + id).hide().fadeIn();
         }
     })
 }

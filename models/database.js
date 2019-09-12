@@ -16,3 +16,5 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useCreateIndex: 
 
 require("./account.js");
 require("./token.js");
+require("./user.js");
+require("./post.js");

@@ -1,0 +1,48 @@
+extends parents/base
+
+block title
+    title User Details
+
+block content
+    .container.py-5.h-100.w-50
+        html
+            body
+                h3.mt-5 Please enter the following information to continue
+                form#userDetails
+                    // Grid row
+                    .row.my-3
+                        // Grid column
+                        .col-md-6
+                            .md-form.mb-0
+                                i.fa.fa-user.prefix
+                                input#firstname.form-control(type="text")
+                                label(for="firstname") First name
+                        // Grid column
+                        // Grid column
+                        .col-md-6
+                            .md-form.mb-0
+                                input#lastname.form-control(type="text")
+                                label(for="lastname") Last name
+                        // Grid column
+                    // Grid row
+                    .row.my-3
+                        // Grid column
+                        .col-md-12
+                            .md-form.mb-0
+                                i.fa.fa-calendar-alt.prefix
+                                input#dob.form-control(type="date")
+                                label(for="dob") Date of birth
+                    // Grid row
+                    .row.my-3
+                        // Grid column
+                        .col-md-12
+                            .md-form.mb-0
+                                i.fas.fa-user-ninja.prefix
+                                input#nickname.form-control(type="text")
+                                label(for="nickname") Your nickname
+                    // Grid row
+                    .my-5.text-center
+                        a.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
+
+block append script
+    script(type="text/javascript" src="js/userDetails.js")

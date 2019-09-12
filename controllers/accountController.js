@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 let Account = mongoose.model('Account');
 let Token = mongoose.model('Token');
+let User = mongoose.model('User');
 
 require('dotenv').config();
 
@@ -80,7 +81,7 @@ function resendConfirmation(req, res, next) {
 
             // Send new confirmation email
             let subject = "FeMo - Please Verify Your Email";
-            let content = `Hello, ${new_acc.email}\n\nWe have generated a new confirmation link.\n
+            let content = `Hello, ${acc.email}\n\nWe have generated a new confirmation link.\n
                     Please verify your account by visiting the link: \n
                     http://${req.headers.host}/confirm-email/${token.token}\n
                     Note: Be sure to check your spam folder as well!`;
@@ -117,7 +118,7 @@ function confirmEmail(req, res, next) {
             // req.session.errors = [{msg: 'We were unable to find a valid token. Your token may have expired.'}];
             // req.session.save();
             return res.send("We were unable to find a valid token, your token may have expired." +
-                            "Please contact us to get a new token.");
+                "Please contact us to get a new token.");
         }
 
         // If we found a token, find a matching user
@@ -158,7 +159,7 @@ function confirmEmail(req, res, next) {
 
 function signupPost(req, res, next) {
     // Create and save new account
-    new_acc = new Account({
+    let new_acc = new Account({
         email: req.body.registerEmail,
         password: req.body.registerPwd
     });
@@ -218,10 +219,24 @@ function loginPost(req, res, next) {
             } else {
                 if (!acc.isVerified) {
                     // Email has not been verified
-                    return res.send({errMsg: "Please verify your email first"});
+                    return res.send({resend: "Please verify your email first"});
                 } else {
                     // Log in success
-                    return res.send({errMsg: null});
+
+                    // Check if need user details
+                    User.findOne({_accountId: acc._id}, function (err, user) {
+                        if (err) {
+                            console.error("Databased find user error: " + err);
+                            return next(err);
+                        } else if (!user) {
+                            // Ask for user details
+                            console.log("Need to ask for account details");
+                            return res.send({first_login: true});
+                        } else {
+                            // Redirect to user main page
+                            return res.send({errMsg: null});
+                        }
+                    });
                 }
             }
         })
