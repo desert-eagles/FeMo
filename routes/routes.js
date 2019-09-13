@@ -5,7 +5,7 @@ var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
 
 /* GET home page. */
-router.get('/', function (req, res) {
+router.get('/', userController.sessionChecker, function (req, res) {
     res.render("index");
 });
 
@@ -18,15 +18,16 @@ router.get("/confirm-email/:token", accountController.confirmEmail);
 router.post("/resend-confirmation", accountController.resendConfirmation);
 
 /* GET user-details */
-router.get('/user-details', function (req, res) {
+router.get('/user-details', userController.authChecker, function (req, res) {
     res.render("userDetails");
 });
 
-router.post('/user-details', userController.saveDetails);
+router.post('/user-details', userController.saveNewUser);
 
 // TODO
-router.get('/user', function (req, res) {
-    res.send("You have logged in, this is user page");
+router.get('/user', userController.authChecker, function (req, res) {
+    res.send("You have logged in, this is user page. Your name is " +
+                req.session.user.firstname + " " + req.session.user.lastname);
 });
 
 
