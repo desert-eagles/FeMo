@@ -18,7 +18,7 @@ router.get("/confirm-email/:token", accountController.confirmEmail);
 router.post("/resend-confirmation", accountController.resendConfirmation);
 
 /* GET user-details */
-router.get('/user-details', userController.authChecker, function (req, res) {
+router.get('/user-details', /*userController.authChecker,*/ function (req, res) {
     res.render("userDetails");
 });
 
@@ -27,7 +27,7 @@ router.post('/user-details', userController.saveNewUser);
 // TODO
 router.get('/user', userController.authChecker, function (req, res) {
     res.send("You have logged in, this is user page. Your name is " +
-                req.session.user.firstname + " " + req.session.user.lastname);
+        req.session.user.firstname + " " + req.session.user.lastname);
 });
 
 
