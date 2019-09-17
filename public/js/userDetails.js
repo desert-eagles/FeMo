@@ -1,6 +1,12 @@
-let userDetails = new FormData();
+var profile_pic;
+
+
 
 $(document).ready(() => {
+    toDataUrl($("#profile-pic").attr("src"), function(base64) {
+        profile_pic = $.base64ImageToBlob(base64);
+    });
+
     // select gender
     let selectInputs = $("input#gender");
     selectInputs.focus((e) => {
@@ -15,12 +21,16 @@ $(document).ready(() => {
     });
 
     $("#userDetails #submit").click(() => {
+        let userDetails = new FormData();
         for (let i of $("#userDetails input:not([type='file'])")) {
             if (isEmpty($(i))) {
                 return;
             }
             userDetails.append(`${$(i).attr("id")}`, $(i).val());
         }
+
+
+        userDetails.append("profile-picture", profile_pic);
 
         $.ajax({
             type: "POST",
@@ -120,7 +130,22 @@ $(function () {
             $("#myModal").modal("hide");
             $("#profile-pic").attr("src", base64);
 
-            userDetails.append("profile-picture", $.base64ImageToBlob(base64));
+            profile_pic = $.base64ImageToBlob(base64);
+            //userDetails.append("profile-picture", $.base64ImageToBlob(base64));
         });
     });
 });
+
+function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}

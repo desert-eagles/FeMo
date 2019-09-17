@@ -37,6 +37,9 @@ function saveNewUser(req, res, next) {
         _accountId: req.session.user._accountId,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
+        pic_url: req.file.url,
+        pic_id: req.file.public_id,
+        gender: req.body.gender,
         dob: req.body.dob,
         nickname: req.body.nickname
     });
