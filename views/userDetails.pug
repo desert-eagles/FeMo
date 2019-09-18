@@ -3,27 +3,49 @@ extends parents/base
 block title
     title User Details
 
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css")
+    link(rel="stylesheet" type="text/css" href="/css/userDetails.css")
+
 block content
-    .container.py-5.h-100.w-50
+    .container.py-5.w-50
         html
             body
                 h3.mt-5 Please enter the following information to continue
                 form#userDetails
                     // Grid row
-                    .row.my-3
+                    .row.my-5
                         // Grid column
-                        .col-md-6
-                            .md-form.mb-0
+                        .col-md-5
+                            .d-flex
+                                .card.text-center
+                                    .card-body
+                                        .profile-img.p-3
+                                            img#profile-pic.border(src="/images/default-profile-picture.png")
+                                        .btn.btn-sm.btn-dark
+                                            input#file-upload.file-upload(type="file" name="profile_picture" accept="image/*")
+                                            | Upload New Photo
+                        // Grid column
+                        // Grid column
+                        .col-md-7
+                            .md-form.mb-5
                                 i.fa.fa-user.prefix
                                 input#firstname.form-control(type="text")
                                 label(for="firstname") First name
-                        // Grid column
-                        // Grid column
-                        .col-md-6
-                            .md-form.mb-0
+                            .md-form.mb-5
+                                i.fa.fa-user.prefix
                                 input#lastname.form-control(type="text")
                                 label(for="lastname") Last name
-                        // Grid column
+                            .md-form.mb-5.select-wrapper.mdb-select
+                                i.fas.fa-venus-mars.prefix
+                                label.mdb-main-label(for="gender") Gender
+                                span.caret ▼
+                                input#gender.select-dropdown.form-control(type="text" readonly="true" required="false" value="")
+                                ul.dropdown-content.w-100
+                                    li
+                                        span Female
+                                    li
+                                        span Male
                     // Grid row
                     .row.my-3
                         // Grid column
@@ -41,8 +63,27 @@ block content
                                 input#nickname.form-control(type="text")
                                 label(for="nickname") Your nickname
                     // Grid row
-                    .my-5.text-center
-                        a.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
+                    .py-5.text-center
+                        a#submit.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
+    // The Modal
+    #myModal.modal
+        .modal-dialog.modal-dialog-centered
+            .modal-content
+                // Modal Header
+                .modal-header
+                    h4.modal-title Crop Image And Upload
+                    button.close(type="button" data-dismiss="modal") ×
+                // Modal body
+                .modal-body
+                    #resizer
+                    button.btn.rotate.float-lef(data-deg="90")
+                        i.fas.fa-undo
+                    button.btn.rotate.float-right(data-deg="-90")
+                        i.fas.fa-redo
+                    hr
+                    button#upload.btn.btn-block.btn-dark
+                        | Crop And Upload
 
 block append script
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.js")
     script(type="text/javascript" src="js/userDetails.js")
