@@ -20,9 +20,14 @@ app.use(session({
     cookie: {maxAge: 60 * 60 * 24},
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
+// for accessing session inside pug
+app.use(function (req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

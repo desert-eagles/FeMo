@@ -1,12 +1,12 @@
 doctype html
 html(lang="en")
     head
-        block title
-            title Family Memories
         block head
             meta(charset="utf-8")
             meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
             meta(http-equiv="x-ua-compatible" content="ie=edge")
+            block title
+                title Family Memories
             // Font Awesome
             link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css")
             // Bootstrap core CSS
@@ -15,51 +15,85 @@ html(lang="en")
             link(href="MDB/css/mdb.min.css" rel="stylesheet")
             // Your custom styles (optional)
             link(href="css/style.css" rel="stylesheet")
+            if session && session.user
+                link(href="css/sidebar.css" rel="stylesheet")
 
     body
         // Start your project here
         // Main Navigation
         header.mb-5
             block header
-                // Navbar
-                nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
-                    .container
-                        // Navbar brand
-                        a.navbar-brand(href="/") FeMo
-                        // Collapse button
-                        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
-                            span.navbar-toggler-icon
-                        // Collapsible content
-                        #navbarContent.collapse.navbar-collapse
-                            // Links
-                            ul.navbar-nav.ml-auto.smooth-scroll
-                                li.nav-item
-                                    a.nav-link(href="#intro")
-                                        i.fas.fa-home
-                                        | Home
-                                li.nav-item
-                                    a.nav-link(href="#feature-1")
-                                        i.far.fa-star
-                                        | Features
-                                li.nav-item
-                                    a.nav-link(href="#gallery")
-                                        i.far.fa-images
-                                        | Gallery
-                                li.nav-item
-                                    a.nav-link
-                                        i.far.fa-question-circle
-                                        | FAQ
-                                li.nav-item
-                                    a.nav-link(href="#contact")
-                                        i.far.fa-envelope
-                                        | Contact
-                                li.nav-item
-                                    a.nav-link(data-toggle="modal" data-target="#modalLRForm")
-                                        i.fas.fa-user
-                                        | Sign in / Sign up
-                        // Collapsible content
-                // /.Navbar
+                if session && session.user
+                    // Sidebar
+                    include ../includes/sidebar
+                    // Navbar
+                    nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
+                        .container.d-flex.justify-content-between
+                            // Profile picture
+                            .float-left.button-collapse(data-activates="slide-out")
+                                img.img-fluid.rounded-circle(style="width:40px" src=session.user.pic_url)
+                            // Navbar brand
+                            a.m-auto.navbar-brand(
+                            style="position: absolute; left: 50%; transform: translateX(-50%);"
+                            href="/") FeMo
+                            .float-right
+                                // Collapse button
+                                button.navbar-toggler(type="button"
+                                data-toggle="collapse" data-target="#navbarContent"
+                                aria-controls="navbarContent" aria-expanded="false"
+                                aria-label="Toggle navigation")
+                                    span.navbar-toggler-icon
+                                // Collapsible content
+                                #navbarContent.collapse.navbar-collapse
+                                    // Links
+                                    ul.navbar-nav.ml-auto.smooth-scroll
+                                        li.nav-item
+                                            a.nav-link(href="#contact")
+                                                i.far.fa-envelope
+                                        li.nav-item
+                                            a.nav-link(href="#contact")
+                                                i.fas.fa-search.text-white(aria-hidden="true")
+                else
+                    nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
+                        .container
+                            // Navbar brand
+                            a.navbar-brand(href="/") FeMo
+                            // Collapse button
+                            button.navbar-toggler(type="button"
+                            data-toggle="collapse" data-target="#navbarContent"
+                            aria-controls="navbarContent" aria-expanded="false"
+                            aria-label="Toggle navigation")
+                                span.navbar-toggler-icon
+                            // Collapsible content
+                            #navbarContent.collapse.navbar-collapse
+                                // Links
+                                ul.navbar-nav.ml-auto.smooth-scroll
+                                    li.nav-item
+                                        a.nav-link(href="#intro")
+                                            i.fas.fa-home
+                                            | Home
+                                    li.nav-item
+                                        a.nav-link(href="#feature-1")
+                                            i.far.fa-star
+                                            | Features
+                                    li.nav-item
+                                        a.nav-link(href="#gallery")
+                                            i.far.fa-images
+                                            | Gallery
+                                    li.nav-item
+                                        a.nav-link(href="#contact")
+                                            i.far.fa-envelope
+                                            | Contact
+                                    li.nav-item
+                                        a.nav-link(data-toggle="modal" data-target="#modalLRForm")
+                                            i.fas.fa-user
+                                            | Sign in / Sign up
+
         block content
+
+        // auth modal
+        if !(session && session.user)
+            include ../includes/auth
 
         block footer
             // Footer
@@ -88,4 +122,6 @@ html(lang="en")
             // MDB core JavaScript
             script(type="text/javascript" src="MDB/js/mdb.min.js")
             // custom
+            if session && session.user
+                script(type="text/javascript" src="js/sidebar.js")
             script(type="text/javascript" src="js/utils.js")

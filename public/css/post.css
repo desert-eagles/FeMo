@@ -1,0 +1,67 @@
+.news-card .content .right-side-meta {
+    float: right;
+    margin-top: .3rem;
+    font-weight: 300;
+    color: #9e9e9e
+}
+
+.news-card .content .avatar-img {
+    width: 2rem;
+    margin-right: 1rem
+}
+
+.news-card .content img {
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: middle;
+    border-radius: 50%
+}
+
+.news-card .social-meta .fab,
+.news-card .social-meta .far,
+.news-card .social-meta .fas {
+    padding-right: .6rem
+}
+
+.news-card .social-meta .fa-heart-o {
+    color: rgba(0, 0, 0, .4);
+    cursor: pointer;
+    transition: .53s
+}
+
+.news-card .social-meta .fa-heart-o:hover {
+    color: #f44336
+}
+
+.news-card .social-meta span {
+    float: right
+}
+
+.news-card .md-form {
+    margin-top: 1.3rem;
+    margin-bottom: .3rem
+}
+
+.news-card .md-form .prefix {
+    margin-left: .2rem;
+    font-size: 1.5rem;
+    color: rgba(0, 0, 0, .4)
+}
+
+.news-card .md-form .prefix .md-form .prefix ~ textarea,
+.news-card .md-form .prefix ~ input {
+    width: calc(100% - 4rem)
+}
+
+.news-card .md-form .prefix.active {
+    color: rgba(0, 0, 0, .4)
+}
+
+.news-card .md-form .form-control {
+    height: 1.3rem;
+    padding-top: 0;
+    padding-bottom: .5rem;
+    margin-bottom: 0;
+    margin-left: 3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .1)
+}

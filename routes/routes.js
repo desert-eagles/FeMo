@@ -1,18 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-
-// var storage = multer.diskStorage({
-//     destination: function(req, file, callback){
-//         callback(null, './'); // set the destination
-//     },
-//     filename: function(req, file, callback){
-//         callback(null, Date.now() + '.png'); // set the file name and extension
-//     }
-// });
-//
-// var upload = multer({storage: storage});
-
 var uploader = require('../controllers/cloudinary');
 var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
@@ -42,14 +30,15 @@ router.post('/user-details',
 
 // TODO
 router.get('/user', userController.authChecker, function (req, res) {
-    res.send("<p>You have logged in, this is user page. Your name is " +
-        req.session.user.firstname + " " + req.session.user.lastname +
-    "\nGender: " + req.session.user.gender +
-    "\nDate of Birth: " + req.session.user.dob.toString() +
-    "\nNickname: " + req.session.user.nickname +
-    "\nProfile pic id: " + req.session.user.pic_id +
-    "\nProfile pic url: " + req.session.user.pic_url +
-    `</p><img src=\"${req.session.user.pic_url}\">`);
+    res.render("user");
+    // res.send("<p>You have logged in, this is user page. Your name is " +
+    //     req.session.user.firstname + " " + req.session.user.lastname +
+    //     "\nGender: " + req.session.user.gender +
+    //     "\nDate of Birth: " + req.session.user.dob.toString() +
+    //     "\nNickname: " + req.session.user.nickname +
+    //     "\nProfile pic id: " + req.session.user.pic_id +
+    //     "\nProfile pic url: " + req.session.user.pic_url +
+    //     `</p><img src=\"${req.session.user.pic_url}\">`);
 });
 
 

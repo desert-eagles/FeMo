@@ -17,8 +17,6 @@ $(document).ready(() => {
         }, 700) : true;
     });
 
-    // main page animation
-    new WOW().init();
     window.onbeforeunload = function () {
         window.scrollTo(0, 0);
     };
@@ -30,4 +28,7 @@ $(document).ready(() => {
     $("input").keypress((e) => {
         $(e.target).removeClass("valid invalid");
     });
+
+    // initialise animation
+    new WOW().init();
 });
