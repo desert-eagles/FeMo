@@ -1,0 +1,21 @@
+extends parents/base
+
+block title
+    title Upload post
+
+block append head
+    link(rel="stylesheet" href="css/upload/dropzone.css")
+    link(rel="stylesheet" href="css/upload/upload.css")
+
+block content
+    .container.min-vh-100.py-5
+        .row
+            .col-12
+                .form-container
+                    form#imageUploadForm
+                        #imageUpload.dropzone
+                        button#uploaderBtn.btn.btn-primary(type="button") Save
+
+block append script
+    script(src="js/upload/dropzone.js")
+    script(src="js/upload/upload.js")
