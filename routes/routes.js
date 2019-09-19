@@ -47,4 +47,8 @@ router.get('/upload', function (req, res) {
     res.render("upload.html");
 });
 
+
+// logout
+router.get('/logout', userController.logout);
+
 module.exports = router;

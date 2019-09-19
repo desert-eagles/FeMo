@@ -58,8 +58,23 @@ function saveNewUser(req, res, next) {
     })
 }
 
+
+function logout(req, res, next) {
+    // Log user out
+    req.session.destroy(function (err) {
+        if (err) {
+            console.error("Cannot access session: " + err);
+            return next(err);
+        }
+
+        // Successfully logout, back to homepage
+        return res.redirect('/');
+    })
+}
+
 module.exports = {
     sessionChecker,
     authChecker,
-    saveNewUser
+    saveNewUser,
+    logout
 };
