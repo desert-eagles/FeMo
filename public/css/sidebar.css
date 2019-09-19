@@ -1,0 +1,604 @@
+/* Ref: https://mdbootstrap.com/snippets/jquery/mdbootstrap/98624 */
+
+.black-skin .gradient {
+    background: #000;
+    background: linear-gradient(135deg, #000 0, #616161 100%)
+}
+
+.black-skin .primary-color,
+.black-skin ul.stepper li.active a .circle,
+.black-skin ul.stepper li.completed a .circle,
+ul.stepper li.active a .black-skin .circle,
+ul.stepper li.completed a .black-skin .circle {
+    background-color: #2ad1a3 !important
+}
+
+.black-skin .side-nav {
+    background-color: #222
+}
+
+.black-skin .side-nav .profile-pic-wrapper > div {
+    background-color: transparent !important
+}
+
+.black-skin .side-nav .sn-avatar-wrapper img {
+    border: 3px solid #1d9171
+}
+
+.black-skin .side-nav .social {
+    border-bottom: 1px solid rgba(153, 153, 153, .3)
+}
+
+.black-skin .side-nav .social a:hover .fab,
+.black-skin .side-nav .social a:hover .far,
+.black-skin .side-nav .social a:hover .fas {
+    color: #2ad1a3 !important;
+    transition: all .3s linear
+}
+
+.black-skin .side-nav .collapsible li {
+    background-color: transparent
+}
+
+.black-skin .side-nav .collapsible li .collapsible-header {
+    color: #fff;
+    transition: all .3s linear
+}
+
+.black-skin .side-nav .collapsible li .collapsible-header.active {
+    background-color: #2ad1a3
+}
+
+.black-skin .side-nav .collapsible li .collapsible-header:hover {
+    background-color: #2ad1a3
+}
+
+.black-skin .side-nav .collapsible li .collapsible-body a {
+    color: #fff
+}
+
+.black-skin .side-nav .collapsible li .collapsible-body a.active,
+.black-skin .side-nav .collapsible li .collapsible-body a:active,
+.black-skin .side-nav .collapsible li .collapsible-body a:hover {
+    color: #2ad1a3
+}
+
+.black-skin .side-nav .collapsible li .collapsible-body a .fab,
+.black-skin .side-nav .collapsible li .collapsible-body a .far,
+.black-skin .side-nav .collapsible li .collapsible-body a .fas {
+    color: #fff
+}
+
+.black-skin .side-nav .collapsible li a:not(.collapsible-header) {
+    color: #fff;
+    transition: all .3s linear
+}
+
+.black-skin .side-nav .collapsible li a:not(.collapsible-header).active,
+.black-skin .side-nav .collapsible li a:not(.collapsible-header):active,
+.black-skin .side-nav .collapsible li a:not(.collapsible-header):hover {
+    color: #2ad1a3 !important
+}
+
+.black-skin .side-nav .sidenav-bg.mask-strong:after,
+.black-skin .side-nav .sidenav-bg:after {
+    background: rgba(0, 0, 0, .8)
+}
+
+.black-skin .side-nav .sidenav-bg.mask-light:after {
+    background: rgba(0, 0, 0, .65)
+}
+
+.black-skin .side-nav .sidenav-bg.mask-slight:after {
+    background: rgba(0, 0, 0, .5)
+}
+
+.collapsible .active .rotate-icon {
+    transform: rotate(180deg);
+    transition: all 150ms ease-in 0s
+}
+
+.side-nav {
+    position: fixed;
+    width: 15.5rem;
+    left: 0;
+    top: 0;
+    margin: 0;
+    transform: translateX(-100%);
+    height: 100%;
+    background-color: #2c2f34;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1040;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    will-change: transform;
+    list-style-type: none;
+    padding: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12)
+}
+
+.side-nav.wide {
+    width: 15rem;
+    transition-property: top, bottom, width;
+    transition-duration: .2s, .2s, .35s;
+    transition-timing-function: linear, linear, ease
+}
+
+.side-nav.wide .profile-pic-wrapper.sn-ad-avatar-wrapper {
+    height: 5rem;
+    padding: 19px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, .65)
+}
+
+.side-nav.wide .profile-pic-wrapper.sn-ad-avatar-wrapper a {
+    line-height: 2.6rem;
+    color: #fff
+}
+
+.side-nav.wide .profile-pic-wrapper.sn-ad-avatar-wrapper a span {
+    padding-left: .7rem;
+    margin-top: -1rem
+}
+
+.side-nav.wide .profile-pic-wrapper.sn-ad-avatar-wrapper a img {
+    max-width: 2.5rem;
+    padding: 0
+}
+
+.side-nav.wide .collapsible a {
+    padding-left: 23px;
+    transition: all .3s ease-in-out
+}
+
+.side-nav.wide .collapsible a .sv-normal {
+    opacity: 1;
+    transition: all .1s linear
+}
+
+.side-nav.wide .collapsible a .sv-slim {
+    opacity: 0;
+    display: none;
+    transition: all .1s linear
+}
+
+.side-nav.wide .collapsible .sv-slim-icon {
+    padding-left: 0;
+    width: 30px;
+    height: 36px;
+    text-align: left;
+    margin-right: 0
+}
+
+.side-nav.wide .collapsible-body a {
+    padding-left: 47px
+}
+
+.side-nav.wide .fa-angle-down.rotate-icon {
+    opacity: 1;
+    display: block
+}
+
+.side-nav.wide.slim {
+    width: 3.75rem;
+    transition-property: top, bottom, width;
+    transition-duration: .2s, .2s, .35s;
+    transition-timing-function: linear, linear, ease;
+    right: 3.75rem
+}
+
+.side-nav.wide.slim .collapsible a {
+    padding-left: 23px;
+    transition: all .3s ease-in-out
+}
+
+.side-nav.wide.slim .collapsible a .sv-normal {
+    opacity: 0;
+    transition: all .1s linear
+}
+
+.side-nav.wide.slim .collapsible a .sv-slim {
+    display: block;
+    opacity: 1;
+    transition: all .1s linear
+}
+
+.side-nav.wide.slim .collapsible .sv-slim-icon {
+    padding-left: 0;
+    width: 30px;
+    height: 36px;
+    text-align: left;
+    margin-right: 0
+}
+
+.side-nav.wide.slim .fa-angle-down.rotate-icon {
+    opacity: 0;
+    display: none
+}
+
+.side-nav > ul {
+    max-height: 100vh
+}
+
+.side-nav ul {
+    list-style: none;
+    padding-left: 0
+}
+
+.side-nav ul li {
+    padding: 0
+}
+
+.side-nav.right-aligned {
+    right: 0;
+    left: auto;
+    transform: translateX(100%)
+}
+
+.side-nav.side-nav-light {
+    background-color: #e5e5e5
+}
+
+.side-nav.side-nav-light .profile-pic-wrapper {
+    border-bottom: 1px solid rgba(153, 153, 153, .3)
+}
+
+.side-nav.side-nav-light .profile-pic-wrapper.sn-ad-avatar-wrapper {
+    color: #555
+}
+
+.side-nav.side-nav-light .about {
+    border-bottom: 1px solid rgba(153, 153, 153, .3)
+}
+
+.side-nav.side-nav-light .about p {
+    color: #555
+}
+
+.side-nav.side-nav-light .social {
+    border-bottom: 1px solid rgba(153, 153, 153, .3)
+}
+
+.side-nav.side-nav-light .social .fab,
+.side-nav.side-nav-light .social .far,
+.side-nav.side-nav-light .social .fas {
+    color: #555
+}
+
+.side-nav.side-nav-light .search-form input[type=text] {
+    border-bottom-color: rgba(153, 153, 153, .3);
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .search-form input[type=text]::-webkit-input-placeholder {
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .search-form input[type=text]::-moz-placeholder {
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .search-form input[type=text]:-ms-input-placeholder {
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .search-form input[type=text]::-ms-input-placeholder {
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .search-form input[type=text]::placeholder {
+    color: #555 !important
+}
+
+.side-nav.side-nav-light .collapsible a {
+    color: #555
+}
+
+.side-nav.side-nav-light .collapsible-body a {
+    background-color: rgba(0, 0, 0, .1)
+}
+
+.side-nav.side-nav-light .collapsible li .collapsible-header:hover {
+    background-color: rgba(0, 0, 0, .05)
+}
+
+.side-nav.side-nav-light .collapsible li .collapsible-header.active {
+    color: #4285f4;
+    background-color: transparent
+}
+
+.side-nav.fixed {
+    left: 0;
+    transform: translateX(0);
+    position: fixed
+}
+
+.side-nav.fixed.right-aligned {
+    right: 0;
+    left: auto
+}
+
+@media only screen and (max-width: 1440px) {
+    .side-nav.fixed {
+        transform: translateX(-105%)
+    }
+
+    .side-nav.fixed.right-aligned {
+        transform: translateX(105%)
+    }
+}
+
+.side-nav .collapsible {
+    margin: 0;
+    padding: 0;
+    margin-top: 1rem
+}
+
+.side-nav .collapsible li a:hover {
+    background-color: rgba(0, 0, 0, .15)
+}
+
+.side-nav .collapsible > li {
+    border-radius: 2px
+}
+
+.side-nav .collapsible > li a.collapsible-header:hover {
+    background-color: rgba(255, 255, 255, .15)
+}
+
+.side-nav .collapsible > li a.collapsible-header.active {
+    background-color: rgba(255, 255, 255, .15)
+}
+
+.side-nav .collapsible ul {
+    padding: 0;
+    list-style-type: none
+}
+
+.side-nav .collapsible a {
+    color: #fff;
+    font-weight: 300;
+    font-size: .8rem;
+    height: 36px;
+    line-height: 36px
+}
+
+.side-nav .collapsible a.active,
+.side-nav .collapsible a:hover {
+    border-radius: 2px
+}
+
+.side-nav .collapsible .fab,
+.side-nav .collapsible .far,
+.side-nav .collapsible .fas {
+    font-size: .8rem;
+    margin-right: 13px
+}
+
+.side-nav .collapsible-body a {
+    padding-left: 47px;
+    height: 36px;
+    line-height: 36px;
+    background-color: rgba(0, 0, 0, .15)
+}
+
+.side-nav a {
+    display: block;
+    font-size: 1rem;
+    height: 56px;
+    line-height: 56px;
+    padding-left: 20px
+}
+
+.side-nav .fa-angle-down.rotate-icon {
+    position: absolute;
+    right: 0;
+    top: .8rem;
+    margin-right: 1.25rem
+}
+
+.side-nav .sidenav-bg {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 15rem;
+    z-index: -1;
+    background-attachment: fixed
+}
+
+.side-nav .sidenav-bg:after {
+    width: 100%;
+    display: block;
+    content: "";
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    margin-bottom: -99999px;
+    padding-bottom: 99999px
+}
+
+.side-nav .profile-pic-wrapper {
+    border-bottom: 1px solid rgba(153, 153, 153, .3);
+    height: 8.75rem
+}
+
+.side-nav .profile-pic-wrapper a {
+    height: 8.75rem;
+    width: 15rem;
+    padding: 0
+}
+
+.side-nav .profile-pic-wrapper img {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    height: auto
+}
+
+@media (max-height: 992px) {
+    .side-nav .profile-pic-wrapper {
+        height: 180px
+    }
+
+    .side-nav .profile-pic-wrapper a {
+        height: 180px
+    }
+
+    .side-nav .profile-pic-wrapper img {
+        padding-top: 7%;
+        padding-bottom: 7%
+    }
+}
+
+.side-nav .profile-pic-wrapper.sn-avatar-wrapper {
+    padding-left: 33%;
+    padding-right: 33%;
+    padding-top: 10%;
+    padding-bottom: 10%
+}
+
+.side-nav .profile-pic-wrapper.sn-avatar-wrapper img {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    margin: 0;
+    padding: 0;
+    max-width: 90px
+}
+
+@media only screen and (max-height: 992px) {
+    .side-nav .profile-pic-wrapper.sn-avatar-wrapper {
+        padding-left: 40%;
+        padding-right: 40%
+    }
+
+    .side-nav .profile-pic-wrapper.sn-avatar-wrapper img {
+        max-width: 50px
+    }
+}
+
+.side-nav .profile-pic-wrapper.sn-ad-avatar-wrapper {
+    height: auto;
+    margin-bottom: 0
+}
+
+.side-nav .profile-pic-wrapper.sn-ad-avatar-wrapper img {
+    max-width: 3.75rem;
+    padding: 1.25rem .63rem;
+    float: left
+}
+
+.side-nav .profile-pic-wrapper.sn-ad-avatar-wrapper p {
+    font-size: .94rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    margin: 0
+}
+
+.side-nav .about {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, .65)
+}
+
+.side-nav .about p {
+    margin-bottom: 0;
+    text-align: center
+}
+
+.side-nav .social {
+    padding-top: 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, .65)
+}
+
+.side-nav .social li {
+    display: inline-block;
+    padding-top: .6rem;
+    padding-bottom: .6rem;
+    margin: 0
+}
+
+.side-nav .social a {
+    margin: 0;
+    padding: 0
+}
+
+.side-nav .social .fab,
+.side-nav .social .far,
+.side-nav .social .fas {
+    font-size: .9rem;
+    padding-right: .6rem;
+    padding-left: .6rem;
+    color: #dbe4e7;
+    transition: .3s
+}
+
+.side-nav .social .fab:hover,
+.side-nav .social .far:hover,
+.side-nav .social .fas:hover {
+    color: #afc4cb;
+    transition: .3s
+}
+
+.side-nav .search-form {
+    padding: 0
+}
+
+.side-nav .search-form input[type=text] {
+    border-bottom: 1px solid rgba(255, 255, 255, .65);
+    font-weight: 300;
+    padding-left: 1.88rem;
+    color: #fff !important;
+}
+
+.side-nav .search-form input[type=text]::-webkit-input-placeholder {
+    color: #fff
+}
+
+.side-nav .search-form input[type=text]::-moz-placeholder {
+    color: #fff
+}
+
+.side-nav .search-form input[type=text]:-ms-input-placeholder {
+    color: #fff
+}
+
+.side-nav .search-form input[type=text]::-ms-input-placeholder {
+    color: #fff
+}
+
+.side-nav .search-form input[type=text]::placeholder {
+    color: #fff
+}
+
+.side-nav .search-form .form-control {
+    margin-bottom: 0
+}
+
+.drag-target {
+    height: 100%;
+    width: 10px;
+    position: fixed;
+    top: 0;
+    z-index: 998
+}
+
+#sidenav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120vh;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 997;
+    will-change: opacity
+}
+
+.transform-fix-input {
+    transform: translateX(0) !important
+}

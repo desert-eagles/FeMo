@@ -1,0 +1,31 @@
+section.my-5
+    // Grid row
+    .d-flex.justify-content-center
+        // Grid column
+        .w-50
+            // mdbCard
+            .card.news-card
+                // Heading
+                .card-body
+                    .content
+                        .right-side-meta 14 h
+                        img.rounded-circle.avatar-img.z-depth-1-half(src="https://mdbootstrap.com/img/Photos/Avatars/img%20(17)-mini.jpg")
+                        | Kate
+                // mdbCard image
+                img.card-img-top(src="https://mdbootstrap.com/img/Photos/Others/girl1.jpg" alt="mdbCard image cap")
+                // mdbCard content
+                .card-body
+                    // Social meta
+                    .social-meta
+                        p Another great adventure!
+                        span
+                            i.far.fa-heart
+                            | 25 likes
+                        p
+                            i.fa.fa-comment
+                            | 13 comments
+                    hr
+                    // Comment input
+                    .md-form
+                        i.far.fa-heart.prefix.active
+                        input#form5.form-control(placeholder="Add Comment..." type="text")
