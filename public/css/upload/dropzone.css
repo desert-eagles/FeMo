@@ -397,7 +397,7 @@
     z-index: 500;
     position: absolute;
     display: block;
-    top: 50%;
+    top: 43%;
     left: 50%;
     margin-left: -27px;
     margin-top: -27px;
@@ -442,9 +442,9 @@
     position: absolute;
     height: 16px;
     left: 50%;
-    top: 50%;
+    top: 45%;
     margin-top: -8px;
-    width: 80px;
+    width: 85px;
     margin-left: -40px;
     background: rgba(255, 255, 255, 0.9);
     -webkit-transform: scale(1);

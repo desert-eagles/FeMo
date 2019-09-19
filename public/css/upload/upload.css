@@ -1,29 +1,9 @@
-body{
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-}
-.navbar-custom {
-    background-color: #4990e2 !important;
-}
-
-
-.logo-container{
-    width: 100px;
-}
-.logo-container > img{
-    width: 100%;
-}
-
-.main-container {
-    margin-top: 65px;
-}
-
-.form-container{
+.form-container {
     max-width: 600px;
     margin: 10px auto;
 }
-.form-container h1{
+
+.form-container h1 {
     font-weight: 300;
     font-size: 2.5rem;
 }
@@ -33,7 +13,8 @@ body{
     border-radius: 5px;
     background: white;
 }
-#imageUpload{
+
+#imageUpload {
     margin-bottom: 20px;
     min-height: 50px;
 }
@@ -42,7 +23,7 @@ div.has-error > input {
     border: 1px solid #dc3545;
 }
 
-div.has-error> .form-text {
+div.has-error > .form-text {
     color: #dc3545;
 }
 
@@ -56,7 +37,7 @@ div.has-error> .form-text {
     color: #e13535;
 }
 
-#success-text{
+#success-text {
     margin-top: 20px;
     font-size: 1.2rem;
 }
