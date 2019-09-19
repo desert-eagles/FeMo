@@ -53,4 +53,8 @@ router.post('/upload', function (req, res) {
     res.send("Test");
 });
 
+
+// logout
+router.get('/logout', userController.logout);
+
 module.exports = router;
