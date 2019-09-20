@@ -29,13 +29,14 @@ function createPost(req, res, next) {
             return next(err);
         }
 
-        // Post successfully saved, store in User collection
+        // Post successfully saved, update in User collection
         User.findOneAndUpdate(
             {_id: req.session.user._id},
             {$push: {'posts': new_post._id}},
             function (err) {
                 if (err) {
-                    console.erorr("Database update user error: " + err);
+                    console.error("Database update user error: " + err);
+                    return next(err);
                 }
             }
         );
@@ -46,14 +47,26 @@ function createPost(req, res, next) {
 }
 
 
-function showPost(req, res, next) {
+function fetchPosts(req, res, next) {
     // TODO find all posts viewable by user
 
+
     // Now just find what the user has posted
-    
+    Post.find({_userId: req.session.user._id})
+        .populate("_userId", "pic_url nickname")
+        .exec(function(err, posts) {
+            if (err) {
+                console.error("Database fetch posts error: " + err);
+                return next(err);
+            }
+        return res.send(posts);
+    });
+
+
+    // TODO populate array of post ids in user
 }
 
 module.exports = {
     createPost,
-    showPost
+    fetchPosts
 };

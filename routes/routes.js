@@ -30,16 +30,9 @@ router.post('/user-details',
     userController.saveNewUser);
 
 // TODO
+
 router.get('/user', userController.authChecker, function (req, res) {
     res.render("user");
-
-    //     req.session.user.firstname
-    //     req.session.user.lastname
-    //     req.session.user.gender
-    //     req.session.user.dob.toString()
-    //     req.session.user.nickname
-    //     req.session.user.pic_id
-    //     req.session.user.pic_url
 });
 
 
@@ -51,13 +44,9 @@ router.get('/upload', userController.authChecker, function (req, res) {
 
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
-// router.post('/upload', uploader.uploadPostPics.any(), function (req, res) {
-//     console.log(req.files);
-//
-//     res.status(404);
-//     res.send("Test");
-// });
 
+
+router.post('/more-posts', userController.authChecker, postController.fetchPosts);
 
 // logout
 router.get('/logout', userController.logout);
