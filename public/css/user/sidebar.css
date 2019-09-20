@@ -231,6 +231,11 @@ ul.stepper li.completed a .black-skin .circle {
     padding: 0
 }
 
+.side-nav li#profile-pic {
+    padding-bottom: 100%;
+    height: 0;
+}
+
 .side-nav.right-aligned {
     right: 0;
     left: auto;
@@ -430,7 +435,7 @@ ul.stepper li.completed a .black-skin .circle {
 
 .side-nav .profile-pic-wrapper a {
     height: 8.75rem;
-    width: 15rem;
+    width: 100%;
     padding: 0
 }
 
@@ -444,16 +449,13 @@ ul.stepper li.completed a .black-skin .circle {
 
 @media (max-height: 992px) {
     .side-nav .profile-pic-wrapper {
-        height: 180px
+        height: 0;
+        padding-bottom: 100%;
     }
 
     .side-nav .profile-pic-wrapper a {
-        height: 180px
-    }
-
-    .side-nav .profile-pic-wrapper img {
-        padding-top: 7%;
-        padding-bottom: 7%
+        height: 100%;
+        position: absolute;
     }
 }
 

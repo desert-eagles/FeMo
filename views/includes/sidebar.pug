@@ -4,10 +4,10 @@
     #slide-out.side-nav.sn-bg-4.fixed
         ul.custom-scrollbar
             // Logo
-            li
+            li#profile-pic
                 .profile-pic-wrapper.waves-light
-                    a(href="#")
-                        img.img-fluid.flex-center.rounded-circle.w-100(src=session.user.pic_url)
+                    a.d-flex.align-items-center(href="/user")
+                        img.img-fluid.rounded-circle.w-100(src=session.user.pic_url)
             // /. Logo
             // Social
             li
