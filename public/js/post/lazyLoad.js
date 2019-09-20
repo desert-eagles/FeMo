@@ -1,25 +1,31 @@
 $(() => {
-    // first page
-    $.ajax({
-        url: "more-posts/1",
-        method: "Get",
-    }).done(res => {
-        $("#postContainer").append($(Mustache.render(postTpl, {post: res})));
-    });
+    let lastPage = false;
 
-    // following pages
     let container = $("#postContainer");
 
     container.infiniteScroll({
-        path: '/more-posts/{{#}}',
+        path: function () {
+            if (!lastPage) {
+                return `/more-posts/${this.loadCount + 1}`;
+            }
+        },
         append: false,
         responseType: 'text',
         status: '.page-load-status',
+        history: false,
     });
 
     container.on('load.infiniteScroll', function (e, res) {
-        $("#postContainer").append($(Mustache.render(postTpl, {post: JSON.parse(res)})));
+        let posts = JSON.parse(res);
+        if (posts.length) {
+            $("#postContainer").append($(Mustache.render(postTpl, {post: posts})));
+        } else {
+            lastPage = true;
+        }
     });
+
+    // first page
+    container.infiniteScroll('loadNextPage')
 });
 
 const postTpl =
