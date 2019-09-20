@@ -40,12 +40,12 @@ $(function () {
             });
 
             this.on('sending', function (file, xhr, fd) {
-                if (fd.get("description") !== undefined && fd.get("occurredAt") !== undefined) {
-                    return;
+                if (!fd.has("description")) {
+                    fd.append("description", $("#description").val());
                 }
-
-                fd.append("description", $("#description").val());
-                fd.append("occurredAt", $("#occurredAt").val());
+                if (!fd.has("occurredAt")) {
+                    fd.append("occurredAt", $("#occurredAt").val());
+                }
             });
 
             this.on('addedfile', function () {
