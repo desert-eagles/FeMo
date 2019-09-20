@@ -1,7 +1,8 @@
 extends parents/base
 
 block append head
-    link(href="css/post.css" rel="stylesheet")
+    link(href="css/post/post.css" rel="stylesheet")
+    link(href="css/post/lazyLoad.css" rel="stylesheet")
 
 block content
     .container.min-vh-100.py-5
@@ -20,7 +21,18 @@ block content
 
         hr.my-5
 
+        #postContainer.container
 
-        // TODO just demo for the time bring
-        include includes/post
-        include includes/post
+        .page-load-status
+            .loader-ellips.infinite-scroll-request
+                span.loader-ellips__dot
+                span.loader-ellips__dot
+                span.loader-ellips__dot
+                span.loader-ellips__dot
+            p.infinite-scroll-last End of content
+            p.infinite-scroll-error No more pages to load
+
+block append script
+    script(type="text/javascript" src="js/includes/infinite-scroll.pkgd.min.js")
+    script(type="text/javascript" src="js/includes/mustache.js")
+    script(type="text/javascript" src="js/post/lazyLoad.js")
