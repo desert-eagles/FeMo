@@ -51,13 +51,14 @@ function createPost(req, res, next) {
 
 
 function fetchPosts(req, res, next) {
-    // TODO find all posts viewable by user
+    // TODO find all posts viewable by use
 
+    let page = Math.max(1, req.params.page);
 
     // Now just find what the user has posted
     Post.find({_userId: req.session.user._id})
         .sort({createdAt: 'desc'})
-        .skip(POSTS_PER_PAGE * req.params.page)
+        .skip(POSTS_PER_PAGE * (page - 1))
         .limit(POSTS_PER_PAGE)
         .populate("_userId", "pic_url nickname")
         .exec(function (err, posts) {
@@ -66,14 +67,15 @@ function fetchPosts(req, res, next) {
                 return next(err);
             }
             let fetched = [];
+            // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {
                 fetched.push({
                     post_description: post.description,
-                    post_pic_urls: post.pic_urls,
+                    post_pic_urls: post.pic_urls[0],
                     post_like: post.like.length,
                     post_createdAt: post.createdAt,
                     post_occurredAt: post.occurredAt,
-                    user_pic_url: post._userId.pic_id,
+                    user_pic_url: post._userId.pic_url,
                     user_nickname: post._userId.nickname
                 });
             }
