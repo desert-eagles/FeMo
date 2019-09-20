@@ -28,6 +28,10 @@ $(function () {
                             "description": $("#description").val(),
                             "occurredAt": $("#occurredAt").val()
                         }
+                    }).done(res => {
+                        if (!res.errMsg) {
+                            window.location.href = "/user";
+                        }
                     });
                 } else {
                     $("#errorModal").modal('show');
@@ -36,12 +40,22 @@ $(function () {
             });
 
             this.on('sending', function (file, xhr, fd) {
+                if (fd.get("description") !== undefined && fd.get("occurredAt") !== undefined) {
+                    return;
+                }
+
                 fd.append("description", $("#description").val());
                 fd.append("occurredAt", $("#occurredAt").val());
             });
 
             this.on('addedfile', function () {
                 $(".dropzone .dz-preview .dz-progress").hide();
+            });
+
+            this.on("success", function (file, res) {
+                if (!res.errMsg) {
+                    window.location.href = "/user";
+                }
             });
         },
     });

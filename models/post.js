@@ -2,12 +2,13 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let postSchema = Schema({
-    _user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
-    title: {type: String, required: true},
+    _userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     description: String,
-    urls: {type: [String]},
+    pic_urls: {type: [String]},
+    pic_ids: {type: [String]},
+    like: {type: [mongoose.SchemaTypes.ObjectId], ref: 'User', default: []},
     createdAt: {type: Date, required: true, default: Date.now},
-    date: Date
+    occurredAt: Date
 });
 
 

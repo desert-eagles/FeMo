@@ -44,14 +44,19 @@ router.get('/user', userController.authChecker, function (req, res) {
 
 // upload
 router.get('/upload', function (req, res) {
-    res.render("upload");
+    res.render('upload');
 });
-router.post('/upload', function (req, res) {
-    console.log(req.file);
 
-    res.status(404);
-    res.send("Test");
-});
+
+
+router.post('/upload', uploader.uploadPostPics.any(), userController.createPost);
+
+// router.post('/upload', uploader.uploadPostPics.any(), function (req, res) {
+//     console.log(req.files);
+//
+//     res.status(404);
+//     res.send("Test");
+// });
 
 
 // logout
