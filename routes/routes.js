@@ -31,21 +31,32 @@ router.post('/user-details',
 // TODO
 router.get('/user', userController.authChecker, function (req, res) {
     res.render("user");
-    // res.send("<p>You have logged in, this is user page. Your name is " +
-    //     req.session.user.firstname + " " + req.session.user.lastname +
-    //     "\nGender: " + req.session.user.gender +
-    //     "\nDate of Birth: " + req.session.user.dob.toString() +
-    //     "\nNickname: " + req.session.user.nickname +
-    //     "\nProfile pic id: " + req.session.user.pic_id +
-    //     "\nProfile pic url: " + req.session.user.pic_url +
-    //     `</p><img src=\"${req.session.user.pic_url}\">`);
+
+    //     req.session.user.firstname
+    //     req.session.user.lastname
+    //     req.session.user.gender
+    //     req.session.user.dob.toString()
+    //     req.session.user.nickname
+    //     req.session.user.pic_id
+    //     req.session.user.pic_url
 });
 
 
 // upload
 router.get('/upload', function (req, res) {
-    res.render("upload.html");
+    res.render('upload');
 });
+
+
+
+router.post('/upload', uploader.uploadPostPics.any(), userController.createPost);
+
+// router.post('/upload', uploader.uploadPostPics.any(), function (req, res) {
+//     console.log(req.files);
+//
+//     res.status(404);
+//     res.send("Test");
+// });
 
 
 // logout

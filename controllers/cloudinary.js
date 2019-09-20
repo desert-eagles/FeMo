@@ -21,6 +21,17 @@ let profileStorage = cloudinaryStorage({
     transformation: [{width: 200, height: 200, radius: "max"}]
 });
 
-let uploadProfilePic = multer({storage: profileStorage});
+// TODO transformation
+let postStorage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: "post_pictures",
+    allowedFormats: ["jpg", "png"]
+});
 
-module.exports.uploadProfilePic = uploadProfilePic;
+let uploadProfilePic = multer({storage: profileStorage});
+let uploadPostPics = multer({storage: postStorage});
+
+module.exports = {
+    uploadProfilePic,
+    uploadPostPics
+};
