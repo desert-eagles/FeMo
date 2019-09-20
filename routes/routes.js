@@ -4,6 +4,7 @@ var router = express.Router();
 var uploader = require('../controllers/cloudinary');
 var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
+var postController = require("../controllers/postController");
 
 /* GET home page. */
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -48,8 +49,7 @@ router.get('/upload', userController.authChecker, function (req, res) {
 });
 
 
-
-router.post('/upload', uploader.uploadPostPics.any(), userController.createPost);
+router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
 // router.post('/upload', uploader.uploadPostPics.any(), function (req, res) {
 //     console.log(req.files);
