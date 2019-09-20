@@ -4,6 +4,7 @@ var router = express.Router();
 var uploader = require('../controllers/cloudinary');
 var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
+var postController = require("../controllers/postController");
 
 /* GET home page. */
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -28,17 +29,9 @@ router.post('/user-details',
     uploader.uploadProfilePic.single("profile-picture"),
     userController.saveNewUser);
 
-// TODO
+
 router.get('/user', userController.authChecker, function (req, res) {
     res.render("user");
-
-    //     req.session.user.firstname
-    //     req.session.user.lastname
-    //     req.session.user.gender
-    //     req.session.user.dob.toString()
-    //     req.session.user.nickname
-    //     req.session.user.pic_id
-    //     req.session.user.pic_url
 });
 
 
@@ -48,16 +41,11 @@ router.get('/upload', userController.authChecker, function (req, res) {
 });
 
 
+router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
-router.post('/upload', uploader.uploadPostPics.any(), userController.createPost);
 
-// router.post('/upload', uploader.uploadPostPics.any(), function (req, res) {
-//     console.log(req.files);
-//
-//     res.status(404);
-//     res.send("Test");
-// });
 
+router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
 
 // logout
 router.get('/logout', userController.logout);

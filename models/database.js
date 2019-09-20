@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useCreateIndex: true},
+mongoose.connect(process.env.MONGO_URL,
+    {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    },
     function (err) {
         if (!err) {
             console.log("Connected to mongoDB");

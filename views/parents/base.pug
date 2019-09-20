@@ -16,7 +16,7 @@ html(lang="en")
             // Your custom styles (optional)
             link(href="css/style.css" rel="stylesheet")
             if session && session.user
-                link(href="css/sidebar.css" rel="stylesheet")
+                link(href="css/user/sidebar.css" rel="stylesheet")
 
     body
         // Start your project here
@@ -123,5 +123,5 @@ html(lang="en")
             script(type="text/javascript" src="MDB/js/mdb.min.js")
             // custom
             if session && session.user
-                script(type="text/javascript" src="js/sidebar.js")
+                script(type="text/javascript" src="js/user/sidebar.js")
             script(type="text/javascript" src="js/utils.js")
