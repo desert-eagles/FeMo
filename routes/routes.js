@@ -29,7 +29,6 @@ router.post('/user-details',
     uploader.uploadProfilePic.single("profile-picture"),
     userController.saveNewUser);
 
-// TODO
 
 router.get('/user', userController.authChecker, function (req, res) {
     res.render("user");
@@ -46,7 +45,7 @@ router.post('/upload', uploader.uploadPostPics.any(), postController.createPost)
 
 
 
-router.post('/more-posts', userController.authChecker, postController.fetchPosts);
+router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
 
 // logout
 router.get('/logout', userController.logout);
