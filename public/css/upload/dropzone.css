@@ -490,7 +490,7 @@
     transition: opacity 0.3s ease;
     border-radius: 8px;
     font-size: 13px;
-    top: -40px;
+    bottom: 150px;
     left: -10px;
     width: 140px;
     background: #be2626;
@@ -502,7 +502,7 @@
 .dropzone .dz-preview .dz-error-message:after {
     content: '';
     position: absolute;
-    top: 32px;
+    bottom: -5px;
     left: 64px;
     width: 0;
     height: 0;

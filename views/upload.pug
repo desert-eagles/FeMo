@@ -12,9 +12,33 @@ block content
         .row
             .col-12
                 .form-container
-                    form#imageUploadForm
-                        #imageUpload.dropzone
-                        button#uploaderBtn.btn.btn-primary(type="button") Save
+                    form#post
+                        .form-group.shadow-textarea.mb-5
+                            label(for="description") Description
+                            textarea#description.form-control.z-depth-1(rows="3" placeholder="Write something here...")
+                        .form-group.mb-5
+                            label(for="media") Media
+                            #media.dropzone
+                        .row
+                            .md-form.mt-0.mb-5.col-6
+                                i.fa.fa-calendar-alt.prefix
+                                input#occurredAt.form-control(type="date")
+                                label(for="occurredAt") Date of occurrence
+                            .col-6
+                                button#save.float-right.btn.btn-sm.btn-primary.waves-effect.waves-light(type="button") Post
+
+
+    #errorModal.modal.fade.top(
+    tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true")
+        .modal-dialog.modal-full-height.modal-top(role="document")
+            // Content
+            .modal-content
+                // Header
+                .modal-header
+                    p#errorMsg.m-0.w-100.text-danger Please enter something in the description or upload a photo
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") ×
 
 block append script
     script(src="js/upload/dropzone.js")

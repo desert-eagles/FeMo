@@ -75,6 +75,6 @@ body {
     border-radius: 0;
 }
 
-label[for="dob"] {
+input[type="date"] ~ label {
     top: 1rem;
 }
