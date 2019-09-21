@@ -1,13 +1,9 @@
 $(() => {
-    let lastPage = false;
-
     let container = $("#postContainer");
 
     container.infiniteScroll({
         path: function () {
-            if (!lastPage) {
-                return `/more-posts/${this.loadCount + 1}`;
-            }
+            return `/more-posts/${this.loadCount}`;
         },
         append: false,
         responseType: 'text',
@@ -16,12 +12,7 @@ $(() => {
     });
 
     container.on('load.infiniteScroll', function (e, res) {
-        let posts = JSON.parse(res);
-        if (posts.length) {
-            $("#postContainer").append($(Mustache.render(postTpl, {post: posts})));
-        } else {
-            lastPage = true;
-        }
+        $("#postContainer").append($(Mustache.render(postTpl, {post: JSON.parse(res)})));
     });
 
     // first page
