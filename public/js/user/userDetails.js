@@ -8,7 +8,7 @@ var profile_pic;
 
 $(document).ready(() => {
     // Default profile picture
-    toDataUrl($("#profile-pic").attr("src"), function (base64) {
+    toDataUrl($("#profile-pic-upload").attr("src"), function (base64) {
         profile_pic = $.base64ImageToBlob(base64);
     });
 
@@ -157,7 +157,7 @@ $(function () {
     $("#upload").on("click", function () {
         croppie.result('base64').then(function (base64) {
             $("#myModal").modal("hide");
-            $("#profile-pic").attr("src", base64);
+            $("#profile-pic-upload").attr("src", base64);
 
             // Modify global variable
             profile_pic = $.base64ImageToBlob(base64);
