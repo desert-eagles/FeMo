@@ -1,3 +1,8 @@
+/**
+ * Defining Token collection in MongoDB
+ * Used for verifying registered emails
+ */
+
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 

@@ -1,8 +1,11 @@
-// connect to database
+/**
+ * Initialise connection to MongoDB and collections
+ */
+
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-
+// Connect to database with presaved configuration
 mongoose.connect(process.env.MONGO_URL,
     {
         useNewUrlParser: true,
@@ -19,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL,
     }
 );
 
+// Collections
 require("./account.js");
 require("./token.js");
 require("./user.js");

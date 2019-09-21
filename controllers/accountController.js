@@ -1,11 +1,20 @@
+/**
+ * Account logic and functions
+ * (registration, confirmation email and login)
+ */
+
+
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+
+// Collections from MongoDB
 let Account = mongoose.model('Account');
 let Token = mongoose.model('Token');
 let User = mongoose.model('User');
 
 require('dotenv').config();
+
 
 /**
  * Helper function to send email.
@@ -42,6 +51,7 @@ function sendMail(to, subject, text, cb) {
 /**
  * Handle ajax POST request to check if email has already been
  * used to sign up for an account.
+ * POST /check-email-availability
  */
 function emailAvailable(req, res, next) {
     // Check if email has already been taken
@@ -54,9 +64,10 @@ function emailAvailable(req, res, next) {
     });
 }
 
+
 /**
- * When user clicks to resend the confirmation email again
- * in the login page.
+ * When user clicks to resend the confirmation email again in login
+ * POST /resend-confirmation
  */
 function resendConfirmation(req, res, next) {
 
@@ -99,6 +110,7 @@ function resendConfirmation(req, res, next) {
     });
 }
 
+
 /**
  * When the user clicks the link in the confirmation email.
  * GET /confirm-email
@@ -114,9 +126,7 @@ function confirmEmail(req, res, next) {
 
         if (!token) {
             // Unable to find a valid token, may have expired
-            // TODO may need to redirect to login page with resend button
-            // req.session.errors = [{msg: 'We were unable to find a valid token. Your token may have expired.'}];
-            // req.session.save();
+            // TODO
             return res.send("We were unable to find a valid token, your token may have expired." +
                 "Please contact us to get a new token.");
         }
@@ -129,15 +139,13 @@ function confirmEmail(req, res, next) {
             }
 
             if (!acc) {
-                // TODO redirect to signup
-                // req.session.errors = [{msg: 'We were unable to find a user for this token. The account may be deleted'}];
-                // req.session.save();
+                // Deleted account
+                // TODO
                 return res.send("We were unable to find an account for this token, the account may be deleted.");
             }
             if (acc.isVerified) {
-                // TODO redirect to signup
-                // req.session.errors = [{msg: 'This email has already been verified.'}];
-                // req.session.save();
+                // Verified account
+                // TODO
                 return res.send("This email has already been verified. Please log in.");
             }
 
@@ -148,8 +156,8 @@ function confirmEmail(req, res, next) {
                     console.error("Database verify email error: " + err);
                     return next(err);
                 }
-                // req.session.msg = "The account has been verified. Please log in.";
-                // req.session.save();
+
+                // Account has successfully been verified
                 return res.send("The account has been verified. Please log in.");
             });
         });
@@ -157,6 +165,10 @@ function confirmEmail(req, res, next) {
 }
 
 
+/**
+ * When the user registers for a new account
+ * POST /signup
+ */
 function signupPost(req, res, next) {
     // Create and save new account
     let new_acc = new Account({
@@ -197,6 +209,11 @@ function signupPost(req, res, next) {
     });
 }
 
+
+/**
+ * When the user logins with email and password
+ * POST /signin
+ */
 function loginPost(req, res, next) {
     // Find email and verify password with database
     Account.findOne({email: req.body.loginEmail}, function (err, acc) {
@@ -232,7 +249,6 @@ function loginPost(req, res, next) {
                         } else if (!user) {
                             // Ask for user details
                             req.session.user = {_accountId: acc._id, first_login: true};
-                            console.log("Need to ask for account details");
                             return res.send({first_login: true});
                         } else {
                             req.session.user = user;
@@ -245,6 +261,7 @@ function loginPost(req, res, next) {
         })
     });
 }
+
 
 module.exports = {
     emailAvailable,

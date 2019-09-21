@@ -1,9 +1,17 @@
-const mongoose = require('mongoose');
-let Account = mongoose.model('Account');
-let User = mongoose.model('User');
-let Post = mongoose.model('Post');
+/**
+ * User logic and functions
+ * (save user details, check authentication and logout)
+ */
 
-// Middleware to check if user is logged in
+const mongoose = require('mongoose');
+
+// Collection from MongoDB
+let User = mongoose.model('User');
+
+
+/**
+ * Middleware to check if user has already logged in
+ */
 function sessionChecker(req, res, next) {
     if (req.session.logged_in) {
         // User has logged in
@@ -21,7 +29,9 @@ function sessionChecker(req, res, next) {
 }
 
 
-// Middlewere to check if user is authenticated
+/**
+ * Middleware to check if user is authenticated to access this page
+ */
 function authChecker(req, res, next) {
     if (!req.session.logged_in) {
         // User has not logged in, redirect back to homepage
@@ -32,6 +42,11 @@ function authChecker(req, res, next) {
     next();
 }
 
+
+/**
+ * Save details entered by user logging in for the first time
+ * POST /user-details
+ */
 function saveNewUser(req, res, next) {
     // Extract details of new user
     let new_user = new User({
@@ -60,6 +75,10 @@ function saveNewUser(req, res, next) {
 }
 
 
+/**
+ * Log user out of session
+ * GET /logout
+ */
 function logout(req, res, next) {
     // Log user out
     req.session.destroy(function (err) {
@@ -72,6 +91,7 @@ function logout(req, res, next) {
         return res.redirect('/');
     });
 }
+
 
 module.exports = {
     sessionChecker,

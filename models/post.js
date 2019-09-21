@@ -1,3 +1,8 @@
+/**
+ * Defining Post collection in MongoDB
+ * Stores posts and relevant information
+ */
+
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 

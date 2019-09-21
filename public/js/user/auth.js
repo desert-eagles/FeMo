@@ -1,5 +1,10 @@
+/**
+ * Frontend functions for authenticating user
+ */
+
 $(document).ready(() => {
 
+    // Login
     $("#signin button").click(() => {
         let emailObj = $("#loginEmail");
         let pwdObj = $("#loginPwd");
@@ -18,6 +23,7 @@ $(document).ready(() => {
                         // Password is invalid
                         return reportError(pwdObj, err);
                     } else {
+                        // Send request to log user in
                         $.ajax({
                             type: "POST",
                             url: "/signin",
@@ -37,6 +43,7 @@ $(document).ready(() => {
                                 $("<p id='login-note' class='note note-danger'><strong>" + login.errMsg + "</strong></p>")
                                     .insertBefore("form#signin").hide().fadeIn();
                             } else if (login.resend) {
+                                // Resend confirmation
                                 $("<p id='login-note' class='note note-warning'><strong>" + login.resend + ".</strong> " +
                                     "Click <a id='resend'>here</a> to resend again.</p>")
                                     .insertBefore("form#signin").hide().fadeIn()
@@ -58,6 +65,7 @@ $(document).ready(() => {
     });
 
 
+    // Register
     $("#signup button").click(() => {
         let emailObj = $("#registerEmail");
         let pwdObj = $("#registerPwd");
@@ -70,13 +78,16 @@ $(document).ready(() => {
 
         validateEmail(email, (err) => {
             if (err) {
+                // Email is invalid
                 return reportError(emailObj, err);
             } else {
                 validatePassword(pwd, (err) => {
                     if (err) {
+                        // Password is invalid
                         return reportError(pwdObj, err);
                     } else {
                         if (pwd === rptPwdObj.val()) {
+                            // Send request to register for new account
                             $.ajax({
                                 type: "POST",
                                 url: "/signup",
@@ -92,6 +103,7 @@ $(document).ready(() => {
                                 })
                             }).done((signup) => {
                                 if (signup.success) {
+                                    // Successfully created an account
                                     $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
                                         "A confirmation email has been sent to your email, click " +
                                         "<a id='resend'> here</a> to resend again.</p>")
@@ -102,6 +114,7 @@ $(document).ready(() => {
                                 }
                             });
                         } else {
+                            // Passwords do not match
                             return reportError(rptPwdObj, "Passwords do not match");
                         }
                     }
@@ -111,12 +124,14 @@ $(document).ready(() => {
     });
 });
 
+
+// Helper function to validate email
 function validateEmail(email, cb, mode = "signup") {
     let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!email || !email.match(mailformat)) {
         cb("Please enter a valid email");
     } else if (mode === "signup") {
-        // check if email is registered
+        // Check if email is registered
         $.ajax({
             type: "POST",
             url: "/check-email-availability",
@@ -134,6 +149,8 @@ function validateEmail(email, cb, mode = "signup") {
     }
 }
 
+
+// Helper function to validate password
 function validatePassword(pwd, cb) {
     let err = "";
     if (pwd.length < 8) {
@@ -142,10 +159,14 @@ function validatePassword(pwd, cb) {
     return cb(err);
 }
 
+
+// Helper function to remove note(s)
 function removeNote(id) {
     $("#" + id).remove();
 }
 
+
+// Function to send request for a confirmation email
 function resend(email, id) {
     removeNote("resend-note");
     $.ajax({

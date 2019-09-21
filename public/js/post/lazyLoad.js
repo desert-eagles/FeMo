@@ -1,3 +1,8 @@
+/**
+ * Frontend for infinite scrolling and lazy loading of posts
+ */
+
+
 $(() => {
     let container = $("#postContainer");
 

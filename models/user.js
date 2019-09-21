@@ -1,3 +1,8 @@
+/**
+ * Defining User collection in MongoDB
+ * Stores user details and posts
+ */
+
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 

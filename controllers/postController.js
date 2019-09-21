@@ -1,11 +1,20 @@
+/**
+ * Post logic and functions
+ * (create post and show posts to user)
+ */
+
 const mongoose = require('mongoose');
 const POSTS_PER_PAGE = 3;
 
+// Collections from MongoDB
 let User = mongoose.model('User');
 let Post = mongoose.model('Post');
 
 
-
+/**
+ * When user create a post with photo(s) and/or description
+ * POST /upload
+ */
 function createPost(req, res, next) {
     // Extract details of post
     let new_post = new Post({
@@ -50,6 +59,10 @@ function createPost(req, res, next) {
 }
 
 
+/**
+ * Show posts to user, used together with pagination in infinite scrolling
+ * GET /more-posts/:page
+ */
 function fetchPosts(req, res, next) {
     // TODO find all posts viewable by use
 
@@ -91,6 +104,7 @@ function fetchPosts(req, res, next) {
 
     // TODO populate array of post ids in user
 }
+
 
 module.exports = {
     createPost,

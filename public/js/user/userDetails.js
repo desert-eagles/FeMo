@@ -1,13 +1,18 @@
+/**
+ * Frontend functions to ask for more user details
+ */
+
+
 var profile_pic;
 
 
-
 $(document).ready(() => {
-    toDataUrl($("#profile-pic").attr("src"), function(base64) {
+    // Default profile picture
+    toDataUrl($("#profile-pic").attr("src"), function (base64) {
         profile_pic = $.base64ImageToBlob(base64);
     });
 
-    // select gender
+    // Select gender
     let selectInputs = $("input#gender");
     selectInputs.focus((e) => {
         $(e.target).siblings("ul.dropdown-content").slideDown();
@@ -20,6 +25,8 @@ $(document).ready(() => {
         clicked.parents("ul").siblings("input.select-dropdown").val(clicked.text());
     });
 
+
+    // User submits form
     $("#userDetails #submit").click(() => {
         let userDetails = new FormData();
         for (let i of $("#userDetails input:not([type='file'])")) {
@@ -29,9 +36,10 @@ $(document).ready(() => {
             userDetails.append(`${$(i).attr("id")}`, $(i).val());
         }
 
-
+        // Append profile picture
         userDetails.append("profile-picture", profile_pic);
 
+        // Send POST request to backend to store details
         $.ajax({
             type: "POST",
             url: "/user-details",
@@ -48,6 +56,8 @@ $(document).ready(() => {
     });
 });
 
+
+// Helper function to check if field is empty
 function isEmpty(o) {
     if (!o.val()) {
         reportError(o, "Required field");
@@ -56,7 +66,26 @@ function isEmpty(o) {
     return false;
 }
 
-// Ref: https://shareurcodes.com/blog/create-a-jquery-image-upload-widget-with-preview-and-image-cropping-in-laravel
+
+// Helper function to convert png to blob
+function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            callback(reader.result);
+        };
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+
+/*****************************************************************************/
+/**
+ * Ref: https://shareurcodes.com/blog/create-a-jquery-image-upload-widget-with-preview-and-image-cropping-in-laravel
+ */
 $(function () {
     let croppie = null;
 
@@ -130,22 +159,10 @@ $(function () {
             $("#myModal").modal("hide");
             $("#profile-pic").attr("src", base64);
 
+            // Modify global variable
             profile_pic = $.base64ImageToBlob(base64);
-            //userDetails.append("profile-picture", $.base64ImageToBlob(base64));
         });
     });
 });
 
-function toDataUrl(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-        var reader = new FileReader();
-        reader.onloadend = function() {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-}
+/*****************************************************************************/
