@@ -53,12 +53,12 @@ function createPost(req, res, next) {
 function fetchPosts(req, res, next) {
     // TODO find all posts viewable by use
 
-    let page = Math.max(1, req.params.page);
+    let page = Math.max(0, req.params.page);
 
     // Now just find what the user has posted
     Post.find({_userId: req.session.user._id})
         .sort({createdAt: 'desc'})
-        .skip(POSTS_PER_PAGE * (page - 1))
+        .skip(POSTS_PER_PAGE * page)
         .limit(POSTS_PER_PAGE)
         .populate("_userId", "pic_url nickname")
         .exec(function (err, posts) {
@@ -66,6 +66,12 @@ function fetchPosts(req, res, next) {
                 console.error("Database fetch posts error: " + err);
                 return next(err);
             }
+
+            if (!posts.length) {
+                // Not more posts
+                return res.sendStatus(404);
+            }
+
             let fetched = [];
             // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {

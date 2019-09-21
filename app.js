@@ -17,7 +17,7 @@ var app = express();
 // set up persistent login session middleware
 app.use(session({
     secret: '4ybTX4zGXSSftxaJ',
-    cookie: {maxAge: 60 * 60 * 24},
+    cookie: {maxAge: 1000 * 60 * 60 * 24},
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({mongooseConnection: mongoose.connection})
