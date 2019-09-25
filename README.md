@@ -1,4 +1,4 @@
-# FeMo
+# ![FeMo](project-logo.png)
 
 
 
