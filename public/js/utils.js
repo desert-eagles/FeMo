@@ -8,6 +8,16 @@ function reportError(o, err) {
     e.reportValidity();
 }
 
+// Helper function to check if the date is in the valid range
+function isInvalidDate(o, min, max = new Date()) {
+    let inputDate = new Date(o.val());
+    if (!isNaN(inputDate) && (!min || inputDate >= min) && inputDate <= max) {
+        return false;
+    }
+    reportError(o, "Invalid date");
+    return true;
+}
+
 $(document).ready(() => {
     // smooth scroll
     $("#navbarContent ul a").click(function () {

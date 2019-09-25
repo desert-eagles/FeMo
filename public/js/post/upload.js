@@ -20,8 +20,12 @@ $(function () {
 
         init: function () {
             // Update selector to match your button
-            $("#post #save").click(function (e) {
-                e.preventDefault();
+            $("#post #save").click(function () {
+                let occurredAt = $("#occurredAt");
+                if (occurredAt.val() && isInvalidDate(occurredAt)) {
+                    return;
+                }
+
                 $(".dropzone .dz-preview .dz-progress").show();
 
                 if (myDropzone.getQueuedFiles().length > 0) {
@@ -34,7 +38,7 @@ $(function () {
                         method: "POST",
                         data: {
                             "description": $("#description").val(),
-                            "occurredAt": $("#occurredAt").val()
+                            "occurredAt": occurredAt.val()
                         }
                     }).done(res => {
                         if (!res.errMsg) {

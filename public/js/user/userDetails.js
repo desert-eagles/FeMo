@@ -30,7 +30,8 @@ $(document).ready(() => {
     $("#userDetails #submit").click(() => {
         let userDetails = new FormData();
         for (let i of $("#userDetails input:not([type='file'])")) {
-            if (isEmpty($(i))) {
+            if (isEmpty($(i)) || ($(i).attr("type") === "date" &&
+                isInvalidDate($(i), new Date(1900, 1, 1)))) {
                 return;
             }
             userDetails.append(`${$(i).attr("id")}`, $(i).val());
@@ -146,7 +147,7 @@ $(function () {
         croppie.rotate(parseInt($(this).data('deg')));
     });
 
-    $('#myModal').on('hidden.bs.modal', function (e) {
+    $('#myModal').on('hidden.bs.modal', function () {
         // This function will call immediately after model close
         // To ensure that old croppie instance is destroyed on every model close
         setTimeout(function () {
