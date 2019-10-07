@@ -81,7 +81,7 @@ function fetchPosts(req, res, next) {
             }
 
             if (!posts.length) {
-                // Not more posts
+                // No more posts
                 return res.sendStatus(404);
             }
 
@@ -89,9 +89,11 @@ function fetchPosts(req, res, next) {
             // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {
                 fetched.push({
+                    post_id: post._id,
                     post_description: post.description,
                     post_pic_urls: post.pic_urls[0],
-                    post_like: post.like.length,
+                    post_n_likes: post.like.length,
+                    post_liked: req.session.user._id in post.like,
                     post_createdAt: post.createdAt,
                     post_occurredAt: post.occurredAt,
                     user_pic_url: post._userId.pic_url,
