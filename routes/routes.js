@@ -64,6 +64,12 @@ router.post('/upload', uploader.uploadPostPics.any(), postController.createPost)
 // Fetch posts for user
 router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
 
+// Save user's comment on post
+router.post('/comment-post', postController.commentPost);
+
+// Delete user's comment on post
+router.post('/delete-post', postController.deleteComment);
+
 // Logout
 router.get('/logout', userController.logout);
 

@@ -12,6 +12,7 @@ let postSchema = Schema({
     pic_urls: {type: [String]},
     pic_ids: {type: [String]},
     like: {type: [mongoose.SchemaTypes.ObjectId], ref: 'User', default: []},
+    comments: {type: [mongoose.SchemaTypes.ObjectId], ref: 'Comment', default: []},
     createdAt: {type: Date, required: true, default: Date.now},
     occurredAt: Date
 });
