@@ -12,7 +12,7 @@ let Post = mongoose.model('Post');
 
 
 /**
- * When user create a post with photo(s) and/or description
+ * When user creates a post with photo(s) and/or description
  * POST /upload
  */
 function createPost(req, res, next) {
@@ -58,6 +58,39 @@ function createPost(req, res, next) {
     });
 }
 
+
+/**
+ * When user clicks on the "Like" button to like/unlike the post
+ * POST /toggle-like
+ */
+function toggleLike(req, res, next) {
+    // Add user to list of users who liked the post
+    Post.findById(req.body.post_id, function (err, post) {
+        if (err) {
+            console.error("Database find post id error: " + err);
+            return next(err);
+        }
+
+        let user_id = req.session.user._id;
+        let liked = req.body.liked;
+
+        if (!liked) {
+            // User wants to unlike the post
+            post.like = post.like.filter((e => e !== user_id));
+        } else {
+            // User wants to like the post
+            post.like = post.like.push(user_id);
+        }
+
+        // Save updated post
+        post.save(function (err) {
+            if (err) {
+                console.error("Database update post like error: " + err);
+                return next(err);
+            }
+        });
+    });
+}
 
 /**
  * Show posts to user, used together with pagination in infinite scrolling
@@ -110,5 +143,6 @@ function fetchPosts(req, res, next) {
 
 module.exports = {
     createPost,
-    fetchPosts
+    fetchPosts,
+    toggleLike
 };
