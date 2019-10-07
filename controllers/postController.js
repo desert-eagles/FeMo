@@ -79,7 +79,7 @@ function toggleLike(req, res, next) {
             post.like = post.like.filter((e => e !== user_id));
         } else {
             // User wants to like the post
-            post.like = post.like.push(user_id);
+            post.like.push(user_id);
         }
 
         // Save updated post
