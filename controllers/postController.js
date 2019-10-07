@@ -14,7 +14,7 @@ let Post = mongoose.model('Post');
 let Comment = mongoose.model('Comment');
 
 /**
- * When user create a post with photo(s) and/or description
+ * When user creates a post with photo(s) and/or description
  * POST /upload
  */
 function createPost(req, res, next) {
@@ -80,6 +80,44 @@ function prepareComments(user_id, comments) {
 
 
 /**
+ * When user clicks on the "Like" button to like/unlike the post
+ * POST /toggle-like
+ */
+function toggleLike(req, res, next) {
+    // Add user to list of users who liked the post
+    Post.findById(req.body.post_id, function (err, post) {
+        if (err) {
+            console.error("Database find post id error: " + err);
+            return next(err);
+        }
+
+        if (!post) {
+            return res.send({errMsg: "Cannot find post"});
+        }
+
+        let user_id = req.session.user._id;
+        let liked = req.body.liked;
+
+        if (liked === "false") {
+            // User wants to unlike the post
+            post.like = post.like.filter((e => e.toString() !== user_id));
+        } else {
+            // User wants to like the post
+            post.like.push(user_id);
+        }
+
+        // Save updated post
+        post.save(function (err) {
+            if (err) {
+                console.error("Database update post like error: " + err);
+                return next(err);
+            }
+            return res.send({errMsg: ""});
+        });
+    });
+}
+
+/**
  * Show posts to user, used together with pagination in infinite scrolling
  * GET /more-posts/:page
  */
@@ -102,20 +140,22 @@ function fetchPosts(req, res, next) {
             }
 
             if (!posts.length) {
-                // Not more posts
+                // No more posts
                 return res.sendStatus(404);
             }
 
             let fetched = [];
             // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {
-                let post_comments = prepareComments(post.comments);
+                let post_comments = prepareComments(req.session.user._id, post.comments);
 
                 fetched.push({
+                    post_id: post._id,
                     post_description: post.description,
                     post_pic_urls: post.pic_urls[0],
-                    post_like: post.like.length,
                     post_timeago: moment(post.createdAt).fromNow(),
+                    post_n_likes: post.like.length,
+                    self_liked: post.like.includes(req.session.user._id),
                     post_occurredAt: post.occurredAt,
                     user_pic_url: post._userId.pic_url,
                     user_nickname: post._userId.nickname,
@@ -192,6 +232,7 @@ function deleteComment(req, res, next) {
 module.exports = {
     createPost,
     fetchPosts,
+    toggleLike,
     commentPost,
     deleteComment
 };

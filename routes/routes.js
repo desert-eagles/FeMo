@@ -64,6 +64,9 @@ router.post('/upload', uploader.uploadPostPics.any(), postController.createPost)
 // Fetch posts for user
 router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
 
+// User likes or unlikes a post
+router.post('/toggle-like', postController.toggleLike);
+
 // Save user's comment on post
 router.post('/comment-post', postController.commentPost);
 
