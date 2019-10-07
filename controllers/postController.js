@@ -122,7 +122,7 @@ function fetchPosts(req, res, next) {
                     post_comments: post_comments
                 });
             }
-            
+
             return res.send(fetched);
         });
 
@@ -139,6 +139,10 @@ function commentPost(req, res, next) {
         if (err) {
             console.error("Database find post id error: " + err);
             return next(err);
+        }
+
+        if (!post) {
+            return res.send({errMsg: "Cannot find post"});
         }
 
         let new_comment = new Comment({
