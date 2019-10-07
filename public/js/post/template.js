@@ -37,14 +37,14 @@ const postTpl =
     `{{#self_liked}}${likedTpl}{{/self_liked}}` +
     `{{^self_liked}}${likeTpl}{{/self_liked}}` +
     "{{post_n_likes}}</span>" +
-    "<p><i class='fa fa-comment mr-2'></i>13</p>" +
+    "<p><i class='far fa-comment'></i>0</p>" +
     "</div>" +
 
     "<hr>" +
 
     // Comment input
     "<div class='md-form'>" +
-    "<i class='far fa-heart prefix active'></i>" +
+    `<img class='prefix rounded-circle z-depth-1-half' style='top:0; width:25px' src='${$("#profile-pic img").attr("src")}' alt='profile picture'>` +
     "<input class='form-control' id='form5' placeholder='Add Comment...' type='text'>" +
     "</div>" +
     "</div>" +
