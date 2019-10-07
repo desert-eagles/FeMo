@@ -1,3 +1,5 @@
+- var spinner = "<div role='status' aria-hidden='true' style='display: none;width: 1rem;height: 1rem;' class='spinner-border ml-1'></div>"
+
 // Modal: Login / Register Form
 #modalLRForm.modal.fade(tabindex="-1" role="dialog" aria-labelledby="Login / Register" aria-hidden="true")
     .modal-dialog(role="document")
@@ -34,8 +36,7 @@
                                             | Your password
                                     .text-center
                                         button.btn.peach-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0.waves-effect.waves-light(type='button')
-                                            | Log in
-                                        .spinner-border.ml-auto(role='status' aria-hidden='true' style='display: none;')
+                                            | Log in !{spinner}
 
                             // Footer
                             .modal-footer
@@ -70,8 +71,7 @@
                                             | Repeat password
                                     .text-center.my-5
                                         button.btn.aqua-gradient.w-100.btn-rounded.mt-4.mb-5.mx-0.waves-effect.waves-light(type='button')
-                                            | Sign up
-                                        .spinner-border.ml-auto(role='status' aria-hidden='true' style='display: none;')
+                                            | Sign up !{spinner}
 
                                 .text-center.mt-5
                                     | Or Sign up Using
@@ -87,6 +87,3 @@
                                 .options.text-right
                                 button.btn.btn-sm.btn-outline-info.waves-effect.ml-auto(type="button" data-dismiss="modal")
                                     | Close
-                    // /.register panel
-        // /.Content
-// Modal: Login / Register Form

@@ -45,7 +45,7 @@ $(document).ready(() => {
                             } else if (login.resend) {
                                 // Resend confirmation
                                 $("<p id='login-note' class='note note-warning'><strong>" + login.resend + ".</strong> " +
-                                    "Click <a id='resend'>here</a> to resend again.</p>")
+                                    "Click <a id='resend' class='text-primary'>here</a> to resend again.</p>")
                                     .insertBefore("form#signin").hide().fadeIn()
                                     .find("#resend").on("click", () => {
                                     resend(email, "#signin");
@@ -106,7 +106,7 @@ $(document).ready(() => {
                                     // Successfully created an account
                                     $("<p id='signup-note' class='note note-success'><strong>Register Success!</strong> " +
                                         "A confirmation email has been sent to your email, click " +
-                                        "<a id='resend'> here</a> to resend again.</p>")
+                                        "<a id='resend' class='text-primary'> here</a> to resend again.</p>")
                                         .insertBefore("form#signup").hide().fadeIn()
                                         .find("#resend").on("click", () => {
                                         resend(email, "#signup");
@@ -127,7 +127,7 @@ $(document).ready(() => {
 
 // Helper function to validate email
 function validateEmail(email, cb, mode = "signup") {
-    let err, mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    let mailformat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!email || !email.match(mailformat)) {
         cb("Please enter a valid email");
     } else if (mode === "signup") {
