@@ -71,12 +71,16 @@ function toggleLike(req, res, next) {
             return next(err);
         }
 
+        if (!post) {
+            return res.send({errMsg: "Cannot find post"});
+        }
+
         let user_id = req.session.user._id;
         let liked = req.body.liked;
 
-        if (!liked) {
+        if (liked === "false") {
             // User wants to unlike the post
-            post.like = post.like.filter((e => e !== user_id));
+            post.like = post.like.filter((e => e.toString() !== user_id));
         } else {
             // User wants to like the post
             post.like.push(user_id);
@@ -88,6 +92,7 @@ function toggleLike(req, res, next) {
                 console.error("Database update post like error: " + err);
                 return next(err);
             }
+            return res.send({errMsg: ""});
         });
     });
 }
@@ -126,7 +131,7 @@ function fetchPosts(req, res, next) {
                     post_description: post.description,
                     post_pic_urls: post.pic_urls[0],
                     post_n_likes: post.like.length,
-                    post_liked: req.session.user._id in post.like,
+                    self_liked: post.like.includes(req.session.user._id),
                     post_createdAt: post.createdAt,
                     post_occurredAt: post.occurredAt,
                     user_pic_url: post._userId.pic_url,
