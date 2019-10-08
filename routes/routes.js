@@ -71,7 +71,7 @@ router.post('/toggle-like', postController.toggleLike);
 router.post('/comment-post', postController.commentPost);
 
 // Delete user's comment on post
-router.post('/delete-post', postController.deleteComment);
+router.post('/delete-comment', postController.deleteComment);
 
 // Logout
 router.get('/logout', userController.logout);

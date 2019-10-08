@@ -186,7 +186,7 @@ function commentPost(req, res, next) {
         }
 
         let new_comment = new Comment({
-            user_id: req.sessions.user._id,
+            user_id: req.session.user._id,
             post_id: post._id,
             comment: req.body.comment
         });
