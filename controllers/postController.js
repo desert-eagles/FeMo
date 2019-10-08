@@ -68,11 +68,11 @@ function prepareComments(user_id, comments) {
 
     for (let comment of comments) {
         res.push({
-            comment_pic_url: comment._userId.pic_url,
-            comment_nickname: comment._userId.nickname,
+            comment_pic_url: comment.user_id.pic_url,
+            comment_nickname: comment.user_id.nickname,
             comment_description: comment.description,
             comment_timeago: moment(comment.commentedAt).format('lll'),
-            self_commented: comment._userId === user_id
+            self_commented: comment.user_id._id.toString() === user_id
         });
     }
     return res;
@@ -131,8 +131,11 @@ function fetchPosts(req, res, next) {
         .sort({createdAt: 'desc'})
         .skip(POSTS_PER_PAGE * page)
         .limit(POSTS_PER_PAGE)
-        .populate("comments", "_userId description commentedAt")
-        .populate("_userId", "pic_url nickname")
+        .populate([
+            {path: "comments", select: "user_id description commentedAt",
+            populate: {path: "user_id", select: "pic_url nickname"}},
+            {path: "_userId", select: "pic_url nickname"}
+        ])
         .exec(function (err, posts) {
             if (err) {
                 console.error("Database fetch posts error: " + err);
@@ -188,7 +191,7 @@ function commentPost(req, res, next) {
         let new_comment = new Comment({
             user_id: req.session.user._id,
             post_id: post._id,
-            comment: req.body.comment
+            description: req.body.comment
         });
 
         // Save user's comment
@@ -198,13 +201,14 @@ function commentPost(req, res, next) {
                 return next(err);
             } else {
                 // Comment successfully saved, update post
+
                 post.comments.push(new_comment._id);
+
                 post.save(function (err) {
                     if (err) {
                         console.error("Database update post comment error: " + err);
                         return next(err);
                     }
-
                     // All done
                     return res.send({errMsg: ""});
                 });
