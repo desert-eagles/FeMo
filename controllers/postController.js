@@ -72,7 +72,7 @@ function prepareComments(user_id, comments) {
             comment_nickname: comment.user_id.nickname,
             comment_description: comment.description,
             comment_timeago: moment(comment.commentedAt).format('lll'),
-            self_commented: comment.user_id._id.toString() === user_id
+            comment_id: comment.user_id._id.toString() === user_id ? comment._id : false
         });
     }
     return res;
@@ -162,7 +162,8 @@ function fetchPosts(req, res, next) {
                     post_occurredAt: post.occurredAt,
                     user_pic_url: post._userId.pic_url,
                     user_nickname: post._userId.nickname,
-                    post_comments: post_comments
+                    post_comments: post_comments,
+                    post_n_comments: post_comments.length,
                 });
             }
 

@@ -1,5 +1,20 @@
-const likeTpl = "<a class='far fa-heart' onclick='toggleLike(this)'></a>";
-const likedTpl = "<a class='fas fa-heart' style='color: #fb3958' onclick='toggleLike(this)'></a>";
+const likeFa = "<a class='far fa-heart' onclick='toggleLike(this)'></a>";
+const likedFa = "<a class='fas fa-heart' style='color: #fb3958' onclick='toggleLike(this)'></a>";
+
+const commentFa = "<i class='fas fa-comment'></i>";
+const nocommentFa = "<i class='far fa-comment'></i>";
+
+const commentTpl =
+    "<div class='media my-2 mx-1'>" +
+    "<img src='{{comment_pic_url}}' alt='Avatar' class='d-flex rounded-circle comment-avatar z-depth-1-half mr-3'>" +
+    "<small class='media-body'>" +
+    "<div class='mt-0 font-weight-bold blue-text'>{{comment_nickname}}</div>" +
+    "{{comment_description}}" +
+    "<div class='mt-1 small text-muted'>{{comment_timeago}}" +
+    "{{#comment_id}}<a class='text-primary ml-2' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Delete</a>{{/comment_id}}" +
+    "</div>" +
+    "</small>" +
+    "</div>";
 
 const postTpl =
     "{{#post}}" +
@@ -34,20 +49,28 @@ const postTpl =
     // Social meta
     "<div class='social-meta'><p>{{post_description}}</p>" +
     "<span>" +
-    `{{#self_liked}}${likedTpl}{{/self_liked}}` +
-    `{{^self_liked}}${likeTpl}{{/self_liked}}` +
+    `{{#self_liked}}${likedFa}{{/self_liked}}` +
+    `{{^self_liked}}${likeFa}{{/self_liked}}` +
     "{{post_n_likes}}</span>" +
-    "<p><i class='far fa-comment'></i>0</p>" +
+    "<p>" +
+    `{{#post_n_comments}}${commentFa}{{/post_n_comments}}` +
+    `{{^post_n_comments}}${nocommentFa}{{/post_n_comments}}` +
+    "{{post_n_comments}}</p>" +
     "</div>" +
 
     "<hr>" +
 
     // Comment input
     "<div class='md-form'>" +
-    `<img class='prefix rounded-circle z-depth-1-half' style='top:0; width:25px' src='${$("#profile-pic img").attr("src")}' alt='profile picture'>` +
-    "<input class='form-control' placeholder='Add Comment...' type='text' onfocus='$(this).next().slideDown()' onblur='$(this).next().slideUp()' onkeyup='comment(event)' data-ready='true'>" +
+    `<img class='prefix rounded-circle z-depth-1-half comment-avatar' style='top:-0.25rem' src='${$("#profile-pic img").attr("src")}' alt='profile picture'>` +
+    "<input class='form-control' placeholder='Add Comment...' type='text' onfocus='$(this).next().slideDown()' onblur='$(this).next().slideUp()' onkeyup='comment(event)'>" +
     "<small class='form-text text-muted' style='display: none'>Press enter to submit</small>" +
     "</div>" +
+
+    "<hr>" +
+
+    "{{#post_comments}}" + commentTpl + "{{/post_comments}}" +
+
     "</div>" +
     "</div>" +
     "</div>" +
@@ -56,19 +79,17 @@ const postTpl =
     "{{/post}}";
 
 function toggleLike(e) {
-    let parent = $(e).parent();
+    let p = $(e).parent();
     $(e).remove();
 
     if ($(e).hasClass("fas")) {
-        parent.html(function (i, val) {
+        $(likeFa).prependTo(p.html(function (i, val) {
             return parseInt(val) - 1;
-        });
-        $(likeTpl).prependTo(parent);
+        }));
     } else {
-        parent.html(function (i, val) {
+        $(likedFa).prependTo(p.html(function (i, val) {
             return parseInt(val) + 1;
-        });
-        $(likedTpl).prependTo(parent).addClass("bounceIn animated");
+        })).addClass("bounceIn animated");
     }
 
     $.ajax({
@@ -83,8 +104,21 @@ function toggleLike(e) {
 
 function comment(e) {
     let o = $(e.target);
-    if (e.key === "Enter" && o.val() && o.attr("data-ready") === "true") {
-        o.attr("data-ready", "false");
+    if (e.key === "Enter" && o.val()) {
+        $(Mustache.render(commentTpl, {
+            comment_nickname: $("#profile-nickname").html(),
+            comment_pic_url: $("#profile-pic img").attr("src"),
+            comment_description: o.val(),
+            comment_timeago: new Date().toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric"
+            }),
+            comment_id: false
+        })).insertBefore(o.parents("section").find(".media").first());
+
         $.ajax({
             type: "Post",
             url: "/comment-post",
@@ -92,16 +126,26 @@ function comment(e) {
                 post_id: o.parents("section").attr("data-post-id"),
                 comment: o.val()
             }
-        }).done((res) => {
-            if (!res.errMsg) {
-                o.val("").attr("data-ready", "true").blur();
-
-                let i = o.parents(".md-form").siblings(".social-meta").find(".fa-comment");
-                let p = i.parent();
-                i.remove().removeClass("far").addClass("fas").prependTo(p.html(function (_, val) {
-                    return parseInt(val) + 1;
-                })).addClass("bounceIn animated");
-            }
         });
+
+        o.val("").blur();
+        let i = o.parents(".card-body").find(".fa-comment");
+        let p = i.parent();
+        i.remove();
+        $(commentFa).prependTo(p.html(function (i, val) {
+            return parseInt(val) + 1;
+        }));
     }
+}
+
+function deleteComment(o) {
+    o.parents(".media").remove();
+
+    $.ajax({
+        type: "Post",
+        url: "delete-comment",
+        data: {
+            comment_id: o.attr("data-comment-id")
+        }
+    });
 }

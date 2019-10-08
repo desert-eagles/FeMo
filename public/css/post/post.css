@@ -43,7 +43,7 @@
 }
 
 .news-card .md-form .prefix {
-    margin-left: .2rem;
+    margin-left: .25rem;
     font-size: 1.5rem;
     color: rgba(0, 0, 0, .4)
 }
@@ -68,4 +68,8 @@
 
 .news-card .md-form .form-text {
     margin-left: 3rem;
+}
+
+.comment-avatar {
+    width: 2rem;
 }
