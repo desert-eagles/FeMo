@@ -73,3 +73,42 @@
 .comment-avatar {
     width: 2rem;
 }
+
+/* post photo thumbnails */
+
+.post-images {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: -5px;
+    width: 100%;
+}
+
+.post-image {
+    background-position: center center;
+    background-size: cover;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin: 5px;
+    width: calc(33.3% - 10px);
+}
+
+.post-image-placeholder {
+    height: 0;
+    padding-bottom: 100%;
+    width: 100%;
+}
+
+/** Responsive grid */
+
+@media (max-width: 480px) {
+    .post-image {
+        width: calc(50% - 10px);
+    }
+}
+

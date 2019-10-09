@@ -32,16 +32,22 @@ const postTpl =
     "</div>" +
     "</div>" +
 
-    // mdbCard image
-    "{{#post_pic_urls}}" +
-    "<img class='card-img-top' src='{{post_pic_urls}}' alt='post pictures'>" +
-    "{{/post_pic_urls}}" +
-
     // mdbCard content
     "<div class='card-body'>" +
+    "<p>{{post_description}}</p>" +
+    // mdbCard image
+    "<div class='post-images'>" +
+    "{{#post_pic_urls}}" +
+    "<a class='post-image' style='background-image:url({{pic_url}});' target='_blank'>" +
+    "<div class='post-image-placeholder'></div>" +
+    "</a>" +
+    "{{/post_pic_urls}}" +
+    "</div>" +
+    "</div>" +
 
     // Social meta
-    "<div class='social-meta'><p>{{post_description}}</p>" +
+    "<div class='card-body'>" +
+    "<div class='social-meta'>" +
     "<span>" +
     "<a class='far fa-heart' style='{{#self_liked}}display: none;{{/self_liked}}' onclick='toggleLike(this)'></a>" +
     "<a class='fas fa-heart' style='{{^self_liked}}display: none;{{/self_liked}}color: #fb3958' onclick='toggleLike(this)'></a>" +
@@ -126,7 +132,7 @@ function comment(e) {
             }
         });
 
-        // reset comment input
+// reset comment input
         o.val("").blur();
     }
 }

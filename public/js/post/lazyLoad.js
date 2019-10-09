@@ -17,7 +17,6 @@ $(() => {
     });
 
     container.on('load.infiniteScroll', function (e, res) {
-        console.log(JSON.parse(res));
         $("#postContainer").append($(Mustache.render(postTpl, {post: JSON.parse(res)})));
     });
 
