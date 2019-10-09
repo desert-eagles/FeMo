@@ -82,8 +82,8 @@ function toggleLike(e) {
         type: "Post",
         url: "/toggle-like",
         data: {
-            post_id: parent.parents("section").attr("data-post-id"),
-            liked: parent.find("a").hasClass("fas")
+            post_id: $(e).parents("section").attr("data-post-id"),
+            liked: !$(e).hasClass("fas")
         }
     })
 }
