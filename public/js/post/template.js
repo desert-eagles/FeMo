@@ -1,9 +1,3 @@
-const likeFa = "<a class='far fa-heart' onclick='toggleLike(this)'></a>";
-const likedFa = "<a class='fas fa-heart' style='color: #fb3958' onclick='toggleLike(this)'></a>";
-
-const commentFa = "<i class='fas fa-comment'></i>";
-const nocommentFa = "<i class='far fa-comment'></i>";
-
 const commentTpl =
     "<div class='media my-2 mx-1'>" +
     "<img src='{{comment_pic_url}}' alt='Avatar' class='d-flex rounded-circle comment-avatar z-depth-1-half mr-3'>" +
@@ -49,13 +43,13 @@ const postTpl =
     // Social meta
     "<div class='social-meta'><p>{{post_description}}</p>" +
     "<span>" +
-    `{{#self_liked}}${likedFa}{{/self_liked}}` +
-    `{{^self_liked}}${likeFa}{{/self_liked}}` +
-    "{{post_n_likes}}</span>" +
-    "<p>" +
-    `{{#post_n_comments}}${commentFa}{{/post_n_comments}}` +
-    `{{^post_n_comments}}${nocommentFa}{{/post_n_comments}}` +
-    "{{post_n_comments}}</p>" +
+    "<a class='far fa-heart' style='{{#self_liked}}display: none;{{/self_liked}}' onclick='toggleLike(this)'></a>" +
+    "<a class='fas fa-heart' style='{{^self_liked}}display: none;{{/self_liked}}color: #fb3958' onclick='toggleLike(this)'></a>" +
+    "<span>{{post_n_likes}}</span></span>" +
+    "<div>" +
+    "<i class='far fa-comment' style='{{#post_n_comments}}display: none;{{/post_n_comments}}'></i>" +
+    "<i class='fas fa-comment' style='{{^post_n_comments}}display: none;{{/post_n_comments}}'></i>" +
+    "<div class='d-inline'>{{post_n_comments}}</div></div>" +
     "</div>" +
 
     "<hr>" +
@@ -67,8 +61,7 @@ const postTpl =
     "<small class='form-text text-muted' style='display: none'>Press enter to submit</small>" +
     "</div>" +
 
-    "<hr>" +
-
+    "{{#post_n_comments}}<hr>{{/post_n_comments}}" +
     "{{#post_comments}}" + commentTpl + "{{/post_comments}}" +
 
     "</div>" +
@@ -79,18 +72,11 @@ const postTpl =
     "{{/post}}";
 
 function toggleLike(e) {
-    let p = $(e).parent();
-    $(e).remove();
 
-    if ($(e).hasClass("fas")) {
-        $(likeFa).prependTo(p.html(function (i, val) {
-            return parseInt(val) - 1;
-        }));
-    } else {
-        $(likedFa).prependTo(p.html(function (i, val) {
-            return parseInt(val) + 1;
-        })).addClass("bounceIn animated");
-    }
+    $(e).siblings("a").addBack().toggle().filter(":visible").addClass("bounceIn animated")
+        .siblings("span").text((i, v) => {
+        return parseInt(v) + ($(e).hasClass("fas") ? -1 : 1);
+    });
 
     $.ajax({
         type: "Post",
@@ -105,6 +91,18 @@ function toggleLike(e) {
 function comment(e) {
     let o = $(e.target);
     if (e.key === "Enter" && o.val()) {
+        let container = o.closest(".card-body");
+        let fas = container.find(".fa-comment");
+        fas.siblings("div")
+            .text((i, v) => {
+                v = parseInt(v);
+                if (!v) {
+                    fas.toggle();
+                    container.append("<hr>");
+                }
+                return v + 1
+            });
+
         $(Mustache.render(commentTpl, {
             comment_nickname: $("#profile-nickname").html(),
             comment_pic_url: $("#profile-pic img").attr("src"),
@@ -117,7 +115,7 @@ function comment(e) {
                 minute: "numeric"
             }),
             comment_id: false
-        })).insertBefore(o.parents("section").find(".media").first());
+        })).appendTo(container);
 
         $.ajax({
             type: "Post",
@@ -128,18 +126,24 @@ function comment(e) {
             }
         });
 
+        // reset comment input
         o.val("").blur();
-        let i = o.parents(".card-body").find(".fa-comment");
-        let p = i.parent();
-        i.remove();
-        $(commentFa).prependTo(p.html(function (i, val) {
-            return parseInt(val) + 1;
-        }));
     }
 }
 
 function deleteComment(o) {
-    o.parents(".media").remove();
+    let container = o.closest(".card-body");
+    let fas = container.find(".fa-comment");
+    fas.siblings("div")
+        .text((i, v) => {
+            v = parseInt(v) - 1;
+            if (!v) {
+                fas.toggle();
+                container.find("hr").last().remove();
+            }
+            return v;
+        });
+    o.closest(".media").remove();
 
     $.ajax({
         type: "Post",
