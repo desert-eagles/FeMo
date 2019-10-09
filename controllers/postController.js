@@ -68,11 +68,11 @@ function prepareComments(user_id, comments) {
 
     for (let comment of comments) {
         res.push({
-            comment_pic_url: comment.user_id.pic_url,
-            comment_nickname: comment.user_id.nickname,
+            comment_pic_url: comment._userId.pic_url,
+            comment_nickname: comment._userId.nickname,
             comment_description: comment.description,
             comment_timeago: moment(comment.commentedAt).format('lll'),
-            comment_id: comment.user_id._id.toString() === user_id ? comment._id : false
+            comment_id: comment._userId._id.toString() === user_id ? comment._id : false
         });
     }
     return res;
@@ -132,8 +132,8 @@ function fetchPosts(req, res, next) {
         .skip(POSTS_PER_PAGE * page)
         .limit(POSTS_PER_PAGE)
         .populate([
-            {path: "comments", select: "user_id description commentedAt",
-            populate: {path: "user_id", select: "pic_url nickname"}},
+            {path: "comments", select: "_userId description commentedAt",
+            populate: {path: "_userId", select: "pic_url nickname"}},
             {path: "_userId", select: "pic_url nickname"}
         ])
         .exec(function (err, posts) {
@@ -151,11 +151,16 @@ function fetchPosts(req, res, next) {
             // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {
                 let post_comments = prepareComments(req.session.user._id, post.comments);
-
+                let post_pic_urls = post.pic_urls.map(function (pic) {
+                    let single_url = {};
+                    single_url["pic_url"] = pic;
+                    return single_url;
+                });
+                
                 fetched.push({
                     post_id: post._id,
                     post_description: post.description,
-                    post_pic_urls: post.pic_urls[0],
+                    post_pic_urls: post_pic_urls,
                     post_timeago: moment(post.createdAt).fromNow(),
                     post_n_likes: post.like.length,
                     self_liked: post.like.includes(req.session.user._id),
@@ -190,8 +195,8 @@ function commentPost(req, res, next) {
         }
 
         let new_comment = new Comment({
-            user_id: req.session.user._id,
-            post_id: post._id,
+            _userId: req.session.user._id,
+            _postId: post._id,
             description: req.body.comment
         });
 
