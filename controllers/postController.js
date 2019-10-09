@@ -6,10 +6,12 @@
 const mongoose = require('mongoose');
 const POSTS_PER_PAGE = 3;
 
+let moment = require('moment');
+
 // Collections from MongoDB
 let User = mongoose.model('User');
 let Post = mongoose.model('Post');
-
+let Comment = mongoose.model('Comment');
 
 /**
  * When user creates a post with photo(s) and/or description
@@ -56,6 +58,24 @@ function createPost(req, res, next) {
         // Return a response
         return res.send({errMsg: ""});
     });
+}
+
+
+function prepareComments(user_id, comments) {
+    let res = [];
+    // Sort comment by time, oldest to newest
+    comments.sort((a, b) => a.commentedAt > b.commentedAt);
+
+    for (let comment of comments) {
+        res.push({
+            comment_pic_url: comment.user_id.pic_url,
+            comment_nickname: comment.user_id.nickname,
+            comment_description: comment.description,
+            comment_timeago: moment(comment.commentedAt).format('lll'),
+            comment_id: comment.user_id._id.toString() === user_id ? comment._id : false
+        });
+    }
+    return res;
 }
 
 
@@ -111,7 +131,11 @@ function fetchPosts(req, res, next) {
         .sort({createdAt: 'desc'})
         .skip(POSTS_PER_PAGE * page)
         .limit(POSTS_PER_PAGE)
-        .populate("_userId", "pic_url nickname")
+        .populate([
+            {path: "comments", select: "user_id description commentedAt",
+            populate: {path: "user_id", select: "pic_url nickname"}},
+            {path: "_userId", select: "pic_url nickname"}
+        ])
         .exec(function (err, posts) {
             if (err) {
                 console.error("Database fetch posts error: " + err);
@@ -126,18 +150,23 @@ function fetchPosts(req, res, next) {
             let fetched = [];
             // TODO remove pic_urls[0] once added photo college
             for (let post of posts) {
+                let post_comments = prepareComments(req.session.user._id, post.comments);
+
                 fetched.push({
                     post_id: post._id,
                     post_description: post.description,
                     post_pic_urls: post.pic_urls[0],
+                    post_timeago: moment(post.createdAt).fromNow(),
                     post_n_likes: post.like.length,
                     self_liked: post.like.includes(req.session.user._id),
-                    post_createdAt: post.createdAt,
                     post_occurredAt: post.occurredAt,
                     user_pic_url: post._userId.pic_url,
-                    user_nickname: post._userId.nickname
+                    user_nickname: post._userId.nickname,
+                    post_comments: post_comments,
+                    post_n_comments: post_comments.length,
                 });
             }
+
             return res.send(fetched);
         });
 
@@ -145,9 +174,70 @@ function fetchPosts(req, res, next) {
     // TODO populate array of post ids in user
 }
 
+/**
+ * Store user's comment on a post
+ * /POST /comment-post
+ */
+function commentPost(req, res, next) {
+    Post.findById(req.body.post_id, function (err, post) {
+        if (err) {
+            console.error("Database find post id error: " + err);
+            return next(err);
+        }
+
+        if (!post) {
+            return res.send({errMsg: "Cannot find post"});
+        }
+
+        let new_comment = new Comment({
+            user_id: req.session.user._id,
+            post_id: post._id,
+            description: req.body.comment
+        });
+
+        // Save user's comment
+        new_comment.save(function (err) {
+            if (err) {
+                console.error("Database save comment error: " + err);
+                return next(err);
+            } else {
+                // Comment successfully saved, update post
+
+                post.comments.push(new_comment._id);
+
+                post.save(function (err) {
+                    if (err) {
+                        console.error("Database update post comment error: " + err);
+                        return next(err);
+                    }
+                    // All done
+                    return res.send({errMsg: ""});
+                });
+            }
+        });
+    });
+}
+
+
+/**
+ * Delete user's comment on a post
+ * POST /delete-comment
+ */
+function deleteComment(req, res, next) {
+    Comment.findByIdAndRemove(req.body.comment_id, function (err) {
+        if (err) {
+            console.error("Database find remove comment error: " + err);
+            return next(err);
+        }
+        // Comment successfully deleted
+        return res.send({errMsg: ""});
+    });
+}
 
 module.exports = {
     createPost,
     fetchPosts,
-    toggleLike
+    toggleLike,
+    commentPost,
+    deleteComment
 };

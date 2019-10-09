@@ -6,7 +6,7 @@
 }
 
 .news-card .content .avatar-img {
-    width: 2rem;
+    width: 2.5rem;
     margin-right: 1rem
 }
 
@@ -43,7 +43,7 @@
 }
 
 .news-card .md-form .prefix {
-    margin-left: .2rem;
+    margin-left: .25rem;
     font-size: 1.5rem;
     color: rgba(0, 0, 0, .4)
 }
@@ -64,4 +64,12 @@
     margin-bottom: 0;
     margin-left: 3rem;
     border-bottom: 1px solid rgba(0, 0, 0, .1)
+}
+
+.news-card .md-form .form-text {
+    margin-left: 3rem;
+}
+
+.comment-avatar {
+    width: 2rem;
 }

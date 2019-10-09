@@ -1,4 +1,4 @@
-# ![FeMo](project-logo.png)
+# ![FeMo](public/images/project-logo.png)
 
 
 
