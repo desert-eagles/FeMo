@@ -91,7 +91,7 @@ function toggleLike(e) {
             post_id: $(e).parents("section").attr("data-post-id"),
             liked: !$(e).hasClass("fas")
         }
-    })
+    });
 }
 
 function comment(e) {
@@ -132,7 +132,7 @@ function comment(e) {
             }
         });
 
-// reset comment input
+        // reset comment input
         o.val("").blur();
     }
 }

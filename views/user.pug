@@ -3,6 +3,9 @@ extends parents/base
 block append head
     link(href="css/post/post.css" rel="stylesheet")
     link(href="css/post/lazyLoad.css" rel="stylesheet")
+    // Ref: https://photoswipe.com/documentation/getting-started.html
+    link(href="css/post/photoswipe.css" rel="stylesheet")
+    link(href="css/post/photoswipeDefaultSkin/default-skin.css" rel="stylesheet")
 
 block content
     .container.min-vh-100.py-5
@@ -32,8 +35,15 @@ block content
             p.infinite-scroll-last End of content
             p.infinite-scroll-error No more posts to load
 
+    include includes/photoswipe
+
 block append script
     script(type="text/javascript" src="js/includes/infinite-scroll.pkgd.min.js")
     script(type="text/javascript" src="js/includes/mustache.js")
     script(type="text/javascript" src="js/post/template.js")
     script(type="text/javascript" src="js/post/lazyLoad.js")
+    // Ref: https://photoswipe.com/documentation/getting-started.html
+    script(type="text/javascript" src="js/includes/photoswipe.min.js")
+    script(type="text/javascript" src="js/includes/photoswipe-ui-default.min.js")
+    script(type="text/javascript" src="js/includes/imagesloaded.pkgd.min.js")
+    script(type="text/javascript" src="js/post/gallery.js")

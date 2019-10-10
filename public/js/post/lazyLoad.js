@@ -17,7 +17,13 @@ $(() => {
     });
 
     container.on('load.infiniteScroll', function (e, res) {
-        $("#postContainer").append($(Mustache.render(postTpl, {post: JSON.parse(res)})));
+        $(Mustache.render(postTpl, {post: JSON.parse(res)})).appendTo($("#postContainer"))
+            .find(".post-images:not(:empty)")
+            .imagesLoaded({
+                background: ".post-image"
+            }, (imgLoad) => {
+                initPhotoSwipe(imgLoad.elements, imgLoad.images);
+            });
     });
 
     // first page
