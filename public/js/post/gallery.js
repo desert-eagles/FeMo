@@ -24,13 +24,14 @@ function openPhotoSwipe(e, imgInfo) {
     let options = {
         galleryUID: gallery.attr('data-pswp-uid'),
         index: index,
-        getThumbBoundsFn: function () {
+        getThumbBoundsFn: function (index) {
             let thumbnail = items[index].el,
                 pageYScroll = $(window).scrollTop(),
                 rect = thumbnail.getBoundingClientRect();
 
             return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
-        }
+        },
+        showHideOpacity: true
     };
 
     // Pass data to PhotoSwipe and initialize it
