@@ -1,0 +1,24 @@
+extends parents/base
+
+block title
+    title Relation
+
+block append head
+    link(rel="stylesheet" href="css/user/relation.css")
+
+block content
+    .container.min-vh-100
+        .row.py-5
+            .col-7(style="padding-bottom: 100%;")
+                .md-form#search
+                    input.form-control.input-rounded-bordered.input-focus-shadow(type="text" placeholder="Search user email or nickname" aria-label="Search")
+                    a.input-group-btn
+                        i.fas.fa-search.text-grey(aria-hidden="true")
+                .d-flex.justify-content-center
+                    .spinner-grow.my-5(role="status" style="display: none")
+                #results.d-flex.flex-wrap
+            .col-4
+
+block append script
+    script(type="text/javascript" src="js/includes/imagesloaded.pkgd.min.js")
+    script(type="text/javascript" src="js/user/relation.js")

@@ -29,6 +29,7 @@ body {
 
 .md-form .prefix {
     top: .75rem;
+    left: 0;
     font-size: 1rem;
 }
 
@@ -77,4 +78,94 @@ body {
 
 input[type="date"] ~ label {
     top: 1rem;
+}
+
+.select-wrapper .select-dropdown {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.select-wrapper ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.select-wrapper span.caret {
+    color: initial;
+    position: absolute;
+    right: 0;
+    top: .8rem;
+    font-size: .63rem;
+}
+
+.select-wrapper input.select-dropdown {
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom: 1px solid #ced4da;
+    border-left-style: none;
+    outline: 0;
+    height: 40px;
+    line-height: 2.9rem;
+    font-size: 1rem;
+    padding: 0;
+    display: block;
+    text-overflow: ellipsis;
+    z-index: 2;
+}
+
+.select-wrapper + label.mdb-main-label {
+    z-index: 1;
+}
+
+.select-wrapper + label.active {
+    transform: translateY(-14px);
+    font-size: .8rem;
+    top: 1.5rem;
+    left: 15px;
+}
+
+.select-wrapper + label {
+    position: absolute;
+    top: 2.125rem;
+    transition: .2s ease-out;
+    color: #757575;
+    font-weight: 300;
+}
+
+.dropdown-content {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    background-color: #fff;
+    margin-left: 1.5rem;
+    display: none;
+    min-width: 6.25rem;
+    max-height: 40.625rem;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 999;
+    top: 10px;
+    left: 0;
+}
+
+.dropdown-content li {
+    color: #000;
+    cursor: pointer;
+    line-height: 1.3rem;
+    text-align: left;
+    text-transform: none;
+}
+
+.dropdown-content li > span {
+    font-size: .9rem;
+    color: #212529;
+    display: block;
+    padding: .5rem;
+}
+
+.dropdown-content li.active, .dropdown-content li:hover {
+    background-color: #eee;
 }

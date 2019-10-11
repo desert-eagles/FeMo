@@ -58,6 +58,11 @@ router.get('/upload', userController.authChecker, function (req, res) {
     res.render('upload');
 });
 
+// Relation page
+router.get('/relation', userController.authChecker, function (req, res) {
+    res.render('relation');
+});
+
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 

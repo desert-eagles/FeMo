@@ -12,19 +12,8 @@ $(document).ready(() => {
         profile_pic = $.base64ImageToBlob(base64);
     });
 
-    // Select gender
-    let selectInputs = $("input#gender");
-    selectInputs.focus((e) => {
-        $(e.target).siblings("ul.dropdown-content").slideDown();
-    });
-    selectInputs.blur((e) => {
-        $(e.target).siblings("ul.dropdown-content").fadeOut();
-    });
-    $("ul.dropdown-content li").mousedown((e) => {
-        let clicked = $(e.target);
-        clicked.parents("ul").siblings("input.select-dropdown").val(clicked.text());
-    });
-
+    // Select
+    addSelectEvents($(".select-wrapper input"));
 
     // User submits form
     $("#userDetails #submit").click(() => {
