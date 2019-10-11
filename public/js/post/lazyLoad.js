@@ -18,11 +18,11 @@ $(() => {
 
     container.on('load.infiniteScroll', function (e, res) {
         $(Mustache.render(postTpl, {post: JSON.parse(res)})).appendTo($("#postContainer"))
-            .find(".post-images:not(:empty)")
+            .find(".post-image")
             .imagesLoaded({
-                background: ".post-image"
+                background: true
             }, (imgLoad) => {
-                initPhotoSwipe(imgLoad.elements, imgLoad.images);
+                initPhotoSwipe(imgLoad.images);
             });
     });
 
