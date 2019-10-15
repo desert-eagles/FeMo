@@ -1,11 +1,18 @@
+const commentDeleteBtnTpl =
+    "{{#comment_id}}" +
+    "<a class='text-primary ml-2' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>" +
+    "Delete" +
+    "</a>" +
+    "{{/comment_id}}";
+
 const commentTpl =
     "<div class='media my-2 mx-1'>" +
     "<img src='{{comment_pic_url}}' alt='Avatar' class='d-flex rounded-circle comment-avatar z-depth-1-half mr-3'>" +
     "<small class='media-body'>" +
     "<div class='mt-0 font-weight-bold blue-text'>{{comment_nickname}}</div>" +
     "{{comment_description}}" +
-    "<div class='mt-1 small text-muted'>{{comment_timeago}}" +
-    "{{#comment_id}}<a class='text-primary ml-2' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Delete</a>{{/comment_id}}" +
+    "<div class='mt-1 small text-muted' data-mark='commentMeta'>{{comment_timeago}}" +
+    commentDeleteBtnTpl +
     "</div>" +
     "</small>" +
     "</div>";
@@ -109,7 +116,7 @@ function comment(e) {
                 return v + 1
             });
 
-        $(Mustache.render(commentTpl, {
+        let comment = $(Mustache.render(commentTpl, {
             comment_nickname: $("#profile-nickname").html(),
             comment_pic_url: $("#profile-pic img").attr("src"),
             comment_description: o.val(),
@@ -129,6 +136,13 @@ function comment(e) {
             data: {
                 post_id: o.parents("section").attr("data-post-id"),
                 comment: o.val()
+            }
+        }).done(res => {
+            if (!res.errMsg) {
+                comment.find("[data-mark='commentMeta']")
+                    .append(Mustache.render(commentDeleteBtnTpl, {
+                        comment_id: res.comment_id
+                    }));
             }
         });
 
