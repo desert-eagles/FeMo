@@ -63,6 +63,9 @@ router.get('/relation', userController.authChecker, function (req, res) {
     res.render('relation');
 });
 
+// Search for other users
+router.post('/search', userController.searchUsers);
+
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 

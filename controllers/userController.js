@@ -93,9 +93,19 @@ function logout(req, res, next) {
 }
 
 
+/**
+ * Search for users by email or nickname
+ * POST /search
+ */
+function searchUsers(req, res, next) {
+
+}
+
+
 module.exports = {
     sessionChecker,
     authChecker,
     saveNewUser,
-    logout
+    logout,
+    searchUsers
 };
