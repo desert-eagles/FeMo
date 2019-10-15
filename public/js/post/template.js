@@ -3,7 +3,7 @@ const deleteCommentTpl =
     "<span class='ml-2'>" +
     "<a class='text-primary' onclick='$(this).hide().next().fadeIn()'>Delete</a>" +
     "<span style='display: none'>" +
-    "<a class='text-danger ml-1' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Confirm delete</a>" +
+    "<a class='text-danger' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Confirm delete</a>" +
     "<a class='text-primary ml-1' onclick='$(this).parent().hide().prev().fadeIn()'>Cancel</a>" +
     "</span>" +
     "</span>" +
