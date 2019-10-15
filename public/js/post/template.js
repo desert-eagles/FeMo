@@ -1,8 +1,12 @@
-const commentDeleteBtnTpl =
+const deleteCommentTpl =
     "{{#comment_id}}" +
-    "<a class='text-primary ml-2' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>" +
-    "Delete" +
-    "</a>" +
+    "<span class='ml-2'>" +
+    "<a class='text-primary' onclick='$(this).hide().next().fadeIn()'>Delete</a>" +
+    "<span style='display: none'>" +
+    "<a class='text-danger ml-1' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Confirm delete</a>" +
+    "<a class='text-primary ml-1' onclick='$(this).parent().hide().prev().fadeIn()'>Cancel</a>" +
+    "</span>" +
+    "</span>" +
     "{{/comment_id}}";
 
 const commentTpl =
@@ -12,7 +16,7 @@ const commentTpl =
     "<div class='mt-0 font-weight-bold blue-text'>{{comment_nickname}}</div>" +
     "{{comment_description}}" +
     "<div class='mt-1 small text-muted' data-mark='commentMeta'>{{comment_timeago}}" +
-    commentDeleteBtnTpl +
+    deleteCommentTpl +
     "</div>" +
     "</small>" +
     "</div>";
@@ -140,7 +144,7 @@ function comment(e) {
         }).done(res => {
             if (!res.errMsg) {
                 comment.find("[data-mark='commentMeta']")
-                    .append(Mustache.render(commentDeleteBtnTpl, {
+                    .append(Mustache.render(deleteCommentTpl, {
                         comment_id: res.comment_id
                     }));
             }
