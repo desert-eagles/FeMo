@@ -132,8 +132,10 @@ function fetchPosts(req, res, next) {
         .skip(POSTS_PER_PAGE * page)
         .limit(POSTS_PER_PAGE)
         .populate([
-            {path: "comments", select: "_userId description commentedAt",
-            populate: {path: "_userId", select: "pic_url nickname"}},
+            {
+                path: "comments", select: "_userId description commentedAt",
+                populate: {path: "_userId", select: "pic_url nickname"}
+            },
             {path: "_userId", select: "pic_url nickname"}
         ])
         .exec(function (err, posts) {
@@ -156,7 +158,7 @@ function fetchPosts(req, res, next) {
                     single_url["pic_url"] = pic;
                     return single_url;
                 });
-                
+
                 fetched.push({
                     post_id: post._id,
                     post_description: post.description,
@@ -215,8 +217,8 @@ function commentPost(req, res, next) {
                         console.error("Database update post comment error: " + err);
                         return next(err);
                     }
-                    // All done
-                    return res.send({errMsg: ""});
+                    // All done, return comment id
+                    return res.send({errMsg: "", comment_id: new_comment._id});
                 });
             }
         });
