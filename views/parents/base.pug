@@ -47,7 +47,7 @@ html(lang="en")
                                                 a.nav-link(href="#contact")
                                                     i.far.fa-envelope
                                             li.nav-item
-                                                a.nav-link(href="/relation")
+                                                a.nav-link(href="/search")
                                                     i.fas.fa-user-friends
                 else
                     nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
@@ -121,3 +121,4 @@ html(lang="en")
             if session && session.user
                 script(type="text/javascript" src="js/user/sidebar.js")
             script(type="text/javascript" src="js/utils.js")
+            script(type="text/javascript" src="js/includes/mustache.js")

@@ -1,7 +1,7 @@
 extends parents/base
 
 block title
-    title Relation
+    title Search
 
 block append head
     link(rel="stylesheet" href="css/user/relation.css")
@@ -9,12 +9,12 @@ block append head
 block content
     .container.min-vh-100.py-5
         .row.d-flex.justify-content-center
-            #search.md-form.col-lg-6.p-0.mx-3
-                input.form-control.input-rounded-bordered.input-focus-shadow(type="text" placeholder="Search user's name" aria-label="Search")
+            #search.md-form.col-md-10.p-0.mx-3
+                input.form-control.input-rounded-bordered.input-focus-shadow(type="text" placeholder="Search user's name with minimum three letters" aria-label="Search")
                 a.input-group-btn
                     i.fas.fa-search.text-grey(aria-hidden="true")
-        #results.d-flex.flex-wrap.border-top.pt-5.mt-5
+        #results.my-5
 
 block append script
     script(type="text/javascript" src="js/includes/imagesloaded.pkgd.min.js")
-    script(type="text/javascript" src="js/user/relation.js")
+    script(type="text/javascript" src="js/user/search.js")
