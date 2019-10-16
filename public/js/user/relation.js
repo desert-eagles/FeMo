@@ -49,7 +49,6 @@ function search() {
         url: "/search",
         data: {
             string: string,
-            type: string.includes("@") ? "email" : "nickname"
         },
         beforeSend: (() => {
             $("#results").empty().append($(
