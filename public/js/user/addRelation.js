@@ -1,11 +1,11 @@
 $(() => {
     $("#search input").keyup((e) => {
         if (e.key === "Enter" && $(e.target).val()) {
-            search();
+            addRelation();
         }
     });
     $("#search a").click(() => {
-        search();
+        addRelation();
     });
 });
 
@@ -32,20 +32,27 @@ const searchResultTpl =
     "<ul class='dropdown-content w-100' style='display: none;'>" +
     "<li><span>Father</span></li>" +
     "<li><span>Mother</span></li>" +
+    "<li><span>Uncle</span></li>" +
+    "<li><span>Aunt</span></li>" +
+    "<li><span>Niece</span></li>" +
+    "<li><span>Nephew</span></li>" +
+    "<li><span>Brother</span></li>" +
+    "<li><span>Sister</span></li>" +
+    "<li><span>Cousin</span></li>" +
     "</ul>" +
     "</div>" +
-    "<button class='btn btn-sm btn-primary' data-user-id='{{user_id}}'>Send request</button>" +
+    "<button class='btn btn-sm btn-primary' data-partner-id='{{user_id}}' onclick='sendRequest($(this))'>Send request</button>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "{{/user}}";
 
-function search() {
+function addRelation() {
     let string = $("#search input").val();
     $.ajax({
         type: "Post",
-        url: "/search",
+        url: "/addRelation",
         data: {
             string: string,
         },
@@ -65,4 +72,22 @@ function search() {
                 addSelectEvents($(imgLoad.elements).fadeIn().find(".select-wrapper input"));
             });
     });
+}
+
+function sendRequest(o) {
+    let i = o.prev().find("input");
+    let r = i.val();
+
+    if (r) {
+        $.ajax({
+            type: "Post",
+            url: "send-request/",
+            data: {
+                relationship: r,
+                partner_id: o.attr("data-partner-id")
+            }
+        });
+    } else {
+        reportError(i, "Please select a relationship");
+    }
 }
