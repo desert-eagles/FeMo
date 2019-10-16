@@ -10,7 +10,7 @@ $(() => {
 });
 
 const searchResultTpl =
-    "{{#user}}" +
+    "{{#results}}" +
     "<div class='row justify-content-center'>" +
     "<div class='col-md-10'>" +
     "<div class='card testimonial-card mt-5 mb-2 px-3'>" +
@@ -24,23 +24,30 @@ const searchResultTpl =
     "<small class='text-muted text-left text-truncate'>@{{user_nickname}}</small>" +
     "</div>" +
     "</div>" +
-    relationTpl +
-    "<button class='btn btn-sm btn-primary' onclick='checkRelation($(this))'>Send request</button>" +
+
+    selectRelationTpl +
+
+    "<button class='btn btn-sm btn-primary' onclick='$(this).hide().next().show()'>Send request</button>" +
     "<span style='display: none'>" +
-    "<button class='btn btn-sm btn-danger' data-partner-id='{{user_id}}' onclick='sendRequest($(this))'>Confirm</button>" +
+    "<button class='btn btn-sm btn-danger' data-partner-id='{{user_id}}' onclick='sendRequest($(this)); $(this).parent().hide().next().show()'>Confirm</button>" +
     "<button class='btn btn-sm btn-secondary' onclick='$(this).parent().hide().prev().show()'>Cancel</button>" +
     "</span>" +
+    "<button style='display: none' class='btn btn-sm btn-warning'>Request sent</button>" +
+
     "</div>" +
     "</div>" +
     "</div>" +
     "</div>" +
-    "{{/user}}";
+    "{{/results}}" +
+    "{{^results}}" +
+    "<div class='text-center'>No matching results found</div>" +
+    "{{/results}}";
 
 function search() {
     let string = $("#search input").val();
     $.ajax({
         type: "Post",
-        url: "/searchRelation",
+        url: "search-users/",
         data: {
             string: string,
         },
@@ -49,35 +56,27 @@ function search() {
         })
     }).done((res) => {
         $(Mustache.render(searchResultTpl, {
-            user: res
-        })).appendTo($("#results")).hide()
-            .imagesLoaded((imgLoad) => {
-                $("#results :visible").remove();
-                addSelectEvents($(imgLoad.elements).fadeIn().find(".select-wrapper input"));
-            });
+            results: res
+        })).appendTo($("#results")).hide().imagesLoaded((imgLoad) => {
+            $("#results :visible").remove();
+            addSelectEvents($(imgLoad.elements).fadeIn().find(".select-wrapper input"));
+        });
     });
-}
-
-function checkRelation(o) {
-    let i = o.parents(".card").find('input');
-    if (i.val()) {
-        o.hide().next().show()
-    } else {
-        reportError(i, "Please select a relationship");
-    }
 }
 
 function sendRequest(o) {
-    $.ajax({
-        type: "Post",
-        url: "send-request/",
-        data: {
-            relationship: o.prev().find("input").val(),
-            partner_id: o.attr("data-partner-id")
-        }
-    });
-
-    let p = o.parent().addClass("ml-auto");
-    p.empty().html("<button class='btn btn-sm btn-warning'>Request sent</button>");
-    p.prevAll(":visible").first().remove();
+    let i = o.parents(".card").find('input');
+    let r = i.val();
+    if (r) {
+        $.ajax({
+            type: "Post",
+            url: "send-request/",
+            data: {
+                relationship: r,
+                partner_id: o.attr("data-partner-id")
+            }
+        });
+    } else {
+        reportError(i, "Please select a relationship");
+    }
 }

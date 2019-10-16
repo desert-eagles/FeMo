@@ -1,9 +1,9 @@
-const relationTpl =
+const selectRelationTpl =
     "<div class='md-form select-wrapper mdb-select my-0 mr-2 ml-lg-auto'>" +
     "<i class='fas fa-user-friends prefix'></i>" +
-    "<label class='mdb-main-label' for='{{resultId}}'>Relationship</label>" +
+    "<label class='mdb-main-label'>Relationship</label>" +
     "<span class='caret'>▼</span>" +
-    "<input class='select-dropdown form-control' id='{{resultId}}' type='text' readonly='true' required='false' value=''>" +
+    "<input class='select-dropdown form-control' type='text' required='false' value=''>" +
     "<ul class='dropdown-content w-100' style='display: none;'>" +
     "<li><span>Father</span></li>" +
     "<li><span>Mother</span></li>" +

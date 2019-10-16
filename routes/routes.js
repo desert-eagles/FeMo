@@ -59,7 +59,7 @@ router.get('/upload', userController.authChecker, function (req, res) {
 });
 
 // Relation page
-router.get('/addRelation', userController.authChecker, function (req, res) {
+router.get('/add-relation', userController.authChecker, function (req, res) {
     res.render('addRelation');
 });
 
@@ -68,11 +68,12 @@ router.get('/request', userController.authChecker, function (req, res) {
 });
 
 // Search for other users
-router.post('/searchRelation', userController.searchUsers);
+router.post('/search-users', userController.searchUsers);
 
 // Send request to other user
 router.post('/send-request', requestController.sendRequest);
 
+router.post('/get-requests', requestController.getRequests);
 
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
