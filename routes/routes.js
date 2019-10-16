@@ -63,8 +63,12 @@ router.get('/addRelation', userController.authChecker, function (req, res) {
     res.render('addRelation');
 });
 
+router.get('/request', userController.authChecker, function (req, res) {
+    res.render("request");
+});
+
 // Search for other users
-router.post('/addRelation', userController.searchUsers);
+router.post('/searchRelation', userController.searchUsers);
 
 // Send request to other user
 router.post('/send-request', requestController.sendRequest);
