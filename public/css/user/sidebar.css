@@ -219,7 +219,8 @@ ul.stepper li.completed a .black-skin .circle {
 }
 
 .side-nav > ul {
-    max-height: 100vh
+    max-height: 100vh;
+    overflow: auto;
 }
 
 .side-nav ul {
