@@ -66,6 +66,9 @@ router.get('/search', userController.authChecker, function (req, res) {
 // Search for other users
 router.post('/search', userController.searchUsers);
 
+// Send request to other user
+router.post('/send-request', userController.sendRequest);
+
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 

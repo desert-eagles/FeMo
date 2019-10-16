@@ -119,7 +119,7 @@ function searchUsers(req, res, next) {
                    user_name: `${user.firstname} ${user.lastname}`,
                    user_nickname: user.nickname
                });
-           }    
+           }
            return res.send(queried_users);
        }
        // User not found
@@ -128,11 +128,24 @@ function searchUsers(req, res, next) {
 
 }
 
+/**
+ * Send family member request to another user
+ * POST /send-request
+ */
+function sendRequest(req, res, next) {
+    let partner_id = req.body.partner_id;
+    let relationship = req.body.relationship;
+    console.log(partner_id);
+    console.log(relationship);
+
+
+}
 
 module.exports = {
     sessionChecker,
     authChecker,
     saveNewUser,
     logout,
-    searchUsers
+    searchUsers,
+    sendRequest
 };
