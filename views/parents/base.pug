@@ -41,16 +41,8 @@ html(lang="en")
 
                             if session.user.nickname
                                 .float-right
-                                    // Collapse button
-                                    button.navbar-toggler(type="button"
-                                    data-toggle="collapse" data-target="#navbarContent"
-                                    aria-controls="navbarContent" aria-expanded="false"
-                                    aria-label="Toggle navigation")
-                                        span.navbar-toggler-icon
-                                    // Collapsible content
-                                    #navbarContent.collapse.navbar-collapse
-                                        // Links
-                                        ul.navbar-nav.ml-auto.smooth-scroll
+                                    #navbarContent
+                                        ul.navbar-nav.flex-row
                                             li.nav-item
                                                 a.nav-link(href="#contact")
                                                     i.far.fa-envelope

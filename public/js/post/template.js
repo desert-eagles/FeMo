@@ -26,10 +26,10 @@ const postTpl =
     "<section class='my-5' data-post-id='{{post_id}}'>" +
 
     // Grid row
-    "<div class='d-flex justify-content-center'>" +
+    "<div class='row d-flex justify-content-center'>" +
 
     // Grid column
-    "<div class='w-50'>" +
+    "<div class='col-lg-6 col-12'>" +
 
     // mdbCard
     "<div class='card news-card'>" +
