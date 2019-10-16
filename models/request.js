@@ -7,7 +7,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let requestSchema = Schema({
-    _relationshipId: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Relationship'}],
+    _relationshipIds: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Relationship'}],
     _senderId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     accepted: {type: Boolean, default: false}
 });

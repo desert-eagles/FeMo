@@ -69,6 +69,7 @@ router.post('/addRelation', userController.searchUsers);
 // Send request to other user
 router.post('/send-request', requestController.sendRequest);
 
+
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
