@@ -59,12 +59,12 @@ router.get('/upload', userController.authChecker, function (req, res) {
 });
 
 // Relation page
-router.get('/search', userController.authChecker, function (req, res) {
-    res.render('search');
+router.get('/addRelation', userController.authChecker, function (req, res) {
+    res.render('addRelation');
 });
 
 // Search for other users
-router.post('/search', userController.searchUsers);
+router.post('/addRelation', userController.searchUsers);
 
 // Send request to other user
 router.post('/send-request', userController.sendRequest);
