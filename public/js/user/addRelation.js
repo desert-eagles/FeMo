@@ -1,11 +1,11 @@
 $(() => {
     $("#search input").keyup((e) => {
         if (e.key === "Enter" && $(e.target).val()) {
-            addRelation();
+            search();
         }
     });
     $("#search a").click(() => {
-        addRelation();
+        search();
     });
 });
 
@@ -24,44 +24,28 @@ const searchResultTpl =
     "<small class='text-muted text-left text-truncate'>@{{user_nickname}}</small>" +
     "</div>" +
     "</div>" +
-    "<div class='md-form select-wrapper mdb-select my-0 mr-2 ml-lg-auto'>" +
-    "<i class='fas fa-user-friends prefix'></i>" +
-    "<label class='mdb-main-label' for='{{resultId}}'>Relationship</label>" +
-    "<span class='caret'>▼</span>" +
-    "<input class='select-dropdown form-control' id='{{resultId}}' type='text' readonly='true' required='false' value=''>" +
-    "<ul class='dropdown-content w-100' style='display: none;'>" +
-    "<li><span>Father</span></li>" +
-    "<li><span>Mother</span></li>" +
-    "<li><span>Uncle</span></li>" +
-    "<li><span>Aunt</span></li>" +
-    "<li><span>Niece</span></li>" +
-    "<li><span>Nephew</span></li>" +
-    "<li><span>Brother</span></li>" +
-    "<li><span>Sister</span></li>" +
-    "<li><span>Cousin</span></li>" +
-    "</ul>" +
-    "</div>" +
-    "<button class='btn btn-sm btn-primary' data-partner-id='{{user_id}}' onclick='sendRequest($(this))'>Send request</button>" +
+    relationTpl +
+    "<button class='btn btn-sm btn-primary' onclick='checkRelation($(this))'>Send request</button>" +
+    "<span style='display: none'>" +
+    "<button class='btn btn-sm btn-danger' data-partner-id='{{user_id}}' onclick='sendRequest($(this))'>Confirm</button>" +
+    "<button class='btn btn-sm btn-secondary' onclick='$(this).parent().hide().prev().show()'>Cancel</button>" +
+    "</span>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "</div>" +
     "{{/user}}";
 
-function addRelation() {
+function search() {
     let string = $("#search input").val();
     $.ajax({
         type: "Post",
-        url: "/addRelation",
+        url: "/searchRelation",
         data: {
             string: string,
         },
         beforeSend: (() => {
-            $("#results").empty().append($(
-                "<div class='d-flex justify-content-center'>" +
-                "<div class='spinner-grow my-5' role='status'></div>" +
-                "</div>"
-            ));
+            $("#results").empty().append($(loaderTpl));
         })
     }).done((res) => {
         $(Mustache.render(searchResultTpl, {
@@ -74,20 +58,26 @@ function addRelation() {
     });
 }
 
-function sendRequest(o) {
-    let i = o.prev().find("input");
-    let r = i.val();
-
-    if (r) {
-        $.ajax({
-            type: "Post",
-            url: "send-request/",
-            data: {
-                relationship: r,
-                partner_id: o.attr("data-partner-id")
-            }
-        });
+function checkRelation(o) {
+    let i = o.parents(".card").find('input');
+    if (i.val()) {
+        o.hide().next().show()
     } else {
         reportError(i, "Please select a relationship");
     }
+}
+
+function sendRequest(o) {
+    $.ajax({
+        type: "Post",
+        url: "send-request/",
+        data: {
+            relationship: o.prev().find("input").val(),
+            partner_id: o.attr("data-partner-id")
+        }
+    });
+
+    let p = o.parent().addClass("ml-auto");
+    p.empty().html("<button class='btn btn-sm btn-warning'>Request sent</button>");
+    p.prevAll(":visible").first().remove();
 }
