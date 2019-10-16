@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 // Collection from MongoDB
 let User = mongoose.model('User');
 
-
 /**
  * Middleware to check if user has already logged in
  */
@@ -98,6 +97,34 @@ function logout(req, res, next) {
  * POST /search
  */
 function searchUsers(req, res, next) {
+    let query = req.body.string;
+
+    // Fuzzy search user for nickname
+    User.fuzzySearch(query, function (err, users) {
+       if (err) {
+           console.error("Database find user error: " + err);
+           return next(err);
+       }
+       if (users.length) {
+           // Found some potential matches
+           let queried_users = [];
+
+           for (let user of users) {
+               if (user._id.toString() === req.session.user._id.toString()) {
+                   continue;
+               }
+               queried_users.push({
+                   user_id: user._id,
+                   user_pic_url: user.pic_url,
+                   user_name: `${user.firstname} ${user.lastname}`,
+                   user_nickname: user.nickname
+               });
+           }    
+           return res.send(queried_users);
+       }
+       // User not found
+       return res.send([]);
+    });
 
 }
 

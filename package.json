@@ -30,6 +30,7 @@
     "http-errors": "latest",
     "moment": "^2.24.0",
     "mongoose": "^5.6.11",
+    "mongoose-fuzzy-searching": "^1.1.8",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^2.2.1",

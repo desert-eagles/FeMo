@@ -5,6 +5,8 @@
 
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
+let mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
+
 
 let userSchema = Schema({
     _accountId: {type: mongoose.Schema.Types.ObjectId, ref: 'Account', unique: true},
@@ -18,5 +20,6 @@ let userSchema = Schema({
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
 });
 
+userSchema.plugin(mongoose_fuzzy_searching, {fields: ['firstname', 'lastname', 'nickname']});
 
 module.exports = mongoose.model('User', userSchema);
