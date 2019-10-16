@@ -11,7 +11,7 @@ var uploader = require('../controllers/cloudinary');
 var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
 var postController = require("../controllers/postController");
-
+var requestController = require("../controllers/requestController");
 
 // Home page
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -67,7 +67,7 @@ router.get('/addRelation', userController.authChecker, function (req, res) {
 router.post('/addRelation', userController.searchUsers);
 
 // Send request to other user
-router.post('/send-request', userController.sendRequest);
+router.post('/send-request', requestController.sendRequest);
 
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);

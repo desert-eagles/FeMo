@@ -17,7 +17,8 @@ let userSchema = Schema({
     gender: {type: String, enum: ['Male', 'Female'], require: true},
     dob: {type: Date, required: true},
     nickname: {type: String, required: true},
-    posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}]
+    posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}],
+    requests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Request'}]
 });
 
 userSchema.plugin(mongoose_fuzzy_searching, {fields: ['firstname', 'lastname', 'nickname']});

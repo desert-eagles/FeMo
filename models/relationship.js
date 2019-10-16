@@ -7,8 +7,8 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let relationshipSchema = Schema({
-    from: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
-    to: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+    _fromId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+    _toId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     relationship: String
 });
 
