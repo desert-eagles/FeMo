@@ -29,4 +29,6 @@ require("./user.js");
 require("./post.js");
 require("./comment.js");
 
+
+require("./family.js");
 module.exports = mongoose;
