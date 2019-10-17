@@ -141,10 +141,61 @@ function acceptRequest(req, res, next) {
     console.log(relationship_idx);
     console.log(relationship);
 
-    // Update relationship entry
+    // Search for the request
+    Request.findById(request_id, function (err, request) {
+        if (err) {
+            console.error("Database find request error: " + err);
+            next(err);
+        }
 
-    // Change accepted to true
-
+        if (request.accepted) {
+            // Already accepted
+            return res.send({errMsg: ""});
+        }
+        // Update relationship entry
+        Relationship.findOneAndUpdate(
+            {_id: request._relationshipIds[relationship_idx]},
+            {$set: {relationship: relationship}},
+            function (err) {
+                if (err) {
+                    console.error("Database update relationship error: " + err);
+                    return next(err);
+                }
+                // Update request
+                request.accepted = true;
+                request.save(function (err) {
+                    if (err) {
+                        console.error("Database accept request error: " + err);
+                        return next(err);
+                    }
+                    // Update in receiver
+                    User.findOneAndUpdate(
+                        {_id: request._receiverId},
+                        {$push: {connections: request._senderId}},
+                        function (err) {
+                            if (err) {
+                                console.error("Database update receiver error: " + err);
+                                return next(err);
+                            }
+                        }
+                    );
+                    // Update in sender
+                    User.findOneAndUpdate(
+                        {_id: request._senderId},
+                        {$push: {connections: request._receiverId}},
+                        function (err) {
+                            if (err) {
+                                console.error("Database update sender error: " + err);
+                                return next(err);
+                            }
+                        }
+                    );
+                    // All done
+                    return res.send({errMsg: ""});
+                });
+            }
+        );
+    });
 }
 
 
@@ -153,7 +204,31 @@ function acceptRequest(req, res, next) {
  * POST /decline-request
  */
 function declineRequest(req, res, next) {
+    let request_id = req.body.request_id;
 
+    // Search for the request
+    Request.findById(request_id, function (err, request) {
+        let relationship_ids = request._relationshipIds;
+
+        // Remove all relationship entries
+        Relationship.deleteMany(
+            {_id: {$in: relationship_ids}},
+            function (err) {
+                if (err) {
+                    console.error("Database delete relationships error: " + err);
+                    return next(err);
+                }
+                // Remove the request itself
+                request.remove(function (err) {
+                    if (err) {
+                        console.error("Database delete request error: " + err);
+                        return next(err);
+                    }
+                    // Request successfully deleted
+                    return res.send({errMsg: ""});
+                });
+            });
+    });
 }
 
 
