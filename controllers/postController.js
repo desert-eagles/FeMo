@@ -257,6 +257,9 @@ function deleteComment(req, res, next) {
     });
 }
 
+
+//TODO deletePOST
+
 module.exports = {
     createPost,
     fetchPosts,

@@ -110,8 +110,12 @@ function searchUsers(req, res, next) {
             }
 
             // List of users already sent a request to
-            let sent_requests = user.requests.filter((e) => {
-                return e._senderId.toString() === user_id.toString()
+            let sent_to = user.requests.map((e) => {
+                return e._receiverId
+            });
+            // List of users already received a request from
+            let received_from = user.requests.map((e) => {
+                return e._senderId
             });
 
             // Fuzzy search user for nickname
@@ -130,24 +134,14 @@ function searchUsers(req, res, next) {
                             continue;
                         }
 
-                        let previous = requestSent(sent_requests, q_user._id);
-                        let relationship = null;
-                        if (previous.request_sent) {
-                            // Previously sent to user
-                            if (previous.accepted) {
-                                // Already connect with the queried user
-                                relationship = findRelationship(user_id, q_user._id, next);
-                            }
-                            // Still waiting for user's confirmation
-                        }
-
                         queried_users.push({
                             user_id: q_user._id,
                             user_pic_url: q_user.pic_url,
                             user_name: `${q_user.firstname} ${q_user.lastname}`,
                             user_nickname: q_user.nickname,
-                            request_sent: previous.request_sent,
-                            relationship: relationship
+                            request_sent: sent_to.includes(q_user._id),
+                            request_received: received_from.includes(q_user._id),
+                            connected: user.connections.includes(q_user._id)
                         });
                     }
                     return res.send(queried_users);
@@ -161,34 +155,65 @@ function searchUsers(req, res, next) {
 
 }
 
-function requestSent(requests, target_id) {
-    for (let req of requests) {
-        if (req._receiverId.toString() === target_id.toString()) {
-            return {request_sent: true, accepted: req.accepted}
-        }
-    }
-    return {request_sent: false};
+
+/**
+ * Find all connections of user
+ * POST /get-connections
+ */
+function getConnections(req, res, next) {
+    let user_id = req.session.user._id;
+
+    // Find user by ID
+    User.findById(user_id, "connections")
+        .populate({path: "connections", select: "pic_url firstname lastname nickname"})
+        .exec(function (err, user) {
+            if (err) {
+                console.error("Database find user error: " + err);
+                return next(err);
+            }
+            let connected_ids = user.connections.map((e) => {
+                return e._id
+            });
+            // Find relationships with the users connected
+            Relationship.find(
+                {
+                    $and: [
+                        {_fromId: user_id},
+                        {_toId: {$in: connected_ids}}
+                    ]
+                },
+                function (err, rels) {
+                    rels = rels.reduce((acc, rel) => {
+                        acc[rel._toId] = rel.relationship;
+                        return acc;
+                    }, {});
+
+                    let connections = [];
+
+                    // Append relationship to connections
+                    for (let usr of user.connections) {
+                        if (!usr._id.toString() in rels) {
+                            continue
+                        }
+                        connections.push({
+                            user_pic_url: usr.pic_url,
+                            user_name: `${usr.firstname} ${usr.lastname}`,
+                            user_nickname: usr.nickname,
+                            user_relationship: rels[usr._id.toString()]
+                        });
+                    }
+                    return res.send(connections);
+                }
+            );
+        });
 }
 
-
-function findRelationship(from_user, to_user, next) {
-    // Only when the request has been accepted
-    Relationship.findOne({
-        _fromId: from_user.toString(),
-        _toId: to_user.toString()
-    }, function (err, rel) {
-        if (err) {
-            console.error("Database find relationship error: " + err);
-            return next(err);
-        }
-        return rel.relationship;
-    });
-}
-
+//TODO delete connection
 module.exports = {
     sessionChecker,
     authChecker,
     saveNewUser,
     logout,
-    searchUsers
+    searchUsers,
+    getConnections
 };

@@ -32,6 +32,8 @@ function sendRequest(req, res, next) {
         relationship: null
     });
 
+    //TODO other already sent a request
+    
     // Save relationship
     Relationship.insertMany([from_relationship, to_relationship],
         function (err, rel_list) {
@@ -177,21 +179,21 @@ function acceptRequest(req, res, next) {
                                 console.error("Database update receiver error: " + err);
                                 return next(err);
                             }
+                            // Update in sender
+                            User.findOneAndUpdate(
+                                {_id: request._senderId},
+                                {$push: {connections: request._receiverId}},
+                                function (err) {
+                                    if (err) {
+                                        console.error("Database update sender error: " + err);
+                                        return next(err);
+                                    }
+                                    // All done
+                                    return res.send({errMsg: ""});
+                                }
+                            );
                         }
                     );
-                    // Update in sender
-                    User.findOneAndUpdate(
-                        {_id: request._senderId},
-                        {$push: {connections: request._receiverId}},
-                        function (err) {
-                            if (err) {
-                                console.error("Database update sender error: " + err);
-                                return next(err);
-                            }
-                        }
-                    );
-                    // All done
-                    return res.send({errMsg: ""});
                 });
             }
         );
