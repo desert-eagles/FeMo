@@ -73,7 +73,14 @@ router.post('/search-users', userController.searchUsers);
 // Send request to other user
 router.post('/send-request', requestController.sendRequest);
 
+// Search for requests received by user
 router.post('/get-requests', requestController.getRequests);
+
+// Accept request received
+router.post('/accept-request', requestController.acceptRequest);
+
+// Decline request received
+router.post('/decline-request', requestController.declineRequest);
 
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);

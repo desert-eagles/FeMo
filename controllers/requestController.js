@@ -44,7 +44,8 @@ function sendRequest(req, res, next) {
                 _relationshipIds: rel_list.map((e) => {
                     return e._id
                 }),
-                _senderId: user_id
+                _senderId: user_id,
+                _receiverId: partner_id
             });
 
             // Save request
@@ -99,6 +100,7 @@ function getRequests(req, res, next) {
                     let sender = request._senderId;
                     if (sender._id.toString() === user_id.toString() ||
                         request.accepted) {
+                        // Request sent by user or already accepted
                         continue;
                     }
                     let idx = request._relationshipIds
@@ -126,7 +128,38 @@ function getRequests(req, res, next) {
 }
 
 
+/**
+ * When user clicks on "accept" a request
+ * POST /accept-request
+ */
+function acceptRequest(req, res, next) {
+    let request_id = req.body.request_id;
+    let relationship_idx = req.body.relationship_idx;
+    let relationship = req.body.relationship;
+
+    console.log(request_id);
+    console.log(relationship_idx);
+    console.log(relationship);
+
+    // Update relationship entry
+
+    // Change accepted to true
+
+}
+
+
+/**
+ * When user clicks on "decline" a request
+ * POST /decline-request
+ */
+function declineRequest(req, res, next) {
+
+}
+
+
 module.exports = {
     sendRequest,
-    getRequests
+    getRequests,
+    acceptRequest,
+    declineRequest
 };

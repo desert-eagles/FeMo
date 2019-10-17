@@ -99,37 +99,91 @@ function logout(req, res, next) {
  */
 function searchUsers(req, res, next) {
     let query = req.body.string;
+    let user_id = req.session.user._id;
 
-    // Fuzzy search user for nickname
-    User.fuzzySearch(query, function (err, users) {
-       if (err) {
-           console.error("Database find user error: " + err);
-           return next(err);
-       }
-       if (users.length) {
-           // Found some potential matches
-           let queried_users = [];
+    User.findById(user_id)
+        .populate({path: "requests", select: "_senderId _receiverId accepted"})
+        .exec(function (err, user) {
+            if (err) {
+                console.error("Database find user error: " + err);
+                return next(err);
+            }
 
-           for (let user of users) {
-               if (user._id.toString() === req.session.user._id.toString()) {
-                   continue;
-               }
-               queried_users.push({
-                   user_id: user._id,
-                   user_pic_url: user.pic_url,
-                   user_name: `${user.firstname} ${user.lastname}`,
-                   user_nickname: user.nickname
-               });
-           }
-           return res.send(queried_users);
-       }
-       // User not found
-       return res.send([]);
-    });
+            // List of users already sent a request to
+            let sent_requests = user.requests.filter((e) => {
+                return e._senderId.toString() === user_id.toString()
+            });
+
+            // Fuzzy search user for nickname
+            User.fuzzySearch(query, function (err, users) {
+                if (err) {
+                    console.error("Database find user error: " + err);
+                    return next(err);
+                }
+                if (users.length) {
+                    // Found some potential matches
+                    let queried_users = [];
+
+                    for (let q_user of users) {
+                        if (q_user._id.toString() === user_id.toString()) {
+                            // Do not show user him/herself in search results
+                            continue;
+                        }
+
+                        let previous = requestSent(sent_requests, q_user._id);
+                        let relationship = null;
+                        if (previous.request_sent) {
+                            // Previously sent to user
+                            if (previous.accepted) {
+                                // Already connect with the queried user
+                                relationship = findRelationship(user_id, q_user._id, next);
+                            }
+                            // Still waiting for user's confirmation
+                        }
+
+                        queried_users.push({
+                            user_id: q_user._id,
+                            user_pic_url: q_user.pic_url,
+                            user_name: `${q_user.firstname} ${q_user.lastname}`,
+                            user_nickname: q_user.nickname,
+                            request_sent: previous.request_sent,
+                            relationship: relationship
+                        });
+                    }
+                    return res.send(queried_users);
+                }
+                // User not found
+                return res.send([]);
+            });
+
+        });
+
 
 }
 
+function requestSent(requests, target_id) {
+    for (let req of requests) {
+        if (req._receiverId.toString() === target_id.toString()) {
+            return {request_sent: true, accepted: req.accepted}
+        }
+    }
+    return {request_sent: false};
+}
 
+
+function findRelationship(from_user, to_user, next) {
+    // Only when the request has been accepted
+    Relationship.findOne({
+        _fromId: from_user.toString(),
+        _toId: to_user.toString()
+    }, function (err, rel) {
+        if (err) {
+            console.error("Database find relationship error: " + err);
+            return next(err);
+        }
+        return rel.relationship;
+    });
+}
 
 module.exports = {
     sessionChecker,

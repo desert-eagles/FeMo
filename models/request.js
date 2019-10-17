@@ -9,6 +9,7 @@ let Schema = mongoose.Schema;
 let requestSchema = Schema({
     _relationshipIds: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Relationship'}],
     _senderId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+    _receiverId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     accepted: {type: Boolean, default: false}
 });
 
