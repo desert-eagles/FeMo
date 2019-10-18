@@ -38,3 +38,56 @@
 .testimonial-card .card-body {
     text-align: center
 }
+
+.md-tabs {
+    border: 0;
+    z-index: 1;
+    position: relative;
+    border-radius: .25rem
+}
+
+.md-tabs .nav-item + .nav-item {
+    margin-left: 0
+}
+
+.md-tabs .nav-item.disabled {
+    pointer-events: none !important
+}
+
+.md-tabs .nav-item.disabled .nav-link {
+    color: #6c757d
+}
+
+.md-tabs .nav-link {
+    transition: all .4s;
+    border: 0;
+    white-space: nowrap;
+    color: #000;
+}
+
+.md-tabs .nav-item.open .nav-link,
+.md-tabs .nav-link.active {
+    background-color: rgba(0, 0, 0, .1);
+    color: #000;
+    transition: all 1s;
+}
+
+.md-tabs .nav-item.show .nav-link {
+    background-color: #2bbbad;
+    color: #fff;
+    transition: all 1s;
+    border-radius: .25rem
+}
+
+.md-tabs .nav-item.show .nav-link.dropdown-toggle {
+    background-color: rgba(0, 0, 0, .2)
+}
+
+.tab-content {
+    padding: 1rem;
+    padding-top: 2rem
+}
+
+.tab-content.vertical {
+    padding-top: 0
+}

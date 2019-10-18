@@ -380,7 +380,8 @@ ul.stepper li.completed a .black-skin .circle {
 .side-nav .collapsible .far,
 .side-nav .collapsible .fas {
     font-size: .8rem;
-    margin-right: 13px
+    margin-right: 13px;
+    min-width: 1rem;
 }
 
 .side-nav .collapsible-body a {

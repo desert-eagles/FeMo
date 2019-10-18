@@ -7,12 +7,14 @@ const selectRelationTpl =
     "<ul class='dropdown-content w-100' style='display: none;'>" +
     "<li><span>Father</span></li>" +
     "<li><span>Mother</span></li>" +
+    "<li><span>Son</span></li>" +
+    "<li><span>Daughter</span></li>" +
+    "<li><span>Brother</span></li>" +
+    "<li><span>Sister</span></li>" +
     "<li><span>Uncle</span></li>" +
     "<li><span>Aunt</span></li>" +
     "<li><span>Niece</span></li>" +
     "<li><span>Nephew</span></li>" +
-    "<li><span>Brother</span></li>" +
-    "<li><span>Sister</span></li>" +
     "<li><span>Cousin</span></li>" +
     "</ul>" +
     "</div>";

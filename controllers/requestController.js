@@ -139,10 +139,6 @@ function acceptRequest(req, res, next) {
     let relationship_idx = req.body.relationship_idx;
     let relationship = req.body.relationship;
 
-    console.log(request_id);
-    console.log(relationship_idx);
-    console.log(relationship);
-
     // Search for the request
     Request.findById(request_id, function (err, request) {
         if (err) {

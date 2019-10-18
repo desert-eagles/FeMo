@@ -24,74 +24,34 @@
                     li
                         a.icons-sm.tw-ic(href="#")
                             i.fab.fa-twitter
-            // /Social
-            // Search Form
-            li
-                form.search-form(role="search")
-                    .form-group.md-form.mt-0.pt-1.waves-light
-                        input.form-control(type="text" placeholder="Search")
-            // /.Search Form
             // Side navigation links
             li
                 ul.collapsible.collapsible-accordion
                     li
-                        a.collapsible-header.waves-effect.arrow-r
-                            i.fas.fa-chevron-right
-                            |  Submit blog
-                            i.fas.fa-angle-down.rotate-icon
-                        .collapsible-body
-                            ul.list-unstyled
-                                li
-                                    a.waves-effect(href="#") Submit listing
-                                li
-                                    a.waves-effect(href="#") Registration form
+                        a.collapsible-header.waves-effect.arrow-r(href='/connect')
+                            i.fas.fa-user-friends
+                            | Connections
                     li
                         a.collapsible-header.waves-effect.arrow-r
-                            i.fas.fa-hand-pointer
-                            |  Instruction
-                            i.fas.fa-angle-down.rotate-icon
-                        .collapsible-body
-                            ul.list-unstyled
-                                li
-                                    a.waves-effect(href="#") For bloggers
-                                li
-                                    a.waves-effect(href="#") For authors
+                            i.fas.fa-plus-square
+                            | Create family group
                     li
                         a.collapsible-header.waves-effect.arrow-r
-                            i.fas.fa-eye
-                            |  About
-                            i.fas.fa-angle-down.rotate-icon
-                        .collapsible-body
-                            ul.list-unstyled
-                                li
-                                    a.waves-effect(href="#") Introduction
-                                li
-                                    a.waves-effect(href="#") Monthly meetings
+                            i.fas.fa-users
+                            | Family groups
+                        //    i.fas.fa-angle-down.rotate-icon
+                        //.collapsible-body
+                        //    ul.list-unstyled
+                        //        li
+                        //            a.waves-effect(href="#") Family 1
+                        //        li
+                        //            a.waves-effect(href="#") Family 2
                     li
                         a.collapsible-header.waves-effect.arrow-r
-                            i.far.fa-envelope
-                            |  Contact me
-                            i.fas.fa-angle-down.rotate-icon
-                        .collapsible-body
-                            ul.list-unstyled
-                                li
-                                    a.waves-effect(href="#") FAQ
-                                li
-                                    a.waves-effect(href="#") Write a message
-                                li
-                                    a.waves-effect(href="#") FAQ
-                                li
-                                    a.waves-effect(href="#") Write a message
-                                li
-                                    a.waves-effect(href="#") FAQ
-                                li
-                                    a.waves-effect(href="#") Write a message
-                                li
-                                    a.waves-effect(href="#") FAQ
-                                li
-                                    a.waves-effect(href="#") Write a message
+                            i.fas.fa-cog
+                            | Settings
                     li
-                        a.collapsible-header.waves-effect(href="/logout")
+                        a.collapsible-header.waves-effect.arrow-r(href="/logout")
                             i.fas.fa-sign-out-alt
                             | Logout
             // /. Side navigation links
