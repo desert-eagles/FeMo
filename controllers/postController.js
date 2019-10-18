@@ -122,61 +122,79 @@ function toggleLike(req, res, next) {
  * GET /more-posts/:page
  */
 function fetchPosts(req, res, next) {
-    // TODO find all posts viewable by use
-
     let page = Math.max(0, req.params.page);
+    let user_id = req.session.user._id;
 
-    // Now just find what the user has posted
-    Post.find({_userId: req.session.user._id})
-        .sort({createdAt: 'desc'})
-        .skip(POSTS_PER_PAGE * page)
-        .limit(POSTS_PER_PAGE)
-        .populate([
-            {path: "comments", select: "_userId description commentedAt",
-            populate: {path: "_userId", select: "pic_url nickname"}},
-            {path: "_userId", select: "pic_url nickname"}
-        ])
-        .exec(function (err, posts) {
+    // Find user and connections
+    User.findById(user_id)
+        .select("posts connections")
+        .populate({path: "connections", select: "posts"})
+        .exec(function (err, user) {
             if (err) {
-                console.error("Database fetch posts error: " + err);
+                console.error("Database find user error: " + err);
                 return next(err);
             }
+            // Find posts of others
+            let others_posts = user.connections.reduce((acc, usr) => {
+                return acc.concat(usr.posts);
+            }, []);
 
-            if (!posts.length) {
-                // No more posts
-                return res.sendStatus(404);
-            }
+            // Get list of all posts' ids viewable
+            let all_posts = user.posts.concat(others_posts);
+            all_posts = [...new Set(all_posts)];
 
-            let fetched = [];
-            // TODO remove pic_urls[0] once added photo college
-            for (let post of posts) {
-                let post_comments = prepareComments(req.session.user._id, post.comments);
-                let post_pic_urls = post.pic_urls.map(function (pic) {
-                    let single_url = {};
-                    single_url["pic_url"] = pic;
-                    return single_url;
+            // Populate and find posts' content
+            Post.find({_id: {$in: all_posts}})
+                .sort({createdAt: 'desc'})
+                .skip(POSTS_PER_PAGE * page)
+                .limit(POSTS_PER_PAGE)
+                .populate([
+                    {
+                        path: "comments", select: "_userId description commentedAt",
+                        populate: {path: "_userId", select: "pic_url nickname"}
+                    },
+                    {path: "_userId", select: "pic_url nickname"}
+                ])
+                .exec(function (err, posts) {
+                    if (err) {
+                        console.error("Database fetch posts error: " + err);
+                        return next(err);
+                    }
+
+                    if (!posts.length) {
+                        // No more posts
+                        return res.sendStatus(404);
+                    }
+
+                    // Prepare list of posts with their content
+                    let fetched = [];
+                    for (let post of posts) {
+                        let post_comments = prepareComments(req.session.user._id, post.comments);
+                        let post_pic_urls = post.pic_urls.map(function (pic) {
+                            let single_url = {};
+                            single_url["pic_url"] = pic;
+                            return single_url;
+                        });
+
+                        fetched.push({
+                            post_id: post._id,
+                            post_description: post.description,
+                            post_pic_urls: post_pic_urls,
+                            post_timeago: moment(post.createdAt).fromNow(),
+                            post_n_likes: post.like.length,
+                            self_liked: post.like.includes(req.session.user._id),
+                            post_occurredAt: post.occurredAt,
+                            user_pic_url: post._userId.pic_url,
+                            user_nickname: post._userId.nickname,
+                            post_comments: post_comments,
+                            post_n_comments: post_comments.length,
+                        });
+                    }
+
+                    // Send out for display
+                    return res.send(fetched);
                 });
-                
-                fetched.push({
-                    post_id: post._id,
-                    post_description: post.description,
-                    post_pic_urls: post_pic_urls,
-                    post_timeago: moment(post.createdAt).fromNow(),
-                    post_n_likes: post.like.length,
-                    self_liked: post.like.includes(req.session.user._id),
-                    post_occurredAt: post.occurredAt,
-                    user_pic_url: post._userId.pic_url,
-                    user_nickname: post._userId.nickname,
-                    post_comments: post_comments,
-                    post_n_comments: post_comments.length,
-                });
-            }
-
-            return res.send(fetched);
         });
-
-
-    // TODO populate array of post ids in user
 }
 
 /**
@@ -215,8 +233,8 @@ function commentPost(req, res, next) {
                         console.error("Database update post comment error: " + err);
                         return next(err);
                     }
-                    // All done
-                    return res.send({errMsg: ""});
+                    // All done, return comment id
+                    return res.send({errMsg: "", comment_id: new_comment._id});
                 });
             }
         });
@@ -238,6 +256,9 @@ function deleteComment(req, res, next) {
         return res.send({errMsg: ""});
     });
 }
+
+
+//TODO deletePOST
 
 module.exports = {
     createPost,

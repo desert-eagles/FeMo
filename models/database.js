@@ -28,6 +28,8 @@ require("./token.js");
 require("./user.js");
 require("./post.js");
 require("./comment.js");
+require("./relationship.js");
+require("./request.js");
 
 
 require("./family.js");

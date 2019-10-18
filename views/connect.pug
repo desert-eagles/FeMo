@@ -1,0 +1,33 @@
+extends parents/base
+
+block title
+    title Add relation
+
+block append head
+    link(rel="stylesheet" href="css/user/request.css")
+
+block content
+    .container.min-vh-100.py-5
+        section.mb-5
+            ul.nav.nav-tabs.nav-justified.md-tabs(role="tablist")
+                li.nav-item.waves-effect.waves-light
+                    a.nav-link.active(data-toggle="tab" href="#connections" role="tab") Connections
+                li.nav-item.waves-effect.waves-light
+                    a.nav-link(data-toggle="tab" href="#connect" role="tab") Add new connection
+            hr.mt-0
+
+        .tab-content
+            #connections(role="tabpanel").tab-pane.fade.active.show
+
+            #connect(role="tabpanel").tab-pane.fade
+                .row.d-flex.justify-content-center
+                    #search.md-form.col-md-10.p-0.mx-3
+                        input.form-control.input-rounded-bordered.input-focus-shadow(type="text" placeholder="Search user's name with minimum three letters" aria-label="Search")
+                        a.input-group-btn
+                            i.fas.fa-search.text-grey(aria-hidden="true")
+                #results.my-5
+
+block append script
+    script(type="text/javascript" src="js/includes/imagesloaded.pkgd.min.js")
+    script(type="text/javascript" src="js/user/templates.js")
+    script(type="text/javascript" src="js/user/connect.js")
