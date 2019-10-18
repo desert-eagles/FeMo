@@ -222,6 +222,8 @@ function declineRequest(req, res, next) {
                 }
                 // Remove the request itself
                 let request_id = request._id;
+                let users_id = [request._senderId, request._receiverId];
+
                 request.remove(function (err) {
                     if (err) {
                         console.error("Database delete request error: " + err);
@@ -230,7 +232,7 @@ function declineRequest(req, res, next) {
 
                     // Request successfully deleted, update users' requests list
                     User.updateMany(
-                        {_id: {$in: relationship_ids}},
+                        {_id: {$in: users_id}},
                         {$pull: {requests: request_id}},
                         {multi: true},
                         function (err, _) {
