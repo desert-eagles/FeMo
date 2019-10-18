@@ -257,7 +257,10 @@ function deleteRelationship(req, res, next) {
                         // Request successfully deleted, update users' requests list
                         User.updateMany(
                             {_id: {$in: users_id}},
-                            {$pull: {requests: request_id}},
+                            {
+                                $pull: {requests: request_id},
+                                $pull: {connections: {$in: users_id}}
+                            },
                             {multi: true},
                             function (err, _) {
                                 if (err) {
