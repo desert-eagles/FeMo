@@ -1,0 +1,93 @@
+.input-rounded-bordered {
+    border: none !important;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    border-radius: 10rem !important;
+    padding: .65rem 3.2rem .65rem 1.5rem !important;
+    box-sizing: border-box !important;
+}
+
+.input-focus-shadow:focus {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.input-group-btn {
+    position: absolute;
+    top: 0.65rem;
+    right: 1.2rem;
+}
+
+.testimonial-card .card-up {
+    overflow: hidden;
+    height: 120px;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem
+}
+
+.testimonial-card .avatar {
+    border-radius: 50%;
+    width: 100px;
+    margin-top: -50px;
+    overflow: hidden;
+    border: 5px solid #fff
+}
+
+.testimonial-card .avatar img {
+    width: 100%
+}
+
+.testimonial-card .card-body {
+    text-align: center
+}
+
+.md-tabs {
+    border: 0;
+    z-index: 1;
+    position: relative;
+    border-radius: .25rem
+}
+
+.md-tabs .nav-item + .nav-item {
+    margin-left: 0
+}
+
+.md-tabs .nav-item.disabled {
+    pointer-events: none !important
+}
+
+.md-tabs .nav-item.disabled .nav-link {
+    color: #6c757d
+}
+
+.md-tabs .nav-link {
+    transition: all .4s;
+    border: 0;
+    white-space: nowrap;
+    color: #000;
+}
+
+.md-tabs .nav-item.open .nav-link,
+.md-tabs .nav-link.active {
+    background-color: rgba(0, 0, 0, .1);
+    color: #000;
+    transition: all 1s;
+}
+
+.md-tabs .nav-item.show .nav-link {
+    background-color: #2bbbad;
+    color: #fff;
+    transition: all 1s;
+    border-radius: .25rem
+}
+
+.md-tabs .nav-item.show .nav-link.dropdown-toggle {
+    background-color: rgba(0, 0, 0, .2)
+}
+
+.tab-content {
+    padding: 1rem;
+    padding-top: 2rem
+}
+
+.tab-content.vertical {
+    padding-top: 0
+}

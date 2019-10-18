@@ -11,7 +11,7 @@ var uploader = require('../controllers/cloudinary');
 var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
 var postController = require("../controllers/postController");
-
+var requestController = require("../controllers/requestController");
 
 // Home page
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -57,6 +57,36 @@ router.get('/user', userController.authChecker, function (req, res) {
 router.get('/upload', userController.authChecker, function (req, res) {
     res.render('upload');
 });
+
+// Relation page
+router.get('/connect', userController.authChecker, function (req, res) {
+    res.render('connect');
+});
+
+router.get('/request', userController.authChecker, function (req, res) {
+    res.render("request");
+});
+
+// Search for other users
+router.post('/search-users', userController.searchUsers);
+
+// Send request to other user
+router.post('/send-request', requestController.sendRequest);
+
+// Search for requests received by user
+router.post('/get-requests', requestController.getRequests);
+
+// Accept request received
+router.post('/accept-request', requestController.acceptRequest);
+
+// Decline request received
+router.post('/decline-request', requestController.declineRequest);
+
+// Get all the connections of users
+router.post('/get-connections', userController.getConnections);
+
+// Delete relationship with other user
+router.post('/delete-relationship', userController.deleteRelationship);
 
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);

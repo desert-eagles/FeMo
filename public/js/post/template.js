@@ -1,11 +1,22 @@
+const deleteCommentTpl =
+    "{{#comment_id}}" +
+    "<span class='ml-2'>" +
+    "<a class='text-primary' onclick='$(this).hide().next().fadeIn()'>Delete</a>" +
+    "<span style='display: none'>" +
+    "<a class='text-danger' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Confirm delete</a>" +
+    "<a class='text-primary ml-1' onclick='$(this).parent().hide().prev().fadeIn()'>Cancel</a>" +
+    "</span>" +
+    "</span>" +
+    "{{/comment_id}}";
+
 const commentTpl =
     "<div class='media my-2 mx-1'>" +
     "<img src='{{comment_pic_url}}' alt='Avatar' class='d-flex rounded-circle comment-avatar z-depth-1-half mr-3'>" +
     "<small class='media-body'>" +
     "<div class='mt-0 font-weight-bold blue-text'>{{comment_nickname}}</div>" +
     "{{comment_description}}" +
-    "<div class='mt-1 small text-muted'>{{comment_timeago}}" +
-    "{{#comment_id}}<a class='text-primary ml-2' onclick='deleteComment($(this))' data-comment-id='{{comment_id}}'>Delete</a>{{/comment_id}}" +
+    "<div class='mt-1 small text-muted' data-mark='commentMeta'>{{comment_timeago}}" +
+    deleteCommentTpl +
     "</div>" +
     "</small>" +
     "</div>";
@@ -15,10 +26,10 @@ const postTpl =
     "<section class='my-5' data-post-id='{{post_id}}'>" +
 
     // Grid row
-    "<div class='d-flex justify-content-center'>" +
+    "<div class='row d-flex justify-content-center'>" +
 
     // Grid column
-    "<div class='w-50'>" +
+    "<div class='col-lg-6 col-12'>" +
 
     // mdbCard
     "<div class='card news-card'>" +
@@ -109,7 +120,7 @@ function comment(e) {
                 return v + 1
             });
 
-        $(Mustache.render(commentTpl, {
+        let comment = $(Mustache.render(commentTpl, {
             comment_nickname: $("#profile-nickname").html(),
             comment_pic_url: $("#profile-pic img").attr("src"),
             comment_description: o.val(),
@@ -129,6 +140,13 @@ function comment(e) {
             data: {
                 post_id: o.parents("section").attr("data-post-id"),
                 comment: o.val()
+            }
+        }).done(res => {
+            if (!res.errMsg) {
+                comment.find("[data-mark='commentMeta']")
+                    .append(Mustache.render(deleteCommentTpl, {
+                        comment_id: res.comment_id
+                    }));
             }
         });
 

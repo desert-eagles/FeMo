@@ -42,3 +42,16 @@ $(document).ready(() => {
     // initialise animation
     new WOW().init();
 });
+
+function addSelectEvents(o) {
+    o.focus((e) => {
+        $(e.target).removeClass("invalid").siblings("ul.dropdown-content").slideDown();
+    });
+    o.blur((e) => {
+        $(e.target).siblings("ul.dropdown-content").fadeOut();
+    });
+    $("ul.dropdown-content li").mousedown((e) => {
+        let clicked = $(e.target);
+        clicked.parents("ul").siblings("input.select-dropdown").val(clicked.text());
+    });
+}

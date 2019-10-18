@@ -28,5 +28,7 @@ require("./token.js");
 require("./user.js");
 require("./post.js");
 require("./comment.js");
+require("./relationship.js");
+require("./request.js");
 
 module.exports = mongoose;
