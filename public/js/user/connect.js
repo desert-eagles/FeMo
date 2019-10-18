@@ -9,6 +9,17 @@ $(() => {
     });
 });
 
+const sendRequestTpl =
+    "<button class='btn btn-sm btn-primary' onclick='if (isRelationshipSelected($(this))) { $(this).parent().html(cfmRequestTpl) }'>Send request</button>";
+
+const cfmRequestTpl =
+    "<span class='d-flex'>" +
+    "<button class='btn btn-sm btn-success' onclick='sendRequest($(this)); $(this).closest(\"div\").empty().after(requestSentTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
+    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(sendRequestTpl)'>Cancel</button>" +
+    "</span>";
+
+const requestSentTpl = "<div class='d-flex align-items-center ml-lg-auto'>Request sent</div>";
+
 const searchResultTpl =
     "{{#results}}" +
     "<div class='row justify-content-center'>" +
@@ -25,14 +36,16 @@ const searchResultTpl =
     "</div>" +
     "</div>" +
 
-    selectRelationTpl +
+    "{{#errMsg}}" +
+    "<div class='d-flex align-items-center ml-auto'>{{errMsg}}</div>" +
+    "{{/errMsg}}" +
 
-    "<button class='btn btn-sm btn-primary' onclick='$(this).hide().next().show()'>Send request</button>" +
-    "<span style='display: none'>" +
-    "<button class='btn btn-sm btn-danger' data-partner-id='{{user_id}}' onclick='sendRequest($(this)); $(this).parent().hide().next().show()'>Confirm</button>" +
-    "<button class='btn btn-sm btn-secondary' onclick='$(this).parent().hide().prev().show()'>Cancel</button>" +
-    "</span>" +
-    "<button style='display: none' class='btn btn-sm btn-warning'>Request sent</button>" +
+    "{{^errMsg}}" +
+    selectRelationTpl +
+    "<div data-partner-id='{{user_id}}'>" +
+    sendRequestTpl +
+    "</div>" +
+    "{{/errMsg}}" +
 
     "</div>" +
     "</div>" +
@@ -65,18 +78,13 @@ function search() {
 }
 
 function sendRequest(o) {
-    let i = o.parents(".card").find('input');
-    let r = i.val();
-    if (r) {
-        $.ajax({
-            type: "Post",
-            url: "send-request/",
-            data: {
-                relationship: r,
-                partner_id: o.attr("data-partner-id")
-            }
-        });
-    } else {
-        reportError(i, "Please select a relationship");
-    }
+
+    $.ajax({
+        type: "Post",
+        url: "send-request/",
+        data: {
+            relationship: o.parents(".card").find('input').val(),
+            partner_id: o.closest("[data-partner-id]").attr("data-partner-id")
+        }
+    });
 }

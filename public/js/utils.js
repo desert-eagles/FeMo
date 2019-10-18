@@ -45,7 +45,7 @@ $(document).ready(() => {
 
 function addSelectEvents(o) {
     o.focus((e) => {
-        $(e.target).siblings("ul.dropdown-content").slideDown();
+        $(e.target).removeClass("invalid").siblings("ul.dropdown-content").slideDown();
     });
     o.blur((e) => {
         $(e.target).siblings("ul.dropdown-content").fadeOut();

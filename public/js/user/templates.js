@@ -3,7 +3,7 @@ const selectRelationTpl =
     "<i class='fas fa-user-friends prefix'></i>" +
     "<label class='mdb-main-label'>Relationship</label>" +
     "<span class='caret'>▼</span>" +
-    "<input class='select-dropdown form-control' type='text' required='false' value=''>" +
+    "<input class='select-dropdown form-control' type='text' readonly='true' required='false' value=''>" +
     "<ul class='dropdown-content w-100' style='display: none;'>" +
     "<li><span>Father</span></li>" +
     "<li><span>Mother</span></li>" +
@@ -21,3 +21,13 @@ const loaderTpl =
     "<div class='d-flex justify-content-center'>" +
     "<div class='spinner-grow my-5' role='status'></div>" +
     "</div>";
+
+function isRelationshipSelected(o) {
+    let i = o.parents(".card").find('input');
+    let r = i.val();
+    if (!r) {
+        reportError(i, "Please select a relationship");
+    } else {
+        return true;
+    }
+}

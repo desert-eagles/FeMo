@@ -17,6 +17,28 @@ $(() => {
     });
 });
 
+const replRequestTpl =
+    "<span class='d-flex'>" +
+    "<button class='btn btn-sm btn-primary' onclick='if (isRelationshipSelected($(this))) { $(this).closest(\"div\").html(acceptRequestTpl) }'>Accept</button>" +
+    "<button class='btn btn-sm btn-warning' onclick='$(this).closest(\"div\").html(declineRequestTpl)'>Decline</button>" +
+    "</span>";
+
+const acceptRequestTpl =
+    "<span class='d-flex'>" +
+    "<button class='btn btn-sm btn-success' onclick='acceptRequest($(this)); $(this).closest(\"div\").empty().after(acceptedTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
+    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(replRequestTpl)'>Cancel</button>" +
+    "</span>";
+
+const declineRequestTpl =
+    "<span class='d-flex'>" +
+    "<button class='btn btn-sm btn-danger' onclick='declineRequest($(this)); $(this).closest(\"div\").empty().after(declinedTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
+    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(replRequestTpl)'>Cancel</button>" +
+    "</span>";
+
+const acceptedTpl = "<div class='d-flex align-items-center ml-lg-auto'>Accepted</div>";
+
+const declinedTpl = "<div class='d-flex align-items-center ml-lg-auto'>Declined</div>";
+
 const requestTpl =
     "{{#request}}" +
     "<div class='row justify-content-center'>" +
@@ -36,15 +58,9 @@ const requestTpl =
 
     selectRelationTpl +
 
-    "<span>" +
-    "<button class='btn btn-sm btn-primary' onclick='$(this).parent().hide().next().show().click((e) => {acceptRequest(e)})'>Accept</button>" +
-    "<button class='btn btn-sm btn-danger' onclick='$(this).parent().hide().next().show()'>Decline</button>" +
-    "</span>" +
-    "<span style='display: none'>" +
-    "<button class='btn btn-sm btn-danger' data-request-id='{{request_id}}' data-relationship-idx='{{relationship_idx}}' onclick='$(this).parent().hide().next().show()'>Confirm</button>" +
-    "<button class='btn btn-sm btn-secondary' onclick='$(this).parent().hide().prev().show()'>Cancel</button>" +
-    "</span>" +
-    "<button style='display: none' class='btn btn-sm btn-warning ml-auto'>Request sent</button>" +
+    "<div data-request-id='{{request_id}}' data-relationship-idx='{{relationship_idx}}'>" +
+    replRequestTpl +
+    "</div>" +
 
     "</div>" +
     "</div>" +
@@ -55,22 +71,24 @@ const requestTpl =
     "<div class='text-center'>No requests to show</div>" +
     "{{/request}}";
 
-function acceptRequest(e) {
-    let o = $(e.target);
-    let i = o.prev().find("input");
-    let r = i.val();
+function acceptRequest(o) {
+    $.ajax({
+        type: "Post",
+        url: "accept-request/",
+        data: {
+            request_id: o.closest("div").attr("data-request-id"),
+            relationship_idx: o.closest("div").attr("data-relationship-idx"),
+            relationship: o.closest(".card").find("input").val(),
+        }
+    });
+}
 
-    if (r) {
-        $.ajax({
-            type: "Post",
-            url: "accept-request/",
-            data: {
-                request_id: o.attr("data-request-id"),
-                relationship_idx: o.attr("data-relationship-idx"),
-                relationship: r,
-            }
-        });
-    } else {
-        reportError(i, "Please select a relationship");
-    }
+function declineRequest(o) {
+    $.ajax({
+        type: "Post",
+        url: "decline-request/",
+        data: {
+            request_id: o.closest("div").attr("data-request-id"),
+        }
+    });
 }

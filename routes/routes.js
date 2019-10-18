@@ -59,8 +59,8 @@ router.get('/upload', userController.authChecker, function (req, res) {
 });
 
 // Relation page
-router.get('/add-relation', userController.authChecker, function (req, res) {
-    res.render('addRelation');
+router.get('/connect', userController.authChecker, function (req, res) {
+    res.render('connect');
 });
 
 router.get('/request', userController.authChecker, function (req, res) {
