@@ -134,15 +134,22 @@ function searchUsers(req, res, next) {
                             continue;
                         }
 
-                        queried_users.push({
+                        let queried = {
                             user_id: q_user._id,
                             user_pic_url: q_user.pic_url,
                             user_name: `${q_user.firstname} ${q_user.lastname}`,
-                            user_nickname: q_user.nickname,
-                            request_sent: sent_to.includes(q_user._id),
-                            request_received: received_from.includes(q_user._id),
-                            connected: user.connections.includes(q_user._id)
-                        });
+                            user_nickname: q_user.nickname
+                        };
+
+                        if (user.connections.includes(q_user._id)) {
+                            queried["errMsg"] = "Already connected";
+                        } else if (sent_to.includes(q_user._id)) {
+                            queried["errMsg"] = "Already sent a request";
+                        } else if (received_from.includes(q_user._id)) {
+                            queried["errMsg"] = "Already received a request";
+                        }
+
+                        queried_users.push(queried);
                     }
                     return res.send(queried_users);
                 }
