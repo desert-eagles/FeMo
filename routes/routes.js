@@ -12,6 +12,7 @@ var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
 var postController = require("../controllers/postController");
 var requestController = require("../controllers/requestController");
+var familyController = require("../controllers/familyController");
 
 // Home page
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -87,6 +88,18 @@ router.post('/get-connections', userController.getConnections);
 
 // Delete relationship with other user
 router.post('/delete-relationship', userController.deleteRelationship);
+
+// Create a new family
+router.post('/create-family', familyController.createFamily);
+
+// Pull a connection into family
+router.post('/invite-to-family', familyController.inviteToFamily);
+
+// Remove a connection from family
+router.post('/remove-from-family', familyController.removeFromFamily);
+
+// Delete family
+router.post('/delete-family', familyController.deleteFamily);
 
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
