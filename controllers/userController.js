@@ -258,8 +258,10 @@ function deleteRelationship(req, res, next) {
                         User.updateMany(
                             {_id: {$in: users_id}},
                             {
-                                $pull: {requests: request_id},
-                                $pull: {connections: {$in: users_id}}
+                                $pull: {
+                                    requests: request_id,
+                                    connections: {$in: users_id}
+                                }
                             },
                             {multi: true},
                             function (err, _) {
