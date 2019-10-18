@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 // Collection from MongoDB
 let User = mongoose.model('User');
 let Relationship = mongoose.model('Relationship');
+let Request = mongoose.model('Request');
+
 
 /**
  * Middleware to check if user has already logged in
@@ -203,6 +205,7 @@ function getConnections(req, res, next) {
                             continue
                         }
                         connections.push({
+                            user_id: usr._id,
                             user_pic_url: usr.pic_url,
                             user_name: `${usr.firstname} ${usr.lastname}`,
                             user_nickname: usr.nickname,
@@ -215,12 +218,67 @@ function getConnections(req, res, next) {
         });
 }
 
-//TODO delete connection
+/**
+ * Delete relationship with other user
+ * POST /delete-relationship
+ */
+function deleteRelationship(req, res, next) {
+    let delete_id = req.body.partner_id;
+    let user_id = req.session.user._id;
+
+    // Search for the request
+    Request.findOne(
+        {
+            $and: [
+                {_senderId: {$in: [user_id, delete_id]}},
+                {_receiverId: {$in: [user_id, delete_id]}}
+            ]
+        },
+        function (err, request) {
+
+            // Remove relationship entries
+            Relationship.deleteMany(
+                {_id: {$in: request._relationshipIds}},
+                function (err) {
+                    if (err) {
+                        console.error("Database delete relationships error: " + err);
+                        return next(err);
+                    }
+                    // Remove the request itself
+                    let request_id = request._id;
+                    let users_id = [request._senderId, request._receiverId];
+
+                    request.remove(function (err) {
+                        if (err) {
+                            console.error("Database delete request error: " + err);
+                            return next(err);
+                        }
+
+                        // Request successfully deleted, update users' requests list
+                        User.updateMany(
+                            {_id: {$in: users_id}},
+                            {$pull: {requests: request_id}},
+                            {multi: true},
+                            function (err, _) {
+                                if (err) {
+                                    console.error("Database remove users' requests error: " + err);
+                                    return next(err);
+                                }
+                                // Users updated
+                                return res.send({errMsg: ""});
+                            });
+                    });
+                });
+        });
+}
+
+
 module.exports = {
     sessionChecker,
     authChecker,
     saveNewUser,
     logout,
     searchUsers,
-    getConnections
+    getConnections,
+    deleteRelationship
 };

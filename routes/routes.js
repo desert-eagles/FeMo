@@ -85,6 +85,9 @@ router.post('/decline-request', requestController.declineRequest);
 // Get all the connections of users
 router.post('/get-connections', userController.getConnections);
 
+// Delete relationship with other user
+router.post('/delete-relationship', userController.deleteRelationship);
+
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
