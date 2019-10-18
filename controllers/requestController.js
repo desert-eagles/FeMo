@@ -33,7 +33,7 @@ function sendRequest(req, res, next) {
     });
 
     //TODO other already sent a request
-    
+
     // Save relationship
     Relationship.insertMany([from_relationship, to_relationship],
         function (err, rel_list) {
@@ -221,13 +221,26 @@ function declineRequest(req, res, next) {
                     return next(err);
                 }
                 // Remove the request itself
+                let request_id = request._id;
                 request.remove(function (err) {
                     if (err) {
                         console.error("Database delete request error: " + err);
                         return next(err);
                     }
-                    // Request successfully deleted
-                    return res.send({errMsg: ""});
+
+                    // Request successfully deleted, update users' requests list
+                    User.updateMany(
+                        {_id: {$in: relationship_ids}},
+                        {$pull: {requests: request_id}},
+                        {multi: true},
+                        function (err, _) {
+                            if (err) {
+                                console.error("Database remove users' requests error: " + err);
+                                return next(err);
+                            }
+                            // Users updated
+                            return res.send({errMsg: ""});
+                        });
                 });
             });
     });
