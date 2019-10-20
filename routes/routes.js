@@ -107,6 +107,11 @@ router.post('/delete-comment', postController.deleteComment);
 // Logout
 router.get('/logout', userController.logout);
 
+// Direct to create-family page
+router.get('/create-family', userController.authChecker, function (req, res) {
+    res.render('createFamily');
+});
+
 // Create a new family
 router.post('/create-family',
     uploader.uploadFamilyPic.single("family-picture"),
