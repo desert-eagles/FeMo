@@ -108,7 +108,9 @@ router.post('/delete-comment', postController.deleteComment);
 router.get('/logout', userController.logout);
 
 // Create a new family
-router.post('/create-family', familyController.createFamily);
+router.post('/create-family',
+    uploader.uploadFamilyPic.single("family-picture"),
+    familyController.createFamily);
 
 // Pull a connection into family
 router.post('/invite-to-family', familyController.inviteToFamily);
