@@ -260,6 +260,9 @@ function deleteComment(req, res, next) {
 
 //TODO deletePOST
 
+
+//TODO fetchFamilyPosts
+
 module.exports = {
     createPost,
     fetchPosts,

@@ -192,6 +192,10 @@ function getConnections(req, res, next) {
                     ]
                 },
                 function (err, rels) {
+                    if (err) {
+                        console.error("Database find relationships error: " + err);
+                        return next(err);
+                    }
                     rels = rels.reduce((acc, rel) => {
                         acc[rel._toId] = rel.relationship;
                         return acc;
