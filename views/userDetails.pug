@@ -5,85 +5,64 @@ block title
 
 block append head
     link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css")
-    link(rel="stylesheet" type="text/css" href="/css/user/userDetails.css")
+    link(rel="stylesheet" type="text/css" href="css/user/profilePictureWidget.css")
+    link(rel="stylesheet" type="text/css" href="css/user/materialSelect.css")
 
 block content
-    .container.py-5.w-50
-        html
-            body
-                h3.mt-5 Please enter the following information to continue
-                form#userDetails
-                    // Grid row
-                    .row.my-5
-                        // Grid column
-                        .col-md-5
-                            .d-flex
-                                .card.text-center
-                                    .card-body
-                                        .profile-img.p-3
-                                            img#profile-pic-upload.border(src="/images/default-profile-picture.png")
-                                        .btn.btn-sm.btn-dark
-                                            input#file-upload.file-upload(type="file" name="profile_picture" accept="image/*")
-                                            | Upload New Photo
-                        // Grid column
-                        // Grid column
-                        .col-md-7
-                            .md-form.mb-5
-                                i.fa.fa-user.prefix
-                                input#firstname.form-control(type="text")
-                                label(for="firstname") First name
-                            .md-form.mb-5
-                                i.fa.fa-user.prefix
-                                input#lastname.form-control(type="text")
-                                label(for="lastname") Last name
-                            .md-form.mb-5.select-wrapper.mdb-select
-                                i.fas.fa-venus-mars.prefix
-                                label.mdb-main-label(for="gender") Gender
-                                span.caret ▼
-                                input#gender.select-dropdown.form-control(type="text" readonly="true" required="false" value="")
-                                ul.dropdown-content.w-100
-                                    li
-                                        span Female
-                                    li
-                                        span Male
-                    // Grid row
-                    .row.my-3
-                        // Grid column
-                        .col-md-12
-                            .md-form.mb-0
-                                i.fa.fa-calendar-alt.prefix
-                                input#dob.form-control(type="date")
-                                label(for="dob") Date of birth
-                    // Grid row
-                    .row.my-3
-                        // Grid column
-                        .col-md-12
-                            .md-form.mb-0
-                                i.fas.fa-user-ninja.prefix
-                                input#nickname.form-control(type="text")
-                                label(for="nickname") Your nickname
-                    // Grid row
-                    .py-5.text-center
-                        a#submit.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
-    // The Modal
-    #myModal.modal
-        .modal-dialog.modal-dialog-centered
-            .modal-content
-                // Modal Header
-                .modal-header
-                    h4.modal-title Crop Image And Upload
-                    button.close(type="button" data-dismiss="modal") ×
-                // Modal body
-                .modal-body
-                    #resizer
-                    button.btn.rotate.float-lef(data-deg="90")
-                        i.fas.fa-undo
-                    button.btn.rotate.float-right(data-deg="-90")
-                        i.fas.fa-redo
-                    hr
-                    button#upload.btn.btn-block.btn-dark
-                        | Crop And Upload
+    .container.py-5.min-vh-100.col-lg-6
+        h3.mt-5 Please enter the following information to continue
+        form#userDetails(style="display:none")
+            // Grid row
+            .row.my-5
+                // Grid column
+                .col-md-5
+                    .d-flex
+                        .card.text-center
+                            .card-body
+                                .profile-img.p-3
+                                    img#profile-pic-upload.border(src="/images/default-profile-picture.png")
+                                .btn.btn-sm.btn-dark
+                                    input#file-upload.file-upload(type="file" name="profile_picture" accept="image/*")
+                                    | Upload New Photo
+                // Grid column
+                .col-md-7
+                    .md-form.mb-5
+                        i.fa.fa-user.prefix
+                        input#firstname.form-control(type="text")
+                        label(for="firstname") First name
+                    .md-form.mb-5
+                        i.fa.fa-user.prefix
+                        input#lastname.form-control(type="text")
+                        label(for="lastname") Last name
+                    .md-form
+                        i.fas.fa-venus-mars.prefix
+                        select.mdb-select.md-form
+                            option(value="" disabled selected) Choose your gender
+                            option(value="Female") Female
+                            option(value="Male") Male
+            // Grid row
+            .row.my-3
+                // Grid column
+                .col-md-12
+                    .md-form.mb-0
+                        i.fa.fa-calendar-alt.prefix
+                        input#dob.form-control(type="date")
+                        label(for="dob") Date of birth
+            // Grid row
+            .row.my-3
+                // Grid column
+                .col-md-12
+                    .md-form.mb-0
+                        i.fas.fa-user-ninja.prefix
+                        input#nickname.form-control(type="text")
+                        label(for="nickname") Your nickname
+            // Grid row
+            .py-5.text-center
+                a#submit.btn.btn-cyan.waves-effect.waves-light Start using FeMo!
+    include includes/profilePictureWidget
 
 block append script
     script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.js")
+    script(type="text/javascript" src="js/user/materialSelect.js")
     script(type="text/javascript" src="js/user/userDetails.js")
+    script(type="text/javascript" src="js/user/profilePictureWidget.js")

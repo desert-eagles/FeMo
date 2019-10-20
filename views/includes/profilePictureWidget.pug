@@ -1,0 +1,18 @@
+// The Modal
+#profilePictureWidget.modal
+    .modal-dialog.modal-dialog-centered
+        .modal-content
+            // Modal Header
+            .modal-header
+                h4.modal-title Crop Image And Upload
+                button.close(type="button" data-dismiss="modal") ×
+            // Modal body
+            .modal-body
+                #resizer
+                button.btn.rotate.float-lef(data-deg="90")
+                    i.fas.fa-undo
+                button.btn.rotate.float-right(data-deg="-90")
+                    i.fas.fa-redo
+                hr
+                button#upload.btn.btn-block.btn-dark
+                    | Crop And Upload
