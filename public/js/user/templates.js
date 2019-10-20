@@ -1,22 +1,20 @@
 const selectRelationTpl =
-    "<div class='md-form select-wrapper mdb-select my-0 mr-2 ml-lg-auto'>" +
+    "<div class='md-form my-0 mr-2 ml-lg-auto' data-select-relation=''>" +
     "<i class='fas fa-user-friends prefix'></i>" +
-    "<label class='mdb-main-label'>Relationship</label>" +
-    "<span class='caret'>▼</span>" +
-    "<input class='select-dropdown form-control' type='text' readonly='true' required='false' value=''>" +
-    "<ul class='dropdown-content w-100' style='display: none;'>" +
-    "<li><span>Father</span></li>" +
-    "<li><span>Mother</span></li>" +
-    "<li><span>Son</span></li>" +
-    "<li><span>Daughter</span></li>" +
-    "<li><span>Brother</span></li>" +
-    "<li><span>Sister</span></li>" +
-    "<li><span>Uncle</span></li>" +
-    "<li><span>Aunt</span></li>" +
-    "<li><span>Niece</span></li>" +
-    "<li><span>Nephew</span></li>" +
-    "<li><span>Cousin</span></li>" +
-    "</ul>" +
+    "<select class='mdb-select md-form my-0' searchable='Search here..'>" +
+    "<option value='' disabled selected>Choose relationship</option>" +
+    "<option value='Father'>Father</option>" +
+    "<option value='Mother'>Mother</option>" +
+    "<option value='Son'>Son</option>" +
+    "<option value='Daughter'>Daughter</option>" +
+    "<option value='Brother'>Brother</option>" +
+    "<option value='Sister'>Sister</option>" +
+    "<option value='Uncle'>Uncle</option>" +
+    "<option value='Aunt'>Aunt</option>" +
+    "<option value='Niece'>Niece</option>" +
+    "<option value='Nephew'>Nephew</option>" +
+    "<option value='Cousin'>Cousin</option>" +
+    "</select>" +
     "</div>";
 
 const loaderTpl =

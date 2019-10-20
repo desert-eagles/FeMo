@@ -12,7 +12,8 @@ $(() => {
         })).appendTo($("#request")).hide()
             .imagesLoaded((imgLoad) => {
                 $("#request :visible").remove();
-                addSelectEvents($(imgLoad.elements).fadeIn().find(".select-wrapper input"));
+                $(imgLoad.elements).fadeIn();
+                $(".mdb-select").materialSelect();
             });
     });
 });
@@ -25,7 +26,7 @@ const replRequestTpl =
 
 const acceptRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-success' onclick='acceptRequest($(this)); $(this).closest(\"div\").empty().after(acceptedTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
+    "<button class='btn btn-sm btn-success' onclick='acceptRequest($(this)); $(this).closest(\"div\").empty().after(acceptedTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'>Confirm</button>" +
     "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(replRequestTpl)'>Cancel</button>" +
     "</span>";
 

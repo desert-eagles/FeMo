@@ -29,7 +29,7 @@ $(document).ready(() => {
         if (members.length) {
             familyDetails.append("members", members);
         } else {
-            reportError($("#selectMembers input"), "Please select family members");
+            return reportError($("#selectMembers input"), "Please select family members");
         }
 
         // Send POST request to backend to store details

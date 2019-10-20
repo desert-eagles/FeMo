@@ -1,7 +1,3 @@
-$(() => {
-    $('.mdb-select').materialSelect();
-});
-
 (function (e) {
     e.fn.scrollTo = function (t) {
         return e(this).scrollTop(e(this).scrollTop() - e(this).offset().top + e(t).offset().top), this
