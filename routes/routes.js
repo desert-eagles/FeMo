@@ -89,18 +89,6 @@ router.post('/get-connections', userController.getConnections);
 // Delete relationship with other user
 router.post('/delete-relationship', userController.deleteRelationship);
 
-// Create a new family
-router.post('/create-family', familyController.createFamily);
-
-// Pull a connection into family
-router.post('/invite-to-family', familyController.inviteToFamily);
-
-// Remove a connection from family
-router.post('/remove-from-family', familyController.removeFromFamily);
-
-// Delete family
-router.post('/delete-family', familyController.deleteFamily);
-
 // Save post uploaded by user
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
@@ -118,6 +106,24 @@ router.post('/delete-comment', postController.deleteComment);
 
 // Logout
 router.get('/logout', userController.logout);
+
+// Create a new family
+router.post('/create-family', familyController.createFamily);
+
+// Pull a connection into family
+router.post('/invite-to-family', familyController.inviteToFamily);
+
+// Remove a connection from family
+router.post('/remove-from-family', familyController.removeFromFamily);
+
+// Delete family
+router.post('/delete-family', familyController.deleteFamily);
+
+// Get family members
+router.post('/get-family-members', familyController.getFamilyMembers);
+
+// Get families
+router.post('/get-families', familyController.getFamilies);
 
 
 /*****************************************************************************/
