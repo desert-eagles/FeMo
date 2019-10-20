@@ -258,15 +258,79 @@ function deleteComment(req, res, next) {
 }
 
 
-//TODO deletePOST
+/**
+ * Delete a post
+ * POST /delete-post
+ */
+function deletePost(req, res, next) {
+    let user_id = req.session.user._id;
+    let family_id = req.body.family_id;
+    let post_id = req.body.post_id;
 
+    // Find post
+    Post.findById(post_id, function (err, post) {
+        if (err) {
+            console.error("Database find post error: " + err);
+            return next(err);
+        }
+
+        // Delete all comments
+        Comment.deleteMany(
+            {_id: {$in: post.comments}},
+            function (err) {
+                if (err) {
+                    console.error("Database delete comments error: " + err);
+                    return next(err);
+                }
+
+                // Remove post itself
+                post.remove(function (err) {
+                    if (err) {
+                        console.error("Database delete post error: " + err);
+                        return next(err);
+                    }
+                    // Update user
+                    User.findOneAndUpdate(
+                        {_id: user_id},
+                        {$pull: {posts: post_id}},
+                        function (err) {
+                            if (err) {
+                                console.error("Database update user error: " + err);
+                                return next(err);
+                            }
+                            // User updated
+                            if (!family_id) {
+                                // All done
+                                return res.send({errMsg: ""});
+                            }
+                            // Need to update family
+                            Family.findOneAndUpdate(
+                                {_id: family_id},
+                                {$pull: {posts: post_id}},
+                                function (err) {
+                                    if (err) {
+                                        console.error("Database update family error: " + err);
+                                        return next(err);
+                                    }
+                                    // All done
+                                    return res.send({errMsg: ""});
+                                });
+                        });
+                });
+            }
+        );
+    });
+
+}
 
 //TODO fetchFamilyPosts
+
 
 module.exports = {
     createPost,
     fetchPosts,
     toggleLike,
     commentPost,
-    deleteComment
+    deleteComment,
+    deletePost
 };

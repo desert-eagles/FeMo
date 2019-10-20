@@ -15,7 +15,8 @@ let Relationship = mongoose.model('Relationship');
  * POST /create-family
  */
 function createFamily(req, res, next) {
-    let members = req.body.members.concat([req.session.user._id]);
+    let members = JSON.parse(req.body.members);
+    members = members.concat([req.session.user._id]);
 
     // Extract details of new family
     let new_family = new Family({
@@ -165,9 +166,9 @@ function deleteFamily(req, res, next) {
  */
 function getFamilyMembers(req, res, next) {
     let family_id = req.body.family_id;
-    let user_id = req.session.user._id;
+    let self = req.session.user;
 
-    User.findById(user_id)
+    User.findById(self._id)
         .populate({path: "connections", select: "pic_url firstname lastname nickname"})
         .exec(function (err, user) {
             if (err) {
@@ -206,7 +207,7 @@ function getFamilyMembers(req, res, next) {
                     Relationship.find(
                         {
                             $and: [
-                                {_fromId: user_id},
+                                {_fromId: self._id},
                                 {_toId: {$in: connected_ids}}
                             ]
                         },
@@ -221,7 +222,14 @@ function getFamilyMembers(req, res, next) {
                                 return acc;
                             }, {});
 
-                            let family_members = [];
+                            // Add user him/herself
+                            let family_members = [{
+                                user_id: self._id,
+                                user_pic_url: self.pic_url,
+                                user_name: `${self.firstname} ${self.lastname}`,
+                                user_nickname: self.nickname,
+                                is_self: true
+                            }];
 
                             // Append connected members
                             for (let usr of connected_members) {
@@ -285,11 +293,40 @@ function getFamilies(req, res, next) {
 }
 
 
+/**
+ * Get family details
+ * POST /get-family-details
+ */
+function getFamilyDetails(req, res, next) {
+    let family_id = req.body.family_id;
+
+    // Find the family
+    Family.findById(family_id)
+        .populate({path: "creator", select: "firstname lastname"})
+        .exec(function (err, family) {
+            if (err) {
+                console.error("Database find family error: " + err);
+                return next(err);
+            }
+            let creator = family.creator;
+
+            return res.send({
+                family_id: family._id,
+                family_name: family.name,
+                family_description: family.description,
+                family_pic_url: family.pic_url,
+                family_creator: `${creator.firstname} ${creator.lastname}`,
+                family_createdAt: family.createdAt
+            });
+        });
+}
+
 module.exports = {
     createFamily,
     inviteToFamily,
     removeFromFamily,
     deleteFamily,
     getFamilyMembers,
-    getFamilies
+    getFamilies,
+    getFamilyDetails
 };

@@ -27,7 +27,7 @@ $(document).ready(() => {
         // Append family members
         let members = $("#selectMembers select").val();
         if (members.length) {
-            familyDetails.append("members", members);
+            familyDetails.append("members", JSON.stringify(members));
         } else {
             return reportError($("#selectMembers input"), "Please select family members");
         }

@@ -127,11 +127,13 @@ router.post('/remove-from-family', familyController.removeFromFamily);
 router.post('/delete-family', familyController.deleteFamily);
 
 // Get family members
-router.post('/get-family-members', familyController.getFamilyMembers);
+router.post('/get-family-members/', familyController.getFamilyMembers);
 
 // Get families
 router.post('/get-families', familyController.getFamilies);
 
+// Get family details
+router.post('/get-family-details', familyController.getFamilyDetails);
 
 /*****************************************************************************/
 
