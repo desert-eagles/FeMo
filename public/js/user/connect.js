@@ -84,7 +84,7 @@ const sendRequestTpl =
 
 const cfmRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-success' onclick='sendRequest($(this)); $(this).closest(\"div\").empty().after(requestSentTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
+    "<button class='btn btn-sm btn-success' onclick='sendRequest($(this)); $(this).closest(\"div\").empty().after(requestSentTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'>Confirm</button>" +
     "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(sendRequestTpl)'>Cancel</button>" +
     "</span>";
 
@@ -142,7 +142,8 @@ function search() {
             results: res
         })).appendTo($("#results")).hide().imagesLoaded((imgLoad) => {
             $("#results :visible").remove();
-            addSelectEvents($(imgLoad.elements).fadeIn().find(".select-wrapper input"));
+            $(imgLoad.elements).fadeIn();
+            $(".mdb-select").materialSelect();
         });
     });
 }

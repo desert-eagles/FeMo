@@ -6,6 +6,8 @@
 var profile_pic;
 
 $(document).ready(() => {
+    $('.mdb-select').materialSelect();
+
     // Default profile picture
     toDataUrl($("#profile-pic-upload").attr("src"), function (base64) {
         profile_pic = $.base64ImageToBlob(base64);
