@@ -89,6 +89,10 @@ router.post('/get-connections', userController.getConnections);
 // Delete relationship with other user
 router.post('/delete-relationship', userController.deleteRelationship);
 
+router.get('/create-family', userController.authChecker, function (req, res) {
+    return res.render('createFamily');
+});
+
 // Create a new family
 router.post('/create-family', familyController.createFamily);
 

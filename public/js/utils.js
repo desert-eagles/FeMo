@@ -8,6 +8,17 @@ function reportError(o, err) {
     e.reportValidity();
 }
 
+// Helper function to check if field is empty
+function isEmpty(o) {
+    if (!o.val()) {
+        reportError(o, "Required field");
+        return true;
+    } else {
+        o.removeClass("invalid").addClass("valid");
+    }
+    return false;
+}
+
 // Helper function to check if the date is in the valid range
 function isInvalidDate(o, min, max = new Date()) {
     let inputDate = new Date(o.val());
@@ -42,16 +53,3 @@ $(document).ready(() => {
     // initialise animation
     new WOW().init();
 });
-
-function addSelectEvents(o) {
-    o.focus((e) => {
-        $(e.target).removeClass("invalid").siblings("ul.dropdown-content").slideDown();
-    });
-    o.blur((e) => {
-        $(e.target).siblings("ul.dropdown-content").fadeOut();
-    });
-    $("ul.dropdown-content li").mousedown((e) => {
-        let clicked = $(e.target);
-        clicked.parents("ul").siblings("input.select-dropdown").val(clicked.text());
-    });
-}

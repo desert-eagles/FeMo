@@ -1,0 +1,50 @@
+extends parents/base
+
+block title
+    title Create family group
+
+block append head
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.css")
+    link(rel="stylesheet" type="text/css" href="css/user/profilePictureWidget.css")
+    link(rel="stylesheet" type="text/css" href="css/user/materialSelect.css")
+
+block content
+    .container.pt-5.min-vh-100.col-lg-6
+        .d-flex.justify-content-center
+            .spinner-grow.my-5(role="status")
+        form#familyDetails(style="display: none")
+            // Grid row
+            .row.my-5
+                // Grid column
+                .col-md-5
+                    .d-flex
+                        .card.text-center
+                            .card-body
+                                .profile-img.p-3
+                                    img#family-profile-pic.border(src="/images/default-family-picture.png")
+                                .btn.btn-sm.btn-dark
+                                    input#file-upload.file-upload(type="file" name="family_picture" accept="image/*")
+                                    | Upload New Photo
+                // Grid column
+                .col-md-7
+                    .md-form.mb-5
+                        i.fas.fa-users.prefix
+                        input#name.form-control(type="text")
+                        label(for="name") Family group name
+                    .md-form.mb-5
+                        i.fas.fa-angle-double-right.prefix
+                        textarea#description.form-control.md-textarea.pt-2.pb-0(rows="5")
+                        label(for="description") Some description
+
+            .md-form#selectMembers
+
+            // Grid row
+            .py-5.text-center
+                a#submit.btn.btn-cyan.waves-effect.waves-light Create family group
+    include includes/profilePictureWidget
+
+block append script
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.min.js")
+    script(type="text/javascript" src="js/user/materialSelect.js")
+    script(type="text/javascript" src="js/user/createFamily.js")
+    script(type="text/javascript" src="js/user/profilePictureWidget.js")
