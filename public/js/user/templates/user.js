@@ -99,7 +99,7 @@ function rmFromFamily(o) {
         url: "/remove-from-family",
         data: {
             family_id: row.find("[data-family-id]").attr("data-family-id"),
-            remove_id: row.find("[data-partner-id]").attr("data-partner-id")
+            remove_id: row.find("[data-remove-id]").attr("data-remove-id")
         }
     });
     row.slideUp();
@@ -126,7 +126,7 @@ const connectionTpl =
     "{{/user_relationship}}" +
 
     "{{#family_id}}" +
-    "<div class='d-flex align-items-center' data-family-id='{{family_id}}'>" +
+    "<div class='d-flex align-items-center' data-family-id='{{family_id}}' data-reomve-id='{{user_id}}'>" +
     rmFromFamilyTpl +
     "</div>" +
     "{{/family_id}}" +
