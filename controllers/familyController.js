@@ -259,6 +259,7 @@ function getFamily(req, res, next) {
                                     continue
                                 }
                                 connections.push({
+                                    family_id: family._id,
                                     user_id: usr._id,
                                     user_pic_url: usr.pic_url,
                                     user_name: `${usr.firstname} ${usr.lastname}`,
@@ -289,6 +290,7 @@ function getFamily(req, res, next) {
                                     continue;
                                 }
                                 let nc_user = {
+                                    family_id: family._id,
                                     user_id: usr._id,
                                     user_pic_url: usr.pic_url,
                                     user_name: `${usr.firstname} ${usr.lastname}`,
