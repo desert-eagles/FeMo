@@ -238,7 +238,7 @@ function getFamily(req, res, next) {
                                 family_description: family.description,
                                 family_pic_url: family.pic_url,
                                 family_creator: `${creator.firstname} ${creator.lastname}`,
-                                family_createdAt: moment(family.createdAt).format('lll')
+                                family_createdOn: moment(family.createdAt).format('ll')
                             };
 
                             // List of users already connected
