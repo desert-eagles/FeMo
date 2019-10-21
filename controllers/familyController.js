@@ -284,6 +284,9 @@ function getFamily(req, res, next) {
                                 if (usr._id.toString() in rels) {
                                     // Already appended
                                     continue;
+                                } else if (usr._id.toString() === self._id.toString()) {
+                                    // User him/herself
+                                    continue;
                                 }
                                 let nc_user = {
                                     user_id: usr._id,
@@ -338,7 +341,6 @@ function getFamilies(req, res, next) {
             res.send(families);
         });
 }
-
 
 
 module.exports = {
