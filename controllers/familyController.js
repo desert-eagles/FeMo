@@ -4,6 +4,7 @@
  */
 
 const mongoose = require('mongoose');
+let moment = require('moment');
 
 // Collection from MongoDB
 let User = mongoose.model('User');
@@ -169,7 +170,10 @@ function getFamilyMembers(req, res, next) {
     let self = req.session.user;
 
     User.findById(self._id)
-        .populate({path: "connections", select: "pic_url firstname lastname nickname"})
+        .populate([
+            {path: "connections", select: "pic_url firstname lastname nickname"},
+            {path: "requests", select: "_senderId _receiverId accepted"}
+        ])
         .exec(function (err, user) {
             if (err) {
                 console.error("Database find user error: " + err);
@@ -222,21 +226,24 @@ function getFamilyMembers(req, res, next) {
                                 return acc;
                             }, {});
 
+                            // List of users already connected
+                            let connections = [];
+
                             // Add user him/herself
-                            let family_members = [{
+                            connections.push({
                                 user_id: self._id,
                                 user_pic_url: self.pic_url,
                                 user_name: `${self.firstname} ${self.lastname}`,
                                 user_nickname: self.nickname,
-                                is_self: true
-                            }];
+                                user_relationship: false
+                            });
 
                             // Append connected members
                             for (let usr of connected_members) {
                                 if (!usr._id.toString() in rels) {
                                     continue
                                 }
-                                family_members.push({
+                                connections.push({
                                     user_id: usr._id,
                                     user_pic_url: usr.pic_url,
                                     user_name: `${usr.firstname} ${usr.lastname}`,
@@ -245,20 +252,43 @@ function getFamilyMembers(req, res, next) {
                                 });
                             }
 
+                            // List of non-connected users
+                            let users = [];
+
+                            // List of users already sent a request to
+                            let sent_to = user.requests.map((e) => {
+                                return e._receiverId
+                            });
+                            // List of users already received a request from
+                            let received_from = user.requests.map((e) => {
+                                return e._senderId
+                            });
+
                             // Append non-connected members
                             for (let usr of members) {
                                 if (usr._id.toString() in rels) {
                                     // Already appended
                                     continue;
                                 }
-                                family_members.push({
+                                let nc_user = {
                                     user_id: usr._id,
                                     user_pic_url: usr.pic_url,
                                     user_name: `${usr.firstname} ${usr.lastname}`,
                                     user_nickname: usr.nickname
-                                });
+                                };
+                                if (sent_to.includes(usr._id)) {
+                                    nc_user["errMsg"] = "Already sent a request";
+                                } else if (received_from.includes(usr._id)) {
+                                    nc_user["errMsg"] = "Already received a request";
+                                }
+                                users.push(nc_user);
                             }
-                            return res.send(family_members);
+
+                            // All done, send to frontend for displaying
+                            return res.send({
+                                connections: connections,
+                                users: users
+                            });
                         });
                 });
         });
@@ -274,7 +304,7 @@ function getFamilies(req, res, next) {
 
     // Find families joined by the user
     User.findById(user_id)
-        .populate({path: "families", select: "name pic_url"})
+        .populate({path: "families", select: "name pic_url description"})
         .exec(function (err, user) {
             if (err) {
                 console.error("Database find user error: " + err);
@@ -285,7 +315,8 @@ function getFamilies(req, res, next) {
                 families.push({
                     family_id: fam._id,
                     family_name: fam.name,
-                    family_pic_url: fam.pic_url
+                    family_pic_url: fam.pic_url,
+                    family_description: fam.description
                 });
             }
             res.send(families);
@@ -316,7 +347,7 @@ function getFamilyDetails(req, res, next) {
                 family_description: family.description,
                 family_pic_url: family.pic_url,
                 family_creator: `${creator.firstname} ${creator.lastname}`,
-                family_createdAt: family.createdAt
+                family_createdAt: moment(family.createdAt).format('lll')
             });
         });
 }

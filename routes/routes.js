@@ -129,6 +129,11 @@ router.post('/delete-family', familyController.deleteFamily);
 // Get family members
 router.post('/get-family-members/', familyController.getFamilyMembers);
 
+// Direct to all families page
+router.get('/families', userController.authChecker, function (req, res) {
+    res.render('families');
+});
+
 // Get families
 router.post('/get-families', familyController.getFamilies);
 
