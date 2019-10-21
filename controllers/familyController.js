@@ -99,7 +99,7 @@ function removeFromFamily(req, res, next) {
     let remove_id = req.body.remove_id;
 
     // Remove user from the family members list
-    Family.update(
+    Family.updateOne(
         {_id: family_id},
         {$pull: {members: remove_id}},
         function (err) {
@@ -108,7 +108,7 @@ function removeFromFamily(req, res, next) {
                 return next(err);
             }
             // Update user that has been removed
-            User.update(
+            User.updateOne(
                 {_id: remove_id},
                 {$pull: {families: family_id}},
                 function (err) {

@@ -72,6 +72,39 @@ const cfmDeleteTpl =
     "<a class='text-secondary mx-2' onclick='$(this).closest(\"div\").html(deleteRelationshipTpl)'><i class='far fa-times-circle'></i></a>" +
     "</span>";
 
+function deleteRelationship(o) {
+    $.ajax({
+        type: "Post",
+        url: "delete-relationship",
+        data: {
+            partner_id: o.closest("[data-partner-id]").attr("data-partner-id")
+        }
+    });
+    o.closest(".row").slideUp();
+}
+
+const rmFromFamilyTpl =
+    "<a class='text-danger mx-2' onclick='$(this).parent().html(cfmRemoveTpl)'><i class='fas fa-user-minus'></i></a>";
+
+const cfmRemoveTpl =
+    "<span class='d-flex'>" +
+    "<a class='text-danger mx-2' onclick='rmFromFamily($(this))'><i class='far fa-check-circle'></i></a>" +
+    "<a class='text-secondary mx-2' onclick='$(this).closest(\"div\").html(rmFromFamilyTpl)'><i class='far fa-times-circle'></i></a>" +
+    "</span>";
+
+function rmFromFamily(o) {
+    let row = o.closest(".row");
+    $.ajax({
+        type: "Post",
+        url: "/remove-from-family",
+        data: {
+            family_id: row.find("[data-family-id]").attr("data-family-id"),
+            remove_id: row.find("[data-partner-id]").attr("data-partner-id")
+        }
+    });
+    row.slideUp();
+}
+
 const connectionTpl =
     "{{#connections}}" +
     "<div class='row justify-content-center'>" +
@@ -95,6 +128,12 @@ const connectionTpl =
     "</div>" +
     "{{/user_relationship}}" +
 
+    "{{#family_id}}" +
+    "<div class='d-flex align-items-center' data-family-id='{{family_id}}'>" +
+    rmFromFamilyTpl +
+    "</div>" +
+    "{{/family_id}}" +
+
     "</div>" +
     "</div>" +
     "</div>" +
@@ -103,14 +142,3 @@ const connectionTpl =
     "{{^connections}}" +
     "<div class='text-center'>No connections to show</div>" +
     "{{/connections}}";
-
-function deleteRelationship(o) {
-    $.ajax({
-        type: "Post",
-        url: "delete-relationship",
-        data: {
-            partner_id: o.closest("[data-partner-id]").attr("data-partner-id")
-        }
-    });
-    o.closest(".row").slideUp();
-}
