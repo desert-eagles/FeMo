@@ -41,7 +41,7 @@ $(document).ready(() => {
             contentType: false
         }).done((res) => {
             if (!res.errMsg) {
-                // Saved user details, redirect to user main page
+                // Saved family details, redirect to family list page
                 console.log("Saved family details");
                 window.location.href = "/families";
             }
@@ -61,15 +61,6 @@ $(document).ready(() => {
         $("#familyDetails").show();
     });
 });
-
-const selectMembersTpl =
-    "<select class='mdb-select md-form' multiple='' searchable='Search here..'>" +
-    "<option value='' disabled='disabled' selected='selected'>Select family members</option>" +
-    "{{#connections}}" +
-    "<option value='{{user_id}}' data-icon='{{user_pic_url}}' class='rounded-circle'>{{user_name}}</option>" +
-    "{{/connections}}" +
-    "</select>" +
-    "<button class='btn-save btn btn-primary btn-sm' type='button'>Confirm</button>";
 
 function profilePictureWidgetCallback(base64) {
     $("#family-profile-pic").attr("src", base64);
