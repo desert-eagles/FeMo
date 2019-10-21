@@ -58,7 +58,7 @@ function createFamily(req, res, next) {
  */
 function inviteToFamily(req, res, next) {
     let family_id = req.body.family_id;
-    let invited_ids = req.body.invited_ids;
+    let invite_ids = JSON.parse(req.body.invite_ids);
 
     // Find the family
     Family.findById(family_id, function (err, family) {
@@ -68,11 +68,11 @@ function inviteToFamily(req, res, next) {
         }
 
         // Only invite those previously not in family
-        invited_ids = invited_ids.filter((e) => {
+        invite_ids = invite_ids.filter((e) => {
             return !family.members.includes(e);
         });
 
-        family.members = family.members.concat(invited_ids);
+        family.members = family.members.concat(invite_ids);
 
         // Update family
         family.save(function (err) {
@@ -83,7 +83,7 @@ function inviteToFamily(req, res, next) {
 
             // Update users invited
             User.updateMany(
-                {_id: {$in: invited_ids}},
+                {_id: {$in: invite_ids}},
                 {$push: {families: family_id}},
                 {multi: true},
                 function (err) {
