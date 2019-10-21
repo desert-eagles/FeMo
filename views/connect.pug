@@ -4,12 +4,12 @@ block title
     title Add relation
 
 block append head
-    link(rel="stylesheet" href="css/user/materialSelect.css")
-    link(rel="stylesheet" href="css/user/request.css")
+    link(rel="stylesheet" href="/css/user/materialSelect.css")
+    link(rel="stylesheet" href="/css/user/connect.css")
 
 block content
     .container.min-vh-100.py-5
-        section.mb-5
+        section
             ul.nav.nav-tabs.nav-justified.md-tabs(role="tablist")
                 li.nav-item.waves-effect.waves-light
                     a.nav-link.active(data-toggle="tab" href="#connections" role="tab") Connections
@@ -29,7 +29,8 @@ block content
                 #results.my-5
 
 block append script
-    script(type="text/javascript" src="js/includes/imagesloaded.pkgd.min.js")
-    script(type="text/javascript" src="js/user/templates.js")
-    script(type="text/javascript" src="js/user/materialSelect.js")
-    script(type="text/javascript" src="js/user/connect.js")
+    script(type="text/javascript" src="/js/includes/imagesloaded.pkgd.min.js")
+    script(type="text/javascript" src="/js/includes/materialSelect.js")
+    script(type="text/javascript" src="/js/user/templates/utils.js")
+    script(type="text/javascript" src="/js/user/templates/user.js")
+    script(type="text/javascript" src="/js/user/connect.js")

@@ -126,9 +126,6 @@ router.post('/remove-from-family', familyController.removeFromFamily);
 // Delete family
 router.post('/delete-family', familyController.deleteFamily);
 
-// Get family members
-router.post('/get-family-members/', familyController.getFamilyMembers);
-
 // Direct to all families page
 router.get('/families', userController.authChecker, function (req, res) {
     res.render('families');
@@ -137,8 +134,13 @@ router.get('/families', userController.authChecker, function (req, res) {
 // Get families
 router.post('/get-families', familyController.getFamilies);
 
+// Direct to family page
+router.get('/family/:family_id', userController.authChecker, function (req, res) {
+    res.render('family', {family_id: req.params.family_id});
+});
+
 // Get family details
-router.post('/get-family-details', familyController.getFamilyDetails);
+router.post('/get-family', familyController.getFamily);
 
 /*****************************************************************************/
 

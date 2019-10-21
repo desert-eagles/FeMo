@@ -1,3 +1,11 @@
+const loaderTpl =
+    "<div class='d-flex justify-content-center mx-auto'>" +
+    "<div class='spinner-grow my-5' role='status'></div>" +
+    "</div>";
+
+/**********************************************************************************************************************/
+// select relation template
+
 const selectRelationTpl =
     "<div class='md-form my-0 mr-2 ml-lg-auto' data-select-relation=''>" +
     "<i class='fas fa-user-friends prefix'></i>" +
@@ -15,11 +23,6 @@ const selectRelationTpl =
     "<option value='Nephew'>Nephew</option>" +
     "<option value='Cousin'>Cousin</option>" +
     "</select>" +
-    "</div>";
-
-const loaderTpl =
-    "<div class='d-flex justify-content-center'>" +
-    "<div class='spinner-grow my-5' role='status'></div>" +
     "</div>";
 
 function isRelationshipSelected(o) {

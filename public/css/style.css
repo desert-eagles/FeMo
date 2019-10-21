@@ -79,3 +79,26 @@ body {
 input[type="date"] ~ label {
     top: 1rem;
 }
+
+.testimonial-card .card-up {
+    overflow: hidden;
+    height: 120px;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem
+}
+
+.testimonial-card .avatar {
+    border-radius: 50%;
+    width: 100px;
+    margin-top: -50px;
+    overflow: hidden;
+    border: 5px solid #fff
+}
+
+.testimonial-card .avatar img {
+    width: 100%
+}
+
+.testimonial-card .card-body {
+    text-align: center
+}
