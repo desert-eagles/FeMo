@@ -162,10 +162,10 @@ function deleteFamily(req, res, next) {
 
 
 /**
- * Get list of family members (connected or not connected)
- * POST /get-family-members
+ * Get details and members (connected or not connected) of family
+ * POST /get-family
  */
-function getFamilyMembers(req, res, next) {
+function getFamily(req, res, next) {
     let family_id = req.body.family_id;
     let self = req.session.user;
 
@@ -186,7 +186,10 @@ function getFamilyMembers(req, res, next) {
 
             // Find all the members in the family
             Family.findById(family_id)
-                .populate({path: "members", select: "pic_url firstname lastname nickname"})
+                .populate([
+                    {path: "members", select: "pic_url firstname lastname nickname"},
+                    {path: "creator", select: "firstname lastname"}
+                ])
                 .exec(function (err, family) {
                     if (err) {
                         console.error("Database find family error: " + err);
@@ -225,6 +228,18 @@ function getFamilyMembers(req, res, next) {
                                 acc[rel._toId] = rel.relationship;
                                 return acc;
                             }, {});
+
+                            // Details of the family
+                            let creator = family.creator;
+
+                            let details = {
+                                family_id: family._id,
+                                family_name: family.name,
+                                family_description: family.description,
+                                family_pic_url: family.pic_url,
+                                family_creator: `${creator.firstname} ${creator.lastname}`,
+                                family_createdAt: moment(family.createdAt).format('lll')
+                            };
 
                             // List of users already connected
                             let connections = [];
@@ -286,6 +301,7 @@ function getFamilyMembers(req, res, next) {
 
                             // All done, send to frontend for displaying
                             return res.send({
+                                details: details,
                                 connections: connections,
                                 users: users
                             });
@@ -324,40 +340,12 @@ function getFamilies(req, res, next) {
 }
 
 
-/**
- * Get family details
- * POST /get-family-details
- */
-function getFamilyDetails(req, res, next) {
-    let family_id = req.body.family_id;
-
-    // Find the family
-    Family.findById(family_id)
-        .populate({path: "creator", select: "firstname lastname"})
-        .exec(function (err, family) {
-            if (err) {
-                console.error("Database find family error: " + err);
-                return next(err);
-            }
-            let creator = family.creator;
-
-            return res.send({
-                family_id: family._id,
-                family_name: family.name,
-                family_description: family.description,
-                family_pic_url: family.pic_url,
-                family_creator: `${creator.firstname} ${creator.lastname}`,
-                family_createdAt: moment(family.createdAt).format('lll')
-            });
-        });
-}
 
 module.exports = {
     createFamily,
     inviteToFamily,
     removeFromFamily,
     deleteFamily,
-    getFamilyMembers,
-    getFamilies,
-    getFamilyDetails
+    getFamily,
+    getFamilies
 };
