@@ -52,7 +52,7 @@ function sendRequest(o) {
 
     $.ajax({
         type: "Post",
-        url: "send-request/",
+        url: "/send-request",
         data: {
             relationship: o.parents(".card").find('input').val(),
             partner_id: o.closest("[data-partner-id]").attr("data-partner-id")
@@ -75,7 +75,7 @@ const cfmDeleteTpl =
 function deleteRelationship(o) {
     $.ajax({
         type: "Post",
-        url: "delete-relationship",
+        url: "/delete-relationship",
         data: {
             partner_id: o.closest("[data-partner-id]").attr("data-partner-id")
         }
