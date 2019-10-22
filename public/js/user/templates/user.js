@@ -2,12 +2,12 @@
 // user template
 
 const sendRequestTpl =
-    "<button class='btn btn-sm btn-primary' onclick='if (isRelationshipSelected($(this))) { $(this).parent().html(cfmRequestTpl) }'>Send request</button>";
+    "<a class='text-primary mx-2' onclick='if (isRelationshipSelected($(this))) { $(this).parent().html(cfmRequestTpl) }'><i class='far fa-paper-plane'></i></a>";
 
 const cfmRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-success' onclick='sendRequest($(this)); $(this).closest(\"div\").empty().after(requestSentTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'>Confirm</button>" +
-    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(sendRequestTpl)'>Cancel</button>" +
+    "<a class='text-success mx-2' onclick='sendRequest($(this)); $(this).closest(\"div\").empty().after(requestSentTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'><i class='far fa-check-circle'></i></a>" +
+    "<a class='text-secondary mx-2' onclick='$(this).closest(\"div\").html(sendRequestTpl)'><i class='far fa-times-circle'></i></a>" +
     "</span>";
 
 const requestSentTpl = "<div class='d-flex align-items-center ml-lg-auto'>Request sent</div>";
@@ -34,7 +34,7 @@ const userTpl =
 
     "{{^errMsg}}" +
     selectRelationTpl +
-    "<div data-partner-id='{{user_id}}'>" +
+    "<div class='d-flex align-items-center' data-partner-id='{{user_id}}'>" +
     sendRequestTpl +
     "</div>" +
     "{{/errMsg}}" +
