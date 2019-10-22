@@ -202,6 +202,7 @@ function fetchConnectionsPosts(req, res, next) {
                             post_timeago: moment(post.createdAt).fromNow(),
                             post_n_likes: post.like.length,
                             self_liked: post.like.includes(req.session.user._id),
+                            self_posted: post._userId.toString() === user_id.toString(),
                             post_occurredAt: post.occurredAt,
                             user_pic_url: post._userId.pic_url,
                             user_nickname: post._userId.nickname,
@@ -270,11 +271,13 @@ function fetchFamilyPosts(req, res, next) {
 
                         fetched.push({
                             post_id: post._id,
+                            family_id: family_id,
                             post_description: post.description,
                             post_pic_urls: post_pic_urls,
                             post_timeago: moment(post.createdAt).fromNow(),
                             post_n_likes: post.like.length,
                             self_liked: post.like.includes(req.session.user._id),
+                            self_posted: post._userId.toString() === user_id.toString(),
                             post_occurredAt: post.occurredAt,
                             user_pic_url: post._userId.pic_url,
                             user_nickname: post._userId.nickname,
@@ -415,8 +418,6 @@ function deletePost(req, res, next) {
     });
 
 }
-
-//TODO fetchFamilyPosts
 
 
 module.exports = {

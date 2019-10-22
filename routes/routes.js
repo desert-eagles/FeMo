@@ -107,6 +107,9 @@ router.post('/comment-post', postController.commentPost);
 // Delete user's comment on post
 router.post('/delete-comment', postController.deleteComment);
 
+// Delete user's post
+router.post('/delete-post', postController.deletePost);
+
 // Logout
 router.get('/logout', userController.logout);
 
