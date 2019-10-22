@@ -6,26 +6,28 @@ block title
 block append head
     link(rel="stylesheet" href="/css/post/dropzone.css")
     link(rel="stylesheet" href="/css/post/upload.css")
+    link(rel="stylesheet" href="/css/user/materialSelect.css")
 
 block content
     .container.min-vh-100.py-5
         .row
             .col-12
                 .form-container
-                    form#post
+                    .d-flex.justify-content-center
+                        .spinner-grow.my-5(role="status")
+                    form#post(style="display: none")
                         .form-group.shadow-textarea.mb-5
                             label(for="description") Description
                             textarea#description.form-control.z-depth-1(rows="3" placeholder="Write something here...")
                         .form-group.mb-5
                             label(for="media") Media
                             #media.dropzone
-                        .row
-                            .md-form.mt-0.mb-5.col-6
-                                i.fa.fa-calendar-alt.prefix
-                                input#occurredAt.form-control(type="date")
-                                label(for="occurredAt") Date of occurrence
-                            .col-6
-                                button#save.float-right.btn.btn-sm.btn-primary.waves-effect.waves-light(type="button") Post
+                        .md-form
+                            i.fa.fa-calendar-alt.prefix
+                            input#occurredAt.form-control(type="date")
+                            label(for="occurredAt") Date of occurrence
+                        #selectFamilies.md-form
+                        button#save.btn.btn-sm.btn-primary.waves-effect.waves-light(type="button") Post
 
 
     #errorModal.modal.fade.top(
@@ -42,4 +44,5 @@ block content
 
 block append script
     script(type="text/javascript" src="/js/includes/dropzone.js")
+    script(type="text/javascript" src="/js/includes/materialSelect.js")
     script(type="text/javascript" src="/js/post/upload.js")
