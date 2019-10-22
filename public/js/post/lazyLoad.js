@@ -13,7 +13,7 @@ $(() => {
         $(Mustache.render(tablist, {families: res})).hide().prependTo("#postContainer").fadeIn();
 
         // default to connections' posts
-        initInfinityScroll(function () {
+        initinfiniteScroll(function () {
             return `/more-posts/${this.loadCount}`;
         });
 
@@ -22,15 +22,15 @@ $(() => {
             $("[data-is-path-prefix]").removeClass("text-dark").addClass("text-primary");
             $(e.target).addClass("text-dark");
             $("section[data-post-id]").remove();
-            initInfinityScroll(function () {
-                return `${$(e.target).attr("data-IS-path-prefix")}/${this.loadCount}`;
+            initinfiniteScroll(function () {
+                return `${$(e.target).attr("data-is-path-prefix")}/${this.loadCount}`;
             });
         });
     });
 });
 
-function initInfinityScroll(path) {
-    if (postContainer.data('infinityScroll')) {
+function initinfiniteScroll(path) {
+    if (postContainer.data('infiniteScroll')) {
         postContainer.infiniteScroll('destroy');
     }
 
@@ -43,13 +43,17 @@ function initInfinityScroll(path) {
     });
 
     postContainer.on('load.infiniteScroll', function (e, res) {
-        $(Mustache.render(postTpl, {post: JSON.parse(res)})).appendTo(postContainer)
-            .find(".post-image")
-            .imagesLoaded({
-                background: true
-            }, (imgLoad) => {
-                initPhotoSwipe(imgLoad.images);
-            });
+        JSON.parse(res).forEach(post => {
+            if (!$(`[data-post-id=${post.post_id}]`).length) {
+                $(Mustache.render(postTpl, {post: post})).appendTo(postContainer)
+                    .find(".post-image")
+                    .imagesLoaded({
+                        background: true
+                    }, (imgLoad) => {
+                        initPhotoSwipe(imgLoad.images);
+                    });
+            }
+        });
     });
 
     // first page
@@ -92,9 +96,31 @@ const commentTpl =
     "</small>" +
     "</div>";
 
+const delPostTpl =
+    "<a class='text-danger ml-2' onclick='$(this).parent().html(cfmDelPostTpl)'><i class='far fa-trash-alt'></i></a>";
+
+const cfmDelPostTpl =
+    "<a class='text-danger ml-2' onclick='deletePost($(this))'><i class='far fa-check-circle'></i></a>" +
+    "<a class='text-secondary ml-2' onclick='$(this).closest(\"span\").html(delPostTpl)'><i class='far fa-times-circle'></i></a>";
+
+function deletePost(o) {
+    let p = o.closest("[data-post-id]");
+
+    $.ajax({
+        type: "Post",
+        url: "/delete-post",
+        data: {
+            post_id: p.attr("data-post-id"),
+            family_id: p.attr("data-family-id")
+        }
+    });
+
+    p.slideUp();
+}
+
 const postTpl =
     "{{#post}}" +
-    "<section class='my-5' data-post-id='{{post_id}}'>" +
+    "<section class='my-5' data-post-id='{{post_id}}' data-family-id='{{family_id}}'>" +
 
     // Grid row
     "<div class='row d-flex justify-content-center'>" +
@@ -108,7 +134,12 @@ const postTpl =
     // Heading
     "<div class='card-body'>" +
     "<div class='content'>" +
-    "<div class='right-side-meta'>{{post_timeago}}</div>" +
+    "<div class='right-side-meta'>{{post_timeago}}" +
+    "{{#self_posted}}" +
+    "<span>" + delPostTpl + "</span>" +
+    "{{/self_posted}}" +
+
+    "</div>" +
     "<img class='rounded-circle avatar-img z-depth-1-half' src='{{user_pic_url}}' alt='profile picture'>" +
     "{{user_nickname}}" +
     "</div>" +
