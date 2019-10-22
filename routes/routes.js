@@ -93,7 +93,10 @@ router.post('/delete-relationship', userController.deleteRelationship);
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
 // Fetch posts for user
-router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
+router.get('/more-posts/:page', userController.authChecker,
+    postController.fetchConnectionsPosts);
+router.get('/more-posts/:family_id/:page', userController.authChecker,
+    postController.fetchFamilyPosts);
 
 // User likes or unlikes a post
 router.post('/toggle-like', postController.toggleLike);

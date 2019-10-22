@@ -12,6 +12,7 @@ let moment = require('moment');
 let User = mongoose.model('User');
 let Post = mongoose.model('Post');
 let Comment = mongoose.model('Comment');
+let Family = mongoose.model('Family');
 
 /**
  * When user creates a post with photo(s) and/or description
@@ -53,10 +54,12 @@ function createPost(req, res, next) {
                     return next(err);
                 }
 
-                if (req.body.family_ids.length) {
+                let family_ids = JSON.parse(req.body.family_ids);
+
+                if (family_ids.length) {
                     // Also save post to family
                     Family.updateMany(
-                        {_id: {$in: req.body.family_ids}},
+                        {_id: {$in: family_ids}},
                         {$push: {posts: new_post._id}},
                         {multi: true},
                         function (err) {
@@ -65,10 +68,8 @@ function createPost(req, res, next) {
                                 return next(err)
                             }
                             // Successfully add post to family
-                            return res.send({errMsg: ""});
                         }
                     );
-                    return res.send({errMsg: ""});
                 }
             }
         );
@@ -136,10 +137,10 @@ function toggleLike(req, res, next) {
 }
 
 /**
- * Show posts to user, used together with pagination in infinite scrolling
+ * Show connections' posts to user, used together with pagination in infinite scrolling
  * GET /more-posts/:page
  */
-function fetchPosts(req, res, next) {
+function fetchConnectionsPosts(req, res, next) {
     let page = Math.max(0, req.params.page);
     let user_id = req.session.user._id;
 
@@ -214,6 +215,80 @@ function fetchPosts(req, res, next) {
                 });
         });
 }
+
+
+/**
+ * Show family's posts to user, used together with pagination in infinite scrolling
+ * GET /more-posts/:family_id/:page
+ */
+function fetchFamilyPosts(req, res, next) {
+    let page = Math.max(0, req.params.page);
+    let family_id = req.params.family_id;
+    let user_id = req.session.user._id;
+
+    // Find all posts in the family
+    Family.findById(family_id)
+        .select("posts")
+        .exec(function (err, family) {
+            if (err) {
+                console.error("Database find family error: " + err);
+                return next(err);
+            }
+
+            // Populate and find posts' content
+            Post.find({_id: {$in: family.posts}})
+                .sort({createdAt: 'desc'})
+                .skip(POSTS_PER_PAGE * page)
+                .limit(POSTS_PER_PAGE)
+                .populate([
+                    {
+                        path: "comments", select: "_userId description commentedAt",
+                        populate: {path: "_userId", select: "pic_url nickname"}
+                    },
+                    {path: "_userId", select: "pic_url nickname"}
+                ])
+                .exec(function (err, posts) {
+                    if (err) {
+                        console.error("Database fetch posts error: " + err);
+                        return next(err);
+                    }
+
+                    if (!posts.length) {
+                        // No more posts
+                        return res.sendStatus(404);
+                    }
+
+                    // Prepare list of posts with their content
+                    let fetched = [];
+                    for (let post of posts) {
+                        let post_comments = prepareComments(req.session.user._id, post.comments);
+                        let post_pic_urls = post.pic_urls.map(function (pic) {
+                            let single_url = {};
+                            single_url["pic_url"] = pic;
+                            return single_url;
+                        });
+
+                        fetched.push({
+                            post_id: post._id,
+                            post_description: post.description,
+                            post_pic_urls: post_pic_urls,
+                            post_timeago: moment(post.createdAt).fromNow(),
+                            post_n_likes: post.like.length,
+                            self_liked: post.like.includes(req.session.user._id),
+                            post_occurredAt: post.occurredAt,
+                            user_pic_url: post._userId.pic_url,
+                            user_nickname: post._userId.nickname,
+                            post_comments: post_comments,
+                            post_n_comments: post_comments.length,
+                        });
+                    }
+
+                    // Send out for display
+                    return res.send(fetched);
+                });
+        });
+}
+
 
 /**
  * Store user's comment on a post
@@ -346,7 +421,8 @@ function deletePost(req, res, next) {
 
 module.exports = {
     createPost,
-    fetchPosts,
+    fetchConnectionsPosts,
+    fetchFamilyPosts,
     toggleLike,
     commentPost,
     deleteComment,

@@ -48,7 +48,8 @@ $(function () {
                         method: "POST",
                         data: {
                             "description": $("#description").val(),
-                            "occurredAt": occurredAt.val()
+                            "occurredAt": occurredAt.val(),
+                            "family_ids": JSON.stringify($("#selectFamilies select").val())
                         }
                     }).done(res => {
                         if (!res.errMsg) {
