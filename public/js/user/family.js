@@ -9,11 +9,12 @@ $(() => {
             family_id: $("[data-family-id]").attr("data-family-id")
         }
     }).done(res => {
-        $("[data-family-id]").empty().hide()
+        $("[data-family-id]").hide()
             .append(Mustache.render(familyDetailTpl, res.details))
             .append(res.connections.length ? Mustache.render(connectionTpl, {connections: res.connections}) : "")
             .append(res.users.length ? Mustache.render(userTpl, {users: res.users}) : "")
             .imagesLoaded(imgLoad => {
+                $("[role='status']").remove();
                 $(imgLoad.elements).fadeIn();
 
                 // select members section
@@ -26,9 +27,7 @@ $(() => {
                 }).done(res => {
                     let selectMembers = $("#selectMembers").empty();
                     selectMembers.hide()
-                        .append(Mustache.render(selectMembersTpl, {
-                            connections: res
-                        }))
+                        .append(Mustache.render(selectMembersTpl, {connections: res}))
                         .append("<button class='btn btn-sm btn-primary my-auto ml-md-3 mx-0' onclick='invite()'>Invite</button>");
                     $(".mdb-select").materialSelect();
                     selectMembers.fadeIn();
