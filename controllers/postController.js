@@ -52,6 +52,24 @@ function createPost(req, res, next) {
                     console.error("Database update user error: " + err);
                     return next(err);
                 }
+
+                if (req.body.family_ids.length) {
+                    // Also save post to family
+                    Family.updateMany(
+                        {_id: {$in: req.body.family_ids}},
+                        {$push: {posts: new_post._id}},
+                        {multi: true},
+                        function (err) {
+                            if (err) {
+                                console.error("Database update families error: " + err);
+                                return next(err)
+                            }
+                            // Successfully add post to family
+                            return res.send({errMsg: ""});
+                        }
+                    );
+                    return res.send({errMsg: ""});
+                }
             }
         );
 
@@ -139,7 +157,7 @@ function fetchPosts(req, res, next) {
                 return acc.concat(usr.posts);
             }, []);
 
-            // Get list of all posts' ids viewable
+            // Get list of all viewable posts' ids
             let all_posts = user.posts.concat(others_posts);
             all_posts = [...new Set(all_posts)];
 
