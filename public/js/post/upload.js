@@ -7,6 +7,16 @@ Dropzone.autoDiscover = false;
 
 $(function () {
 
+    $.ajax({
+        type: "Post",
+        url: "/get-families"
+    }).done(res => {
+        $("#selectFamilies").append(Mustache.render(selectFamiliesTpl, {families: res}));
+        $(".mdb-select").materialSelect();
+        $("[role='status']").hide();
+        $("#post").show();
+    });
+
     // Initialise a dropzone
     let myDropzone = new Dropzone('div#media', {
         url: '/upload',
@@ -38,7 +48,8 @@ $(function () {
                         method: "POST",
                         data: {
                             "description": $("#description").val(),
-                            "occurredAt": occurredAt.val()
+                            "occurredAt": occurredAt.val(),
+                            "family_ids": JSON.stringify($("#selectFamilies select").val())
                         }
                     }).done(res => {
                         if (!res.errMsg) {
@@ -61,6 +72,9 @@ $(function () {
                 if (!fd.has("occurredAt")) {
                     fd.append("occurredAt", $("#occurredAt").val());
                 }
+                if (!fd.has("family_ids")) {
+                    fd.append("family_ids", JSON.stringify($("#selectFamilies select").val()));
+                }
             });
 
             // When a file is added to queue
@@ -78,3 +92,13 @@ $(function () {
         },
     });
 });
+
+const selectFamiliesTpl =
+    "<i class='fas fa-users prefix'></i>" +
+    "<select class='mdb-select md-form' multiple='' searchable='Search here..'>" +
+    "<option value='' disabled='disabled' selected='selected'>Select families to post</option>" +
+    "{{#families}}" +
+    "<option value='{{family_id}}' data-icon='{{family_pic_url}}' class='rounded-circle'>{{family_name}}</option>" +
+    "{{/families}}" +
+    "</select>" +
+    "<button class='btn-save btn btn-primary btn-sm' type='button'>Confirm</button>";

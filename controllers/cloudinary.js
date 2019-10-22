@@ -24,18 +24,27 @@ let profileStorage = cloudinaryStorage({
 });
 
 // For storing photos uploaded by users
-// TODO transformation
 let postStorage = cloudinaryStorage({
     cloudinary: cloudinary,
     folder: "post_pictures",
     allowedFormats: ["jpg", "png"]
 });
 
+// For storing family profile pictures
+let familyStorage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: "family_pictures",
+    allowedFormats: ["jpg", "png"],
+    transformation: [{width: 200, height: 200, radius: "max"}]
+});
+
 
 let uploadProfilePic = multer({storage: profileStorage});
 let uploadPostPics = multer({storage: postStorage});
+let uploadFamilyPic = multer({storage: familyStorage});
 
 module.exports = {
     uploadProfilePic,
-    uploadPostPics
+    uploadPostPics,
+    uploadFamilyPic
 };

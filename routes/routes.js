@@ -12,6 +12,7 @@ var accountController = require("../controllers/accountController");
 var userController = require("../controllers/userController");
 var postController = require("../controllers/postController");
 var requestController = require("../controllers/requestController");
+var familyController = require("../controllers/familyController");
 
 // Home page
 router.get('/', userController.sessionChecker, function (req, res) {
@@ -92,7 +93,10 @@ router.post('/delete-relationship', userController.deleteRelationship);
 router.post('/upload', uploader.uploadPostPics.any(), postController.createPost);
 
 // Fetch posts for user
-router.get('/more-posts/:page', userController.authChecker, postController.fetchPosts);
+router.get('/more-posts/:page', userController.authChecker,
+    postController.fetchConnectionsPosts);
+router.get('/more-posts/:family_id/:page', userController.authChecker,
+    postController.fetchFamilyPosts);
 
 // User likes or unlikes a post
 router.post('/toggle-like', postController.toggleLike);
@@ -103,9 +107,46 @@ router.post('/comment-post', postController.commentPost);
 // Delete user's comment on post
 router.post('/delete-comment', postController.deleteComment);
 
+// Delete user's post
+router.post('/delete-post', postController.deletePost);
+
 // Logout
 router.get('/logout', userController.logout);
 
+// Direct to create-family page
+router.get('/create-family', userController.authChecker, function (req, res) {
+    res.render('createFamily');
+});
+
+// Create a new family
+router.post('/create-family',
+    uploader.uploadFamilyPic.single("family-picture"),
+    familyController.createFamily);
+
+// Pull a connection into family
+router.post('/invite-to-family', familyController.inviteToFamily);
+
+// Remove a connection from family
+router.post('/remove-from-family', familyController.removeFromFamily);
+
+// Delete family
+router.post('/delete-family', familyController.deleteFamily);
+
+// Direct to all families page
+router.get('/families', userController.authChecker, function (req, res) {
+    res.render('families');
+});
+
+// Get families
+router.post('/get-families', familyController.getFamilies);
+
+// Direct to family page
+router.get('/family/:family_id', userController.authChecker, function (req, res) {
+    res.render('family', {family_id: req.params.family_id});
+});
+
+// Get family details
+router.post('/get-family', familyController.getFamily);
 
 /*****************************************************************************/
 

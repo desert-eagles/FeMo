@@ -19,7 +19,8 @@ let userSchema = Schema({
     nickname: {type: String, required: true},
     posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}],
     requests: [{type: mongoose.Schema.Types.ObjectId, ref: 'Request'}],
-    connections: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    connections: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    families: [{type: mongoose.Schema.Types.ObjectId, ref: 'Family'}]
 });
 
 userSchema.plugin(mongoose_fuzzy_searching, {fields: ['firstname', 'lastname', 'nickname']});

@@ -10,13 +10,13 @@ html(lang="en")
             // Font Awesome
             link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css")
             // Bootstrap core CSS
-            link(href="MDB/css/bootstrap.min.css" rel="stylesheet")
+            link(rel="stylesheet" href="/MDB/css/bootstrap.min.css")
             // Material Design Bootstrap
-            link(href="MDB/css/mdb.min.css" rel="stylesheet")
+            link(rel="stylesheet" href="/MDB/css/mdb.min.css")
             // Your custom styles (optional)
-            link(href="css/style.css" rel="stylesheet")
+            link(rel="stylesheet" href="/css/style.css")
             if session && session.user
-                link(href="css/user/sidebar.css" rel="stylesheet")
+                link(rel="stylesheet" href="/css/user/sidebar.css")
 
     body
         // Start your project here
@@ -110,15 +110,15 @@ html(lang="en")
         // SCRIPTS
         block script
             // JQuery
-            script(type="text/javascript" src="MDB/js/jquery-3.4.1.min.js")
+            script(type="text/javascript" src="/MDB/js/jquery-3.4.1.min.js")
             // Bootstrap tooltips
-            script(type="text/javascript" src="MDB/js/popper.min.js")
+            script(type="text/javascript" src="/MDB/js/popper.min.js")
             // Bootstrap core JavaScript
-            script(type="text/javascript" src="MDB/js/bootstrap.min.js")
+            script(type="text/javascript" src="/MDB/js/bootstrap.min.js")
             // MDB core JavaScript
-            script(type="text/javascript" src="MDB/js/mdb.min.js")
+            script(type="text/javascript" src="/MDB/js/mdb.min.js")
             // custom
             if session && session.user
-                script(type="text/javascript" src="js/user/sidebar.js")
-            script(type="text/javascript" src="js/utils.js")
-            script(type="text/javascript" src="js/includes/mustache.js")
+                script(type="text/javascript" src="/js/includes/sidebar.js")
+            script(type="text/javascript" src="/js/utils.js")
+            script(type="text/javascript" src="/js/includes/mustache.js")

@@ -382,6 +382,7 @@ ul.stepper li.completed a .black-skin .circle {
     font-size: .8rem;
     margin-right: 13px;
     min-width: 1rem;
+    text-align: center;
 }
 
 .side-nav .collapsible-body a {
