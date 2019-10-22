@@ -26,10 +26,11 @@ const selectRelationTpl =
     "</div>";
 
 function isRelationshipSelected(o) {
-    let i = o.parents(".card").find('input');
-    let r = i.val();
+    let p = o.parents(".card");
+    let s = p.find('select');
+    let r = s.val();
     if (!r) {
-        reportError(i, "Please select a relationship");
+        reportError(p.find('input'), "Please select a relationship");
     } else {
         return true;
     }

@@ -1,19 +1,19 @@
 const replRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-primary' onclick='if (isRelationshipSelected($(this))) { $(this).closest(\"div\").html(acceptRequestTpl) }'>Accept</button>" +
-    "<button class='btn btn-sm btn-warning' onclick='$(this).closest(\"div\").html(declineRequestTpl)'>Decline</button>" +
+    "<a class='text-primary mx-2' onclick='if (isRelationshipSelected($(this))) { $(this).closest(\"div\").html(acceptRequestTpl) }'><i class='fas fa-user-check'></i></a>" +
+    "<a class='text-warning mx-2' onclick='$(this).closest(\"div\").html(declineRequestTpl)'><i class='fas fa-user-times'></i></a>" +
     "</span>";
 
 const acceptRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-success' onclick='acceptRequest($(this)); $(this).closest(\"div\").empty().after(acceptedTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'>Confirm</button>" +
-    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(replRequestTpl)'>Cancel</button>" +
+    "<a class='text-success mx-2' onclick='acceptRequest($(this)); $(this).closest(\"div\").empty().after(acceptedTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'><i class='far fa-check-circle'></i></a>" +
+    "<a class='text-secondary mx-2' onclick='$(this).closest(\"div\").html(replRequestTpl)'><i class='far fa-times-circle'></i></a>" +
     "</span>";
 
 const declineRequestTpl =
     "<span class='d-flex'>" +
-    "<button class='btn btn-sm btn-danger' onclick='declineRequest($(this)); $(this).closest(\"div\").empty().after(declinedTpl).closest(\".card\").find(\".select-wrapper\").remove()'>Confirm</button>" +
-    "<button class='btn btn-sm btn-secondary' onclick='$(this).closest(\"div\").html(replRequestTpl)'>Cancel</button>" +
+    "<a class='text-danger mx-2' onclick='declineRequest($(this)); $(this).closest(\"div\").empty().after(declinedTpl).closest(\".card\").find(\"[data-select-relation]\").remove()'><i class='far fa-check-circle'></i></a>" +
+    "<a class='text-secondary mx-2' onclick='$(this).closest(\"div\").html(replRequestTpl)'><i class='far fa-times-circle'></i></a>" +
     "</span>";
 
 const acceptedTpl = "<div class='d-flex align-items-center ml-lg-auto'>Accepted</div>";
@@ -39,7 +39,7 @@ const requestTpl =
 
     selectRelationTpl +
 
-    "<div data-request-id='{{request_id}}' data-relationship-idx='{{relationship_idx}}'>" +
+    "<div class='d-flex align-items-center' data-request-id='{{request_id}}' data-relationship-idx='{{relationship_idx}}'>" +
     replRequestTpl +
     "</div>" +
 

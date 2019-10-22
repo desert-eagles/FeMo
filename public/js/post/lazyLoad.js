@@ -2,22 +2,48 @@
  * Frontend for infinite scrolling and lazy loading of posts
  */
 
+var postContainer = $("#postContainer");
 
 $(() => {
-    let container = $("#postContainer");
+    // add tabs of different families to the page
+    $.ajax({
+        type: "Post",
+        url: "/get-families",
+    }).done(res => {
+        $(Mustache.render(tablist, {families: res})).hide().prependTo("#postContainer").fadeIn();
 
-    container.infiniteScroll({
-        path: function () {
+        // default to connections' posts
+        initInfinityScroll(function () {
             return `/more-posts/${this.loadCount}`;
-        },
+        });
+
+
+        $("[data-is-path-prefix]").on("click", function (e) {
+            $("[data-is-path-prefix]").removeClass("text-dark").addClass("text-primary");
+            $(e.target).addClass("text-dark");
+            $("section[data-post-id]").remove();
+            initInfinityScroll(function () {
+                return `${$(e.target).attr("data-IS-path-prefix")}/${this.loadCount}`;
+            });
+        });
+    });
+});
+
+function initInfinityScroll(path) {
+    if (postContainer.data('infinityScroll')) {
+        postContainer.infiniteScroll('destroy');
+    }
+
+    postContainer.infiniteScroll({
+        path: path,
         append: false,
         responseType: 'text',
         status: '.page-load-status',
         history: false,
     });
 
-    container.on('load.infiniteScroll', function (e, res) {
-        $(Mustache.render(postTpl, {post: JSON.parse(res)})).appendTo($("#postContainer"))
+    postContainer.on('load.infiniteScroll', function (e, res) {
+        $(Mustache.render(postTpl, {post: JSON.parse(res)})).appendTo(postContainer)
             .find(".post-image")
             .imagesLoaded({
                 background: true
@@ -27,8 +53,21 @@ $(() => {
     });
 
     // first page
-    container.infiniteScroll('loadNextPage')
-});
+    postContainer.infiniteScroll('loadNextPage');
+}
+
+
+const tablist =
+    '<section class="row d-flex justify-content-center">' +
+    '<div class="col-lg-6 col-12">' +
+    '<a class="btn-rounded d-inline-block border m-2 px-4 py-3 text-dark" data-is-path-prefix="/more-posts">Connections</a>' +
+    '{{#families}}' +
+    '<a class="btn-rounded d-inline-block border m-2 px-4 py-3 text-primary" data-is-path-prefix="/more-posts/{{family_id}}">{{family_name}}</a>' +
+    '{{/families}}' +
+    '</div>' +
+    '</section>';
+
+/**********************************************************************************************************************/
 
 const deleteCommentTpl =
     "{{#comment_id}}" +
