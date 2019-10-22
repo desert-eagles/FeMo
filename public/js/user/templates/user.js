@@ -126,7 +126,7 @@ const connectionTpl =
     "{{/user_relationship}}" +
 
     "{{#family_id}}" +
-    "<div class='d-flex align-items-center' data-family-id='{{family_id}}' data-reomve-id='{{user_id}}'>" +
+    "<div class='d-flex align-items-center' data-family-id='{{family_id}}' data-remove-id='{{user_id}}'>" +
     rmFromFamilyTpl +
     "</div>" +
     "{{/family_id}}" +

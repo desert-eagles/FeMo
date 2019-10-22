@@ -37,57 +37,66 @@ function createFamily(req, res, next) {
         }
 
         // Update all members'
-        User.updateMany({
-            _id: {$in: members}
-        }, {
-            $push: {'families': new_family._id}
-        }, {
-            multi: true
-        }, function (err, _) {
-            if (err) {
-                console.error("Database save family error: " + err);
-                return next(err);
-            }
-            // Members all update
-            return res.send({errMsg: ""});
-        });
+        User.updateMany(
+            {_id: {$in: members}},
+            {$push: {'families': new_family._id}},
+            {multi: true},
+            function (err, _) {
+                if (err) {
+                    console.error("Database save family error: " + err);
+                    return next(err);
+                }
+                // Members all update
+                return res.send({errMsg: ""});
+            });
     });
 }
 
 /**
- * Invite another (connected) user to the family
+ * Invite (connected) users to the family
  * POST /invite-to-family
  */
 function inviteToFamily(req, res, next) {
     let family_id = req.body.family_id;
-    let invited_id = req.body.invited_id;
+    let invite_ids = JSON.parse(req.body.invite_ids);
 
-    // Add into family members list
-    Family.findOneAndUpdate(
-        {_id: family_id},
-        {$push: {members: invited_id}},
-        function (err) {
+    // Find the family
+    Family.findById(family_id, function (err, family) {
+        if (err) {
+            console.error("Database find family error: " + err);
+            return next(err);
+        }
+
+        // Only invite those previously not in family
+        invite_ids = invite_ids.filter((e) => {
+            return !family.members.includes(e);
+        });
+
+        family.members = family.members.concat(invite_ids);
+
+        // Update family
+        family.save(function (err) {
             if (err) {
-                console.error("Database add member error: " + err);
+                console.error("Database add members error: " + err);
                 return next(err);
             }
 
-            // Update person invited
-            User.findOneAndUpdate(
-                {_id: invited_id},
+            // Update users invited
+            User.updateMany(
+                {_id: {$in: invite_ids}},
                 {$push: {families: family_id}},
+                {multi: true},
                 function (err) {
                     if (err) {
                         console.error("Database update member error: " + err);
                         return next(err)
                     }
-
-                    // Successfully add the user into the family
+                    // Successfully add users into the family
                     return res.send({errMsg: ""});
                 }
-            )
-        }
-    )
+            );
+        });
+    });
 }
 
 /**
