@@ -11,6 +11,8 @@ const selectRelationTpl =
     "<i class='fas fa-user-friends prefix'></i>" +
     "<select class='mdb-select md-form my-0' searchable='Search here..'>" +
     "<option value='' disabled selected>Choose relationship</option>" +
+    "<option value='Husband'>Husband</option>" +
+    "<option value='Wife'>Wife</option>" +
     "<option value='Father'>Father</option>" +
     "<option value='Mother'>Mother</option>" +
     "<option value='Son'>Son</option>" +

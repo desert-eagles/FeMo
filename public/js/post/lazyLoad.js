@@ -5,6 +5,15 @@
 var postContainer = $("#postContainer");
 
 $(() => {
+    $.ajax({
+        type: "Post",
+        url: "/get-requests"
+    }).done(res => {
+        if (res.length) {
+            $("#notification").text(res.length).fadeIn();
+        }
+    });
+
     // add tabs of different families to the page
     $.ajax({
         type: "Post",
@@ -61,7 +70,11 @@ function initinfiniteScroll(path) {
         $("[data-tab-ready]").attr("data-tab-ready", "true");
     });
 
-    postContainer.on('request.infiniteScroll', function (event, path) {
+    postContainer.on('error.infiniteScroll', function () {
+        $("[data-tab-ready]").attr("data-tab-ready", "true");
+    });
+
+    postContainer.on('request.infiniteScroll', function () {
         $("[data-tab-ready]").attr("data-tab-ready", "false");
     });
 
@@ -73,9 +86,9 @@ function initinfiniteScroll(path) {
 const tablist =
     '<section class="row d-flex justify-content-center" data-tab-ready="true">' +
     '<div class="col-lg-6 col-12">' +
-    '<a class="btn-rounded d-inline-block border m-2 px-4 py-3 text-dark" data-is-path-prefix="/more-posts">Connections</a>' +
+    '<a class="btn-rounded d-inline-block border m-2 px-4 py-2 text-dark" data-is-path-prefix="/more-posts">Connections</a>' +
     '{{#families}}' +
-    '<a class="btn-rounded d-inline-block border m-2 px-4 py-3 text-primary" data-is-path-prefix="/more-posts/{{family_id}}">{{family_name}}</a>' +
+    '<a class="btn-rounded d-inline-block border m-2 px-4 py-2 text-primary" data-is-path-prefix="/more-posts/{{family_id}}">{{family_name}}</a>' +
     '{{/families}}' +
     '</div>' +
     '</section>';

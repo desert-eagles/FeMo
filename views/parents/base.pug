@@ -35,9 +35,8 @@ html(lang="en")
                                 span#profile-nickname.d-md-inline-block.d-none.text-truncate.align-middle(style="width:10rem")
                                     | #{session.user.nickname}
                             // Navbar brand
-                            a.m-auto.navbar-brand(
-                            style="position: absolute; left: 50%; transform: translateX(-50%);"
-                            href="/") FeMo
+                            a.m-auto.navbar-brand(style="position: absolute; left: 50%; transform: translateX(-50%);" href="/")
+                                img(src="/images/project-logo-white.png" style="height: 20px;")
 
                             if session.user.nickname
                                 .float-right
@@ -45,6 +44,19 @@ html(lang="en")
                                         ul.navbar-nav.flex-row
                                             li.nav-item
                                                 a.nav-link(href="/request")
+                                                    span#notification(style=
+                                                    "height: 15px;" +
+                                                    "line-height: 15px;" +
+                                                    "width: 15px;" +
+                                                    "border-radius: 50%;" +
+                                                    "display: inline-block;" +
+                                                    "background-color: red;" +
+                                                    "position: absolute;" +
+                                                    "right: 2.5px;" +
+                                                    "font-size: 0.6rem;" +
+                                                    "font-weight: bold;" +
+                                                    "text-align: center;" +
+                                                    "display: none")
                                                     i.far.fa-envelope
                                             li.nav-item
                                                 a.nav-link(href="/connect")
@@ -53,7 +65,8 @@ html(lang="en")
                     nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
                         .container
                             // Navbar brand
-                            a.navbar-brand(href="/") FeMo
+                            a.navbar-brand(href="/")
+                                img(src="/images/project-logo-white.png" style="height: 20px;")
                             // Collapse button
                             button.navbar-toggler(type="button"
                             data-toggle="collapse" data-target="#navbarContent"
