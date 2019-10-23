@@ -11,11 +11,14 @@ header,
     background-size: cover;
 }
 
-.feat_div {
-    width: 600px;
-    height: 350px;
+@media (min-width: 1200px) {
+    .feat_div {
+        width: 600px;
+        height: 350px;
+    }
+
+    .feat_img {
+        height: 100%
+    }
 }
 
-.feat_img {
-    height: 100%
-}
