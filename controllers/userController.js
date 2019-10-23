@@ -121,43 +121,44 @@ function searchUsers(req, res, next) {
             });
 
             // Fuzzy search user for nickname
-            User.fuzzySearch(query, function (err, users) {
-                if (err) {
-                    console.error("Database find user error: " + err);
-                    return next(err);
-                }
-                if (users.length) {
-                    // Found some potential matches
-                    let queried_users = [];
-
-                    for (let q_user of users) {
-                        if (q_user._id.toString() === user_id.toString()) {
-                            // Do not show user him/herself in search results
-                            continue;
-                        }
-
-                        let queried = {
-                            user_id: q_user._id,
-                            user_pic_url: q_user.pic_url,
-                            user_name: `${q_user.firstname} ${q_user.lastname}`,
-                            user_nickname: q_user.nickname
-                        };
-
-                        if (user.connections.includes(q_user._id)) {
-                            queried["errMsg"] = "Already connected";
-                        } else if (sent_to.includes(q_user._id)) {
-                            queried["errMsg"] = "Already sent a request";
-                        } else if (received_from.includes(q_user._id)) {
-                            queried["errMsg"] = "Already received a request";
-                        }
-
-                        queried_users.push(queried);
+            User.fuzzySearch({query: query, prefixOnly: true, minSize: 4},
+                function (err, users) {
+                    if (err) {
+                        console.error("Database find user error: " + err);
+                        return next(err);
                     }
-                    return res.send(queried_users);
-                }
-                // User not found
-                return res.send([]);
-            });
+                    if (users.length) {
+                        // Found some potential matches
+                        let queried_users = [];
+
+                        for (let q_user of users) {
+                            if (q_user._id.toString() === user_id.toString()) {
+                                // Do not show user him/herself in search results
+                                continue;
+                            }
+
+                            let queried = {
+                                user_id: q_user._id,
+                                user_pic_url: q_user.pic_url,
+                                user_name: `${q_user.firstname} ${q_user.lastname}`,
+                                user_nickname: q_user.nickname
+                            };
+
+                            if (user.connections.includes(q_user._id)) {
+                                queried["errMsg"] = "Already connected";
+                            } else if (sent_to.includes(q_user._id)) {
+                                queried["errMsg"] = "Already sent a request";
+                            } else if (received_from.includes(q_user._id)) {
+                                queried["errMsg"] = "Already received a request";
+                            }
+
+                            queried_users.push(queried);
+                        }
+                        return res.send(queried_users);
+                    }
+                    // User not found
+                    return res.send([]);
+                });
 
         });
 
