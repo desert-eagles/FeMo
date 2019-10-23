@@ -5,15 +5,6 @@
 var postContainer = $("#postContainer");
 
 $(() => {
-    $.ajax({
-        type: "Post",
-        url: "/get-requests"
-    }).done(res => {
-        if (res.length) {
-            $("#notification").text(res.length).fadeIn();
-        }
-    });
-
     // add tabs of different families to the page
     $.ajax({
         type: "Post",

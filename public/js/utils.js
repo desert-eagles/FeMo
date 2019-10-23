@@ -52,4 +52,16 @@ $(document).ready(() => {
 
     // initialise animation
     new WOW().init();
+
+    let notification = $("#notification");
+    if (notification.length) {
+        $.ajax({
+            type: "Post",
+            url: "/get-requests"
+        }).done(res => {
+            if (res.length) {
+                notification.text(res.length).fadeIn();
+            }
+        });
+    }
 });
