@@ -43,6 +43,12 @@ html(lang="en")
                                     #navbarContent
                                         ul.navbar-nav.flex-row
                                             li.nav-item
+                                                a.nav-link(href="/families")
+                                                    i.fas.fa-home
+                                            li.nav-item
+                                                a.nav-link(href="/connect")
+                                                    i.fas.fa-user-friends
+                                            li.nav-item
                                                 a.nav-link(href="/request")
                                                     span#notification(style=
                                                     "height: 15px;" +
@@ -58,14 +64,11 @@ html(lang="en")
                                                     "text-align: center;" +
                                                     "display: none")
                                                     i.far.fa-envelope
-                                            li.nav-item
-                                                a.nav-link(href="/connect")
-                                                    i.fas.fa-user-friends
                 else
                     nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.scrolling-navbar
                         .container
                             // Navbar brand
-                            a.navbar-brand(href="/")
+                            a.navbar-brand(href="#intro")
                                 img(src="/images/project-logo-white.png" style="height: 20px;")
                             // Collapse button
                             button.navbar-toggler(type="button"
@@ -77,10 +80,6 @@ html(lang="en")
                             #navbarContent.collapse.navbar-collapse
                                 // Links
                                 ul.navbar-nav.ml-auto.smooth-scroll
-                                    li.nav-item
-                                        a.nav-link(href="#intro")
-                                            i.fas.fa-home
-                                            | Home
                                     li.nav-item
                                         a.nav-link(href="#feature-1")
                                             i.far.fa-star
