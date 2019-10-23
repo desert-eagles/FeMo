@@ -32,53 +32,56 @@ block content
                     h1.h1-responsive.font-weight-bold.text-center.mb-2 Features
                     // Section description
                     p.grey-text.text-center.w-responsive.mx-auto.mb-5
-                        | Here will we give high level description of the features and what we
-                        | can achieve with them. MAY NEED TO MAKE IMAGES NARROWER
+                        | Features we aim to deliver:
                     // Grid row
                     .row
                         // Grid column
                         .col-md-7.mb-4
-                            .view.overlay.z-depth-1-half
-                                img.card-img-top(src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="")
+                            .view.overlay.z-depth-1-half.feat_div
+                                img.card-img-top.feat_img(src="https://twile.com/content/images/home/new/homeSnapshots.jpg" alt="")
                                 .mask.rgba-white-light
                         // Grid column
                         // Grid column
                         .col-md-5.mb-4.align-self-center
                             h2 Upload and share family photos and artifacts
                             hr
-                            p Pictures of old artifacts in photos. We can better record family moments.
+                            p
+                                | Tell your own part of the story - birth, marriage, graduation - and build an amazing
+                                | record of your life so far
                         // Grid column
                     // Grid row
                     // Grid row
                     .row
                         // Grid column
                         .col-md-7.mb-4.order-md-2
-                            .view.overlay.z-depth-1-half
-                                img.card-img-top(src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="")
+                            .view.overlay.z-depth-1-half.feat_div
+                                img.card-img-top.feat_img(src="https://cdn-images-1.medium.com/max/2000/1*Pebp8Cds-RLs417qaOS_8A.png" alt="")
                                 .mask.rgba-white-light
                         // Grid column
                         // Grid column
                         .col-md-5.mb-4.align-self-center
-                            h2 Timeline of family events
+                            h2 Connect with your family members
                             hr
-                            p Picture showing a timeline of family events.
+                            p
+                                | Nobody can tell your story like you can - tell it now for your children
+                                | and grandchildren to explore in years to come.
                         // Grid column
                     // Grid row
                     // Grid row
                     .row
                         // Grid column
                         .col-md-7.mb-4
-                            .view.overlay.z-depth-1-half
-                                img.card-img-top(src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg" alt="")
+                            .view.overlay.z-depth-1-half.feat_div
+                                img.card-img-top.feat_img(src="https://clipart.info/images/ccovers/1496768014my-family-tree-clip-art-cartoon.png" alt="")
                                 .mask.rgba-white-light
                         // Grid column
                         // Grid column
                         .col-md-5.mb-4.align-self-center
-                            h2 Grow your family trees
+                            h2 Create family groups to hold everyone together
                             hr
                             p
-                                | Picture showing a family tree. Connect with your family and relatives
-                                | (first order, second order etc)
+                                | Collaborate with your whole family by sharing photos, memories and events in
+                                | a single group - a permanent and ever-growing record of family moments
                         // Grid column
                     // Grid row
                 // Container
@@ -90,20 +93,20 @@ block content
                 h2.mb-2.font-weight-bold Why is it so great?
                 // Description
                 p.grey-text.text-center.w-responsive.mx-auto.mb-5
-                    | Here we will explain what are the benefits of using our service.
+                    | Here are some benefits of using our service:
                 // Grid row
                 .row
                     // Grid column
                     .col-md-4.mb-5
                         i.fa.fa-camera-retro.fa-4x.dark-grey-text
                         h4.my-4.font-weight-bold Experience
-                        p.grey-text We can record stuff.
+                        p.grey-text Record important and precious family memories and share with other family members.
                     // Grid column
                     // Grid column
                     .col-md-4.mb-1
                         i.fa.fa-heart.fa-4x.pink-text
                         h4.my-4.font-weight-bold Happiness
-                        p.grey-text We can better pull family together.
+                        p.grey-text Spread love and spend family moments together.
                     // Grid column
                     // Grid column
                     .col-md-4.mb-1
@@ -136,27 +139,18 @@ block content
                             .carousel-inner(role="listbox")
                                 .carousel-item.active
                                     .view
-                                        img.d-block.w-100(src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg" alt="First slide")
-                                        .mask.rgba-black-light
-                                    .carousel-caption
-                                        h3.h3-responsive Feature 1
-                                        p Here we will describe the feature.
-                                .carousel-item
-                                    // Mask color
-                                    .view
-                                        img.d-block.w-100(src="https://mdbootstrap.com/img/Photos/Slides/img%20(6).jpg" alt="Second slide")
-                                        .mask.rgba-black-strong
-                                    .carousel-caption
-                                        h3.h3-responsive Feature 2
-                                        p Here we will describe the feature.
-                                .carousel-item
-                                    // Mask color
-                                    .view
-                                        img.d-block.w-100(src="https://mdbootstrap.com/img/Photos/Slides/img%20(9).jpg" alt="Third slide")
+                                        img.d-block.w-100(src="/images/upload-demo.png" alt="First slide")
                                         .mask.rgba-black-slight
-                                    .carousel-caption
-                                        h3.h3-responsive Feature 3
-                                        p Here we will describe the feature.
+                                .carousel-item
+                                    // Mask color
+                                    .view
+                                        img.d-block.w-100(src="/images/connections-demo.png" alt="Second slide")
+                                        .mask.rgba-black-slight
+                                .carousel-item
+                                    // Mask color
+                                    .view
+                                        img.d-block.w-100(src="/images/family-demo.png" alt="Third slide")
+                                        .mask.rgba-black-slight
                             // /.Slides
                             // Controls
                             a.carousel-control-prev(href="#galleryCarousel" role="button" data-slide="prev")
@@ -175,9 +169,13 @@ block content
                             i.fa.fa-heart
                             strong  Family
                         p
-                            | Possibly some screenshot of artefacts, like and comment, timeline and family tree.
-                            | (MAKE HEIGHT OF IMAGES LARGER)
-                        p Consider using a carousel with captions for each image
+                            | Screenshots of our service delivered. Users can:
+
+                        ul
+                            li Upload photos and describe family moments
+                            li Like and comment to share feelings with family members
+                            li Connect with family members
+                            li Share artefacts within family groups
                     // Grid column
                 // Grid row
             // Section: Gallery
@@ -242,7 +240,7 @@ block content
                                     p Melbourne, VIC 3010, AUS
                                 li
                                     i.fa.fa-envelope.fa-lg.blue-grey-text
-                                    p desert-eagles@example.com
+                                    p desert-eagles@gmail.com
                                 // <li>
                                 // <i class="fa fa-phone fa-2x blue-grey-text"></i>
                                 // <p>+ 01 234 567 89</p>

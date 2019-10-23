@@ -10,3 +10,12 @@ header,
     -o-background-size: cover;
     background-size: cover;
 }
+
+.feat_div {
+    width: 600px;
+    height: 350px;
+}
+
+.feat_img {
+    height: 100%
+}
