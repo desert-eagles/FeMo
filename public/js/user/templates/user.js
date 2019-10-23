@@ -121,23 +121,27 @@ const connectionTpl =
     "</div>" +
     "</div>" +
 
+    "<div class='d-flex flex-row align-items-center ml-lg-auto mt-lg-0 mt-3'>" +
+
     "{{#user_relationship}}" +
-    "<div class='d-flex align-items-center ml-lg-auto mr-3'>Relationship <b class='ml-2'>{{user_relationship}}</b></div>" +
+    "<div class='mr-3'>Relationship <b class='ml-2'>{{user_relationship}}</b></div>" +
     "{{/user_relationship}}" +
 
     "{{#family_id}}" +
-    "<div class='d-flex align-items-center' data-family-id='{{family_id}}' data-remove-id='{{user_id}}'>" +
+    "<div data-family-id='{{family_id}}' data-remove-id='{{user_id}}'>" +
     rmFromFamilyTpl +
     "</div>" +
     "{{/family_id}}" +
 
     "{{^family_id}}" +
     "{{#user_relationship}}" +
-    "<div class='d-flex align-items-center' data-partner-id='{{user_id}}'>" +
+    "<div data-partner-id='{{user_id}}'>" +
     deleteRelationshipTpl +
     "</div>" +
     "{{/user_relationship}}" +
     "{{/family_id}}" +
+
+    "</div>" +
 
     "</div>" +
     "</div>" +

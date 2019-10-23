@@ -19,6 +19,10 @@ $(() => {
 
 
         $("[data-is-path-prefix]").on("click", function (e) {
+            if ($("[data-tab-ready]").attr("data-tab-ready") !== "true") {
+                return;
+            }
+
             $("[data-is-path-prefix]").removeClass("text-dark").addClass("text-primary");
             $(e.target).addClass("text-dark");
             $("section[data-post-id]").remove();
@@ -54,6 +58,11 @@ function initinfiniteScroll(path) {
                     });
             }
         });
+        $("[data-tab-ready]").attr("data-tab-ready", "true");
+    });
+
+    postContainer.on('request.infiniteScroll', function (event, path) {
+        $("[data-tab-ready]").attr("data-tab-ready", "false");
     });
 
     // first page
@@ -62,7 +71,7 @@ function initinfiniteScroll(path) {
 
 
 const tablist =
-    '<section class="row d-flex justify-content-center">' +
+    '<section class="row d-flex justify-content-center" data-tab-ready="true">' +
     '<div class="col-lg-6 col-12">' +
     '<a class="btn-rounded d-inline-block border m-2 px-4 py-3 text-dark" data-is-path-prefix="/more-posts">Connections</a>' +
     '{{#families}}' +
