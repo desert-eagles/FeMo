@@ -9,7 +9,7 @@ block append head
 
 block content
     .container.min-vh-100.py-5
-        section
+        section.col-md-10.mx-auto
             ul.nav.nav-tabs.nav-justified.md-tabs(role="tablist")
                 li.nav-item.waves-effect.waves-light
                     a.nav-link.active(data-toggle="tab" href="#connections" role="tab") Connections
@@ -22,11 +22,11 @@ block content
 
             #connect(role="tabpanel").tab-pane.fade
                 .row.d-flex.justify-content-center
-                    #search.md-form.col-md-10.p-0.mx-3
+                    #search.md-form.col-md-10
                         input.form-control.input-rounded-bordered.input-focus-shadow(type="text" placeholder="Search user's name with minimum three letters" aria-label="Search")
                         a.input-group-btn
                             i.fas.fa-search.text-grey(aria-hidden="true")
-                #results.my-5
+                #results.mb-5
 
 block append script
     script(type="text/javascript" src="/js/includes/imagesloaded.pkgd.min.js")

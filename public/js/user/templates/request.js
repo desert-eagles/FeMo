@@ -1,7 +1,7 @@
 const replRequestTpl =
     "<span class='d-flex'>" +
     "<a class='text-primary mx-2' onclick='if (isRelationshipSelected($(this))) { $(this).closest(\"div\").html(acceptRequestTpl) }'><i class='fas fa-user-check'></i></a>" +
-    "<a class='text-warning mx-2' onclick='$(this).closest(\"div\").html(declineRequestTpl)'><i class='far fa-trash-alt'></i></a>" +
+    "<a class='text-danger mx-2' onclick='$(this).closest(\"div\").html(declineRequestTpl)'><i class='far fa-trash-alt'></i></a>" +
     "</span>";
 
 const acceptRequestTpl =
