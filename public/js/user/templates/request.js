@@ -24,23 +24,24 @@ const requestTpl =
     "{{#request}}" +
     "<div class='row justify-content-center'>" +
     "<div class='col-12'>" +
-    "<div class='card testimonial-card shadow-none border mt-5 mb-2 px-3'>" +
+    "<div class='card testimonial-card shadow-none border-success my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
     "<div class='d-flex flex-row'>" +
-    "<div class='avatar white d-flex align-items-center'>" +
+    "<div class='avatar white'>" +
     "<img src='{{sender_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
-    "<div class='d-block ml-2 text-left col-lg-8 col-7'>" +
+    "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
     "<h5 class='card-title font-weight-bold m-0 text-truncate'>{{sender_name}}</h5>" +
     "<small class='text-muted text-left text-truncate'>@{{sender_nickname}}</small>" +
     "</div>" +
     "</div>" +
-    "<div class='d-flex align-items-center mx-lg-3 text-left'>who wants to add you as {{sender_relationship}}</div>" +
+    "<div class='d-flex align-items-center text-left mr-auto mt-3 mt-lg-0'>wants to add you as {{sender_relationship}}</div>" +
 
+    "<div class='d-flex flex-row'>" +
     selectRelationTpl +
-
     "<div class='d-flex align-items-center' data-request-id='{{request_id}}' data-relationship-idx='{{relationship_idx}}'>" +
     replRequestTpl +
+    "</div>" +
     "</div>" +
 
     "</div>" +

@@ -7,8 +7,8 @@ const loaderTpl =
 // select relation template
 
 const selectRelationTpl =
-    "<div class='md-form my-0 mr-2 ml-lg-auto' data-select-relation=''>" +
-    "<i class='fas fa-user-friends prefix'></i>" +
+    "<div class='md-form my-0 mr-2 ml-lg-auto pt-2 flex-fill' data-select-relation=''>" +
+    "<i class='fas fa-user-friends prefix pt-2'></i>" +
     "<select class='mdb-select md-form my-0' searchable='Search here..'>" +
     "<option value='' disabled selected>Choose relationship</option>" +
     "<option value='Husband'>Husband</option>" +

@@ -16,26 +16,28 @@ const userTpl =
     "{{#users}}" +
     "<div class='row justify-content-center'>" +
     "<div class='col-md-10'>" +
-    "<div class='card testimonial-card shadow-none border mt-5 mb-2 px-3'>" +
+    "<div class='card testimonial-card shadow-none border-secondary my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
-    "<div class='d-flex flex-row'>" +
-    "<div class='avatar white d-flex align-items-center'>" +
+    "<div class='d-flex flex-row flex-fill'>" +
+    "<div class='avatar white'>" +
     "<img src='{{user_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
-    "<div class='d-block ml-2 text-left col-lg-8 col-7'>" +
+    "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
     "<h5 class='card-title font-weight-bold m-0 text-truncate'>{{user_name}}</h5>" +
     "<small class='text-muted text-left text-truncate'>@{{user_nickname}}</small>" +
     "</div>" +
     "</div>" +
 
     "{{#errMsg}}" +
-    "<div class='d-flex align-items-center ml-auto'>{{errMsg}}</div>" +
+    "<div class='d-flex align-items-center ml-auto mt-3 mt-lg-0'>{{errMsg}}</div>" +
     "{{/errMsg}}" +
 
     "{{^errMsg}}" +
+    "<div class='d-flex flex-row'>" +
     selectRelationTpl +
     "<div class='d-flex align-items-center' data-partner-id='{{user_id}}'>" +
     sendRequestTpl +
+    "</div>" +
     "</div>" +
     "{{/errMsg}}" +
 
@@ -109,22 +111,22 @@ const connectionTpl =
     "{{#connections}}" +
     "<div class='row justify-content-center'>" +
     "<div class='col-md-10'>" +
-    "<div class='card testimonial-card shadow-none border mt-5 mb-2 px-3'>" +
+    "<div class='card testimonial-card shadow-none border-primary my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
-    "<div class='d-flex flex-row'>" +
-    "<div class='avatar white d-flex align-items-center'>" +
+    "<div class='d-flex flex-row flex-fill'>" +
+    "<div class='avatar white'>" +
     "<img src='{{user_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
-    "<div class='d-block ml-2 text-left col-lg-8 col-7'>" +
+    "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
     "<h5 class='card-title font-weight-bold m-0 text-truncate'>{{user_name}}</h5>" +
     "<small class='text-muted text-left text-truncate'>@{{user_nickname}}</small>" +
     "</div>" +
     "</div>" +
 
-    "<div class='d-flex flex-row align-items-center ml-lg-auto mt-lg-0 mt-3'>" +
+    "<div class='d-flex flex-row align-items-center ml-auto mt-lg-0 mt-3'>" +
 
     "{{#user_relationship}}" +
-    "<div class='mr-3'>Relationship <b class='ml-2'>{{user_relationship}}</b></div>" +
+    "<div class='mr-2'>Relationship <b class='ml-2'>{{user_relationship}}</b></div>" +
     "{{/user_relationship}}" +
 
     "{{#family_id}}" +

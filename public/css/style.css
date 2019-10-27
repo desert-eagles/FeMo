@@ -89,8 +89,7 @@ input[type="date"] ~ label {
 
 .testimonial-card .avatar {
     border-radius: 50%;
-    width: 100px;
-    margin-top: -50px;
+    width: 70px;
     overflow: hidden;
     border: 5px solid #fff
 }
