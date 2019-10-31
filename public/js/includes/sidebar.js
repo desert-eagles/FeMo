@@ -1,6 +1,7 @@
 $(document).ready(() => {
     // SideNav Initialization
     $(".button-collapse").sideNav();
+    $(".fade").addClass("show");
 });
 
 (function (e) {
