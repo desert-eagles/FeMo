@@ -646,3 +646,7 @@ select:disabled {
     margin-left: 1.5rem;
     width: calc(100% - 1.5rem);
 }
+
+.select-wrapper input.select-dropdown {
+    margin: 0;
+}

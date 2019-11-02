@@ -27,10 +27,10 @@ const requestTpl =
     "<div class='card testimonial-card shadow-none border-success my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
     "<div class='d-flex flex-row'>" +
-    "<div class='avatar white'>" +
+    "<div class='avatar white flex-shrink-0'>" +
     "<img src='{{sender_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
-    "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
+    "<div class='d-flex flex-column justify-content-center ml-4 text-left' style='width: 150px;'>" +
     "<h5 class='card-title font-weight-bold m-0 text-truncate'>{{sender_name}}</h5>" +
     "<small class='text-muted text-left text-truncate'>@{{sender_nickname}}</small>" +
     "</div>" +

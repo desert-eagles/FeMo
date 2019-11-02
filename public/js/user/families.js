@@ -20,7 +20,7 @@ const familyTpl =
     "<div class='card testimonial-card'>" +
     "<div class='card-up indigo lighten-1'></div>" +
     // profile picture
-    "<div class='avatar mx-auto white' style='width: 100px; margin-top: -50px'>" +
+    "<div class='avatar mx-auto white' style='width: 100px; height: 100px; margin-top: -50px'>" +
     "<img src='{{family_pic_url}}' class='rounded-circle' alt='family avatar'>" +
     "</div>" +
     "<div class='card-body'>" +

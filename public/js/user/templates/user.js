@@ -19,7 +19,7 @@ const userTpl =
     "<div class='card testimonial-card shadow-none border-secondary my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
     "<div class='d-flex flex-row flex-fill'>" +
-    "<div class='avatar white'>" +
+    "<div class='avatar white flex-shrink-0'>" +
     "<img src='{{user_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
     "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
@@ -114,7 +114,7 @@ const connectionTpl =
     "<div class='card testimonial-card shadow-none border-primary my-3 px-3'>" +
     "<div class='card-body px-0 py-3 d-flex flex-lg-row flex-column'>" +
     "<div class='d-flex flex-row flex-fill'>" +
-    "<div class='avatar white'>" +
+    "<div class='avatar white flex-shrink-0'>" +
     "<img src='{{user_pic_url}}' alt='profile picture' class='rounded-circle img-responsive'>" +
     "</div>" +
     "<div class='d-flex flex-column justify-content-center ml-2 text-left col-lg-8 col-7'>" +
