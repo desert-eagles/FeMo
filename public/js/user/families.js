@@ -32,4 +32,9 @@ const familyTpl =
     "</div>" +
     "</div>" +
     "</div>" +
+    "{{/families}}" +
+    "{{^families}}" +
+    "<p class='flex-fill text-center'>" +
+    "Not belong to any family groups yet. Tell your family to invite you into their group or <a href='/create-family'>create</a> one yourself" +
+    "</p>" +
     "{{/families}}";
